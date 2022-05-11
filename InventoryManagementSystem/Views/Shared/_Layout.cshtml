@@ -9,38 +9,36 @@
     <link rel="stylesheet" href="~/InventoryManagementSystem.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">InventoryManagementSystem</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - InventoryManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <div class="sidenav">
+        <div class="logo-div d-flex justify-content-center align-content-center align-items-center">
+            <p style="color: white; margin: 0px; font-weight: 550;">INVENTORY MANAGEMENT</p>
         </div>
-    </footer>
+        <div class="profile-photo-div container d-flex justify-content-center align-content-center align-items-center">
+            <img class="logo" src="https://res.cloudinary.com/dmremrlru/image/upload/v1652151736/Inventory_1_ejywba.png" alt="logo" />
+        </div>
+        <hr style="color: white; margin: 0px; margin: 0px 6px 0px 6px; margin-bottom: 5px; height: 2px;"/>
+        <div class="container d-flex flex-column p-0">
+            <a asp-controller="" asp-action="">Orders</a>
+            <a asp-controller="" asp-action="">Clients</a>
+            <a asp-controller="" asp-action="">Products</a>
+            <a asp-controller="" asp-action="">Sales</a>
+            <a asp-controller="" asp-action="">Analytics</a>
+        </div>
+        
+    </div>
+    <div class="nav-header d-flex justify-content-end align-items-end align-content-end">
+        <p style="color: white; font-weight: 400; margin-right: 10px;">Hello, j.r.woodworking@protonmail.com</p>
+    </div>
+    <main role="main" class="pb-3">
+            @RenderBody()
+    </main>
+    
+
+    @*<footer class="border-top footer text-muted">
+        <div class="container" style="margin-left: 160px;">
+            &copy; 2022 - InventoryManagementSystem
+        </div>
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
