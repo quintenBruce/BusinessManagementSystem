@@ -2,8 +2,9 @@
 
 namespace InventoryManagementSystem.Services
 {
-    public interface ICreateOrder
+    public interface IOrder
     {
         bool CreateOrder(Order order);
+
     }
 }

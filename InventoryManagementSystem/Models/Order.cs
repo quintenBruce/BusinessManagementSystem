@@ -9,7 +9,8 @@
         public DateTime Order_fulfillment_date { get; set; }
         public string Com_thread { get; set; }
         public bool Order_status { get; set; }
-        public int Product_count { get; set; }
+        public bool Delivery { get; set; }
+        public bool Out_Of_Town { get; set; }
 
     }
 }
