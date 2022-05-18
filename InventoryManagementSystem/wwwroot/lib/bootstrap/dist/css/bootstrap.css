@@ -2673,7 +2673,7 @@ textarea.form-control-lg {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  width: 100%;
+  width: auto;
 }
 .input-group > .form-control,
 .input-group > .form-select {
@@ -7865,7 +7865,7 @@ textarea.form-control-lg {
 }
 
 .rounded-3 {
-  border-radius: 0.3rem !important;
+  border-radius: 0.6rem !important;
 }
 
 .rounded-circle {

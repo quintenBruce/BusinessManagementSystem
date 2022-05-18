@@ -4,395 +4,190 @@
 
 
 
-@{
-    //var order = new Order();
-    //order.Price = 35;
-    //order.Order_date = new DateTime(2020, 03, 03);
-    //order.Order_date = new DateTime(2020, 03, 03);
-    //order.Order_fulfillment_date = new DateTime(2020, 05, 03);
-    //order.Com_thread = "Messenger";
-    //order.Order_status = false;
-    //order.Product_count = 2;
 
 
 
 
-    //var customer = new Customer();
-    //customer.First_name = "Quinten";
-    //customer.Last_name = "Bruce";
+
+<div class="order-create-div rounded-3 m-3 p-3" style="">
+    <div class="d-flex justify-content-center m-0 p-0">
+        <h2>Add Order</h2>
+    </div>
+    <hr class="m-0 p-0"/>
+    <form id="order-form" asp-controller="Order" asp-action="Index" method="post" class="row d-flex">
+        <h4 class="mb-3 mt-2">Customer Information</h4>
+        <div class="col-md-4 mb-2">
+            <label asp-for="customer.First_name" class="form-label"></label>
+            <input asp-for="customer.First_name" class="form-control form-control-sm"/>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label asp-for="customer.Middle_name" class="form-label"></label>
+            <input asp-for="customer.Middle_name" class="form-control form-control-sm"/>
+        </div>
+        <div class="col-md-4 mb-2">
+            <label asp-for="customer.Last_name" class="form-label"></label>
+            <input asp-for="customer.Last_name" class="form-control form-control-sm"/>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="customer.Phone_number" class="form-label"></label>
+            <input asp-for="customer.Phone_number" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="order.Com_thread" class="form-label"></label>
+            <select asp-for="order.Com_thread" class="form-select form-select-sm">
+                <option selected>Select a communication thread</option>
+                <option value="Marketplace">Marketplace</option>
+                <option value="Page">Facebook Page</option>
+                <option value="Phone">Phone (SMS)</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-2">
+            <div class="form-check" style="margin-bottom: .5rem;">
+                <label asp-for="order.Delivery" class="form-check-label"></label>
+                <input asp-for="order.Delivery" class="form-check-input" type="checkbox">
+            </div>
+            <div class="form-check">
+                <label asp-for="order.Out_Of_Town" class="form-check-label"></label>
+                <input asp-for="order.Out_Of_Town" class="form-check-input" type="checkbox">
+            </div>
+        </div>
+        <h4 class="mb-3">Order Information</h4>
+        <div class="col-md-4 mb-2">
+            <label asp-for="order.Order_fulfillment_date" class="form-label"></label>
+            <input asp-for="order.Order_fulfillment_date" class="form-control form-control-sm" type="date" placeholder="Order Fulfillment Date"/>    
+        </div> 
+        <div class="col-md-4">
+            <label asp-for="paymentHistory.PaymentAmount" class="form-label"></label>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text">$</span>
+                <input asp-for="paymentHistory.PaymentAmount" class="form-control form-control-sm" type="number" step="0.01"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="paymentHistory.PaymentType" class="form-label"></label>
+            <select asp-for="paymentHistory.PaymentType" class="form-select form-select-sm">
+                <option selected>Select a payment type</option>
+                <option value="Venmo">Venmo</option>
+                <option value="Cash App">Cash App</option>
+                <option value="Cash">Cash</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <h4 class="mb-3">Product Information</h4>
+        <div id="product-input-0">
+            <div class="row">
+            <div class="col-md-3 mb-2">
+                <label asp-for="products[0].Name" class="form-label"></label>
+                <input asp-for="products[0].Name" class="form-control form-control-sm" />    
+            </div> 
+            <div class="col-md-3 mb-2">
+                <label asp-for="products[0].Description" class="form-label"></label>
+                <textarea asp-for="products[0].Description" class="form-control form-control-sm" rows="1"></textarea>    
+            </div> 
+            <div class="col-md-2 mb-2">
+                <label asp-for="products[0].Dimensions" class="form-label"></label>
+                <input asp-for="products[0].Dimensions" class="form-control form-control-sm" />    
+            </div> 
+            <div class="col-md-2 mb-2">
+                <label asp-for="categoryIds" class="form-label"></label>
+                <select asp-for="categoryIds[0]" class="form-select form-select-sm">
+                    <option selected>Select a category</option>
+                    @foreach (var category in Model.categories)
+                    {
+                        <option value=@category.Id>@category.Name</option>
+                    }
+                </select>
+            </div> 
+            <div class="col-md-2 mb-2">
+                <label asp-for="products[0].Price" class="form-label"></label>
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text">$</span>
+                    <input asp-for="products[0].Price" class="form-control form-control-sm" type="number" step="0.01"/>
+                </div>
+            </div> 
+           
+            </div>
+        </div>
+        <div id="button-row" class="mb-2 mt-2 d-flex flex-row">
+           <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success"/>
+           <button type="button"  class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
+           <button id="remove-product" type="button"  class="btn btn-danger" onclick="removeProduct()" style="margin-left: 10px;">Remove Product</button>
+        </div>
+    </form>
+</div>
 
 
 
-    //order.Customer = customer;
-    //ICreateOrder test = new CreateOrderService();
-    //bool status = test.CreateOrder(order);
 
-}
+
 
 
 
 <div>
-    @using(Html.BeginForm("Index", "Order", FormMethod.Post))
-    {
-        <table id="order-input-table">
-            <tbody>
-            <tr>
-                <th colspan="2" align="center">Order Details</th>
-            </tr>
-            <tr>
-                <td>Due Date:</td>
-                <td>@Html.EditorFor(m => m.order.Order_fulfillment_date, new {htmlAttributes = new {@type = "date"}})</td>
-            </tr>
-            <tr>
-                <td>Customer First Name: </td>
-                <td>@Html.EditorFor(m => m.customer.First_name)</td>
-            </tr>
-            <tr>
-                <td>Customer Middle Name: </td>
-                <td>@Html.EditorFor(m => m.customer.Middle_name)</td>
-            </tr>
-            <tr>
-                <td>Customer Last Name: </td>
-                <td>@Html.EditorFor(m => m.customer.Last_name)</td>
-            </tr>
-            <tr>
-                <td>Phone number?</td>
-                <td><input type="checkbox" id="phonenumber-check_0" onclick="showPhonenumber(this)"></td>
-            </tr>
-            <tr>
-                <td>Communication Thread: </td>
-                <td>@Html.RadioButtonFor(m => m.order.Com_thread, "Marketplace")Marketplace @Html.RadioButtonFor(m => m.order.Com_thread, "Facebook Page")Page @Html.RadioButtonFor(m => m.order.Com_thread, "Phone")Phone</td>
-            </tr>
-            <tr>
-                <td align="center">Product Details</td>
-            </tr>
-            <tr>
-                <td>Out-of-town? </td>
-                <td>@Html.CheckBoxFor(m => m.order.Out_Of_Town)</td>
-            </tr>
-            <tr>
-                <td>Delivery?</td>
-                <td>@Html.CheckBoxFor(m => m.order.Delivery)</td>
-            </tr>
-          
-            <tr>
-                <td>Product Name:</td>
-                <td><input class="text-box single-line" data-val="true" data-val-required="The Name field is required." id="product_0_Name" name="products[0].Name" type="text" value=""></td>
-            </tr>
-            <tr>
-                <td>Description: </td>
-                <td><input class="text-box single-line input-validation-error" data-val="true" data-val-required="The Description field is required." id="product_0_Description" name="products[0].Description" type="text" value=""></td>
-            </tr>
-            <tr>
-                <td>Category: </td>
-                <td>@Html.DropDownListFor(m => m.categoryIds[0], new SelectList(Model.categories, "Id", "Name"))</td>
-            </tr>
-            <tr>
-                <td>Dimensions?</td>
-                <td><input type="checkbox" id="dimension-check_0" onclick="showDimensions(this)" /></td>
-            </tr>
-            <tr>
-                <td>Price: </td>
-                <td><input class="text-box single-line" id="products_0_Price" name="products[0].Price" type="number" step="0.01"></td>
-            </tr>
-            
-           
-            
-            <tr>
-                <td colspan="2"><button id="product-button" type="button" onclick="newProduct()">Add Product</button></td>
-            </tr>
-            
-            <tr>
-                <td>Down payment? </td>
-                <td><input type="checkbox" id="downpayment-check" onclick="showDownpayment(this)" /></td>
-            </tr>
-            
-
-
-
-
-
-
-
-
-            <tr id="order-input-submit-row">
-                <td colspan="2"><input id="order-input-submit" type="submit" value="Submit"></td>
-            </tr>
-            </tbody>
-        </table>
-    }
+    
 </div>
 
 <script type="text/javascript">
-    var productIndex = 1;
+    var productIndex = 0;
+     if (productIndex == 0) {
+         document.getElementById("remove-product").style.display = "none";
+     }
+    
 
-    function newProduct() {
-        var oldButton = document.getElementById("product-button").parentNode.parentNode;
-        oldButton.remove();
-        var submitButton = document.getElementById("order-input-submit-row");
+    function addProduct() {
+        productIndex += 1;
+        if (productIndex == 0) {
+            document.getElementById("remove-product").style.display = "none";
+        }
         
+        else {
+            document.getElementById("remove-product").style.display = "initial";
+        }
+        var form = document.getElementById("order-form");
+        var buttonRow = document.getElementById("button-row");
+        var productDiv = document.getElementById("product-input-0").cloneNode(true);
+        productDiv.id = "product-input-" + productIndex.toString();
+        var productDivChildNodes = productDiv.children;
+        productDivChildNodes[0].children[0].children[1].id = "products_" + productIndex.toString() + "__Name"; //product name input id and name update
+        productDivChildNodes[0].children[0].children[1].setAttribute("name", "products[" + productIndex.toString() + "].Name");
+        productDivChildNodes[0].children[0].children[1].value = "";
+        productDivChildNodes[0].children[1].children[1].id = "products_" + productIndex.toString() + "__Description"; //product description id and name update
+        productDivChildNodes[0].children[1].children[1].setAttribute("name", "products[" + productIndex.toString() + "].Description");
+        productDivChildNodes[0].children[1].children[1].value = "";
+        productDivChildNodes[0].children[2].children[1].id = "products_" + productIndex.toString() + "__Dimensions"; //product description id and name update
+        productDivChildNodes[0].children[2].children[1].setAttribute("name", "products[" + productIndex.toString() + "].Dimensions");
+        productDivChildNodes[0].children[2].children[1].value = "";
+        productDivChildNodes[0].children[3].children[1].id = "categoryIds_" + productIndex.toString() + "_"; //product description id and name update
+        productDivChildNodes[0].children[3].children[1].setAttribute("name", "categoryIds[" + productIndex.toString() +  "]");
+        productDivChildNodes[0].children[3].children[1].value = "";
+        productDivChildNodes[0].children[4].children[1].children[1].id = "categoryIds_" + productIndex.toString() + "_"; //product description id and name update
+        productDivChildNodes[0].children[4].children[1].children[1].setAttribute("name", "products[" + productIndex.toString() +  "].Price");
+        productDivChildNodes[0].children[4].children[1].children[1].value = "";
 
-        var newNameRow = document.createElement("tr");
-        var newNameTitle = document.createElement("td");
-        var newNameData = document.createElement("td");
-        var newNameDataInput = document.createElement("input")
-        newNameTitle.innerHTML = "Product Name: ";
-        newNameDataInput.id = "product_" + productIndex.toString() + "_Name";
-        newNameDataInput.className = "text-box single-line";
-        newNameDataInput.setAttribute("name", "products["+ productIndex.toString() +"].Name");
-        newNameDataInput.type = "text";
+        form.insertBefore(productDiv, buttonRow);
 
-        var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-        tableBody.insertBefore(newNameRow, submitButton);
-        newNameRow.appendChild(newNameTitle);
-        newNameRow.appendChild(newNameData);
-        newNameData.appendChild(newNameDataInput);
+     }
 
-        //Description
+    function removeProduct() {
+        productIndex -= 1;
 
-        var newDescriptionRow = document.createElement("tr");
-        var newDescriptionTitle = document.createElement("td");
-        var newDescriptionData = newDescriptionTitle.cloneNode(false);
-        var newDescriptionDataInput = document.createElement("input");
-        newDescriptionTitle.innerHTML = "Description:";
-        newDescriptionDataInput.id = "product_" + productIndex.toString() + "_Description";
-        newDescriptionDataInput.className = "text-box single-line input-validation-error";
-        newDescriptionDataInput.setAttribute("name", "products["+ productIndex.toString() +"].Description");
-        newDescriptionDataInput.type = "text";
-
-        var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-        tableBody.insertBefore(newDescriptionRow, submitButton);
-        newDescriptionRow.appendChild(newDescriptionTitle);
-        newDescriptionRow.appendChild(newDescriptionData);
-        newDescriptionData.append(newDescriptionDataInput);
-
-
-
-        //Category
-
-        var newCategoryRow = document.createElement("tr");
-        var newCategoryTitle = document.createElement("td");
-        var newCategoryData = newCategoryTitle.cloneNode(false);
-        var newCategoryDataDropdown = document.getElementById("categoryIds_0_").cloneNode(true);
-        newCategoryTitle.innerHTML = "Category:";
-        newCategoryDataDropdown.id = "categoryIds_" + productIndex.toString() + "_";
-        newCategoryDataDropdown.setAttribute("name", "categoryIds["+ productIndex.toString() +"]");
-
-
-
-        var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-        tableBody.insertBefore(newCategoryRow, submitButton);
-        newCategoryRow.appendChild(newCategoryTitle);
-        newCategoryRow.appendChild(newCategoryData);
-        newCategoryData.appendChild(newCategoryDataDropdown);
-
-        //Dimensions checkbox
-
-        var newDimensionsRow = document.createElement("tr");
-        var newDimensionsTitle = document.createElement("td");
-        var newDimensionsData = document.createElement("td");
-        var newDimensionsDataCheckbox = document.getElementById("dimension-check_0").cloneNode(false);
-        newDimensionsTitle.innerHTML = "Dimensions?";
-        newDimensionsDataCheckbox.id = "dimension-check_" + productIndex.toString();
+        if (productIndex <= 0) {
+            document.getElementById("remove-product").style.display = "none";
+            document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
+        }
         
-
-        var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-        tableBody.insertBefore(newDimensionsRow, submitButton);
-        newDimensionsRow.appendChild(newDimensionsTitle);
-        newDimensionsRow.appendChild(newDimensionsData);
-        newDimensionsData.appendChild(newDimensionsDataCheckbox);
-        newDimensionsDataCheckbox.checked = false;
-
-
-        //price
-
-
-        var newPriceRow = document.createElement("tr");
-        var newPriceTitle = document.createElement("td");
-        var newPriceData = document.createElement("td");
-        var newPriceDataInput = document.createElement("input");
-        newPriceTitle.innerHTML = "Price:";
-        newPriceDataInput.id = "products_" + productIndex.toString() + "_Price";
-        newPriceDataInput.classList = "text-box single-line";
-        newPriceDataInput.name = "products[" + productIndex.toString() + "].Price";
-        newPriceDataInput.type = "number";
-        newPriceDataInput.step = "0.01";
-
-        var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-        tableBody.insertBefore(newPriceRow, submitButton);
-        newPriceRow.appendChild(newPriceTitle);
-        newPriceRow.appendChild(newPriceData);
-        newPriceData.appendChild(newPriceDataInput);
-
-
-        //downpayment move
-
-        var downpaymentRow = document.getElementById("downpayment-check").parentNode.parentNode;
-        tableBody.insertBefore(downpaymentRow, submitButton);
-        
-        if (document.getElementById("paymentHistory_PaymentAmount")) {
-            var downpaymentAmountRow = document.getElementById("paymentHistory_PaymentAmount").parentNode.parentNode;
-            var downpaymentTypeRow  = document.getElementById("paymentHistory_PaymentType").parentNode.parentNode;
-
-            tableBody.insertBefore(downpaymentAmountRow, submitButton);
-            tableBody.insertBefore(downpaymentTypeRow, submitButton);
-
+        else {
+            document.getElementById("remove-product").style.display = "initial";
+            document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
         }
 
-       
-
-
-
-
-
-        var newButtonRow = document.createElement("tr");
-        var newButtonData = document.createElement("td");
-        newButtonData.setAttribute("colspan", "2");
-        var newButton = document.createElement("button");
-        newButton.innerHTML = "Add Product";
-        newButton.onclick = function() {newProduct()};
-        newButton.type = "button";
-        newButton.id = "product-button";
-
-
-        var downpaymentRow = document.getElementById("downpayment-check").parentNode.parentNode;
-        tableBody.insertBefore(newButtonRow, downpaymentRow);
-        newButtonRow.append(newButtonData);
-        newButtonData.appendChild(newButton);
 
         
-        productIndex++;
-
-      }
-
-      function showDimensions(dimensionCheck) {
-           if(dimensionCheck.checked && !document.getElementById("products_" + dimensionCheck.id[dimensionCheck.id.length - 1] + "_Dimensions")) {
-              console.log("asdasd");
-              var selectedProductPriceRow = document.getElementById("products_" + dimensionCheck.id[dimensionCheck.id.length - 1] + "_Price").parentNode.parentNode;
-              var newDimensionsRow = document.createElement("tr");
-              var newDimensionsTitle = document.createElement("td");
-              var newDimensionsData = document.createElement("td");
-              var newDimensionsDataInput = document.createElement("input");
-              newDimensionsTitle.innerHTML = "Dimensions: ";
-              newDimensionsDataInput.id = "products_" + dimensionCheck.id[dimensionCheck.id.length - 1] + "_Dimensions";
-              newDimensionsDataInput.className = "text-box single-line";
-              newDimensionsDataInput.setAttribute("name", "products[" + dimensionCheck.id[dimensionCheck.id.length - 1] + "].Dimensions");
-              newDimensionsDataInput.type = "text";
-              
-              
-
-
-              var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-              tableBody.insertBefore(newDimensionsRow, selectedProductPriceRow);
-              newDimensionsRow.appendChild(newDimensionsTitle);
-              newDimensionsRow.appendChild(newDimensionsData);
-              newDimensionsData.appendChild(newDimensionsDataInput);
-              
-          }
-          else {
-              document.getElementById("products_" + dimensionCheck.id[dimensionCheck.id.length - 1] + "_Dimensions").parentNode.parentNode.remove();
-          }
-          
-      }
-
-
-      //add downpayment inputs
-
-
-      function showDownpayment(downpaymentCheck) {
-          if(downpaymentCheck.checked && !document.getElementById("paymentHistory_PaymentAmount")) {
-              var submitFormButton = document.getElementById("order-input-submit").parentNode.parentNode;
-              var newDownpaymentRow1 = document.createElement("tr");
-              var newDownpaymentDataTitle1 = document.createElement("td");
-              var newDownpaymentAmountData = document.createElement("td");
-              var newDownpaymentAmountDataInput = document.createElement("input");
-              newDownpaymentDataTitle1.innerHTML = "Amount: ";
-              newDownpaymentAmountDataInput.id = "paymentHistory_PaymentAmount";
-              newDownpaymentAmountDataInput.className = "text-box single-line";
-              newDownpaymentAmountDataInput.setAttribute("name", "paymentHistory.PaymentAmount");
-              newDownpaymentAmountDataInput.type = "number";
-              newDownpaymentAmountDataInput.step = "0.01";
+     }
 
 
 
-              var newDownpaymentRow2 = document.createElement("tr");
-              var newDownpaymentDataTitle2 = document.createElement("td");
-              var newDownpaymentTypeData = document.createElement("td");
-              var newDownpaymentTypeDataDropdown = document.createElement("select");
-              newDownpaymentDataTitle2.innerHTML = "Payment Type: ";
-              newDownpaymentTypeDataDropdown.id = "paymentHistory_PaymentType";
-              newDownpaymentTypeDataDropdown.setAttribute("name", "paymentHistory.PaymentType");
-
-              var newDownpaymentTypeDataOption1 = document.createElement("option");
-              var newDownpaymentTypeDataOption2 = document.createElement("option");
-              var newDownpaymentTypeDataOption3 = document.createElement("option");
-              var newDownpaymentTypeDataOption4 = document.createElement("option");
-
-              newDownpaymentTypeDataOption1.value = "Venmo";
-              newDownpaymentTypeDataOption1.innerHTML = "Venmo";
-              newDownpaymentTypeDataOption2.value = "Cashapp";
-              newDownpaymentTypeDataOption2.innerHTML = "Cashapp";
-              newDownpaymentTypeDataOption3.value = "Cash";
-              newDownpaymentTypeDataOption3.innerHTML = "Cash";
-              newDownpaymentTypeDataOption4.value = "Other";
-              newDownpaymentTypeDataOption4.innerHTML = "Other";
-
-
-
-
-              var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-              tableBody.insertBefore(newDownpaymentRow1, submitFormButton);
-              tableBody.insertBefore(newDownpaymentRow2, submitFormButton);
-              newDownpaymentRow1.appendChild(newDownpaymentDataTitle1);
-              newDownpaymentRow1.appendChild(newDownpaymentAmountData);
-              newDownpaymentAmountData.appendChild(newDownpaymentAmountDataInput);
-
-              newDownpaymentRow2.appendChild(newDownpaymentDataTitle2);
-              newDownpaymentRow2.appendChild(newDownpaymentTypeData);
-              newDownpaymentTypeData.appendChild(newDownpaymentTypeDataDropdown);
-              newDownpaymentTypeDataDropdown.appendChild(newDownpaymentTypeDataOption1);
-              newDownpaymentTypeDataDropdown.appendChild(newDownpaymentTypeDataOption2);
-              newDownpaymentTypeDataDropdown.appendChild(newDownpaymentTypeDataOption3);
-              newDownpaymentTypeDataDropdown.appendChild(newDownpaymentTypeDataOption4);
-              
-              
-
-              
-          }
-          else {
-
-                document.getElementById("paymentHistory_PaymentAmount").parentNode.parentNode.remove();
-                document.getElementById("paymentHistory_PaymentType").parentNode.parentNode.remove();
-          }
-       }
-
-      function showPhonenumber(phonenumberCheck) {
-          if(phonenumberCheck.checked && !document.getElementById("customer_Phone_number")) {
-            var newPhonenumberRow = document.createElement("tr");
-            var newPhonenumberTitle = document.createElement("td");
-            var newPhonenumberData = document.createElement("td");
-            var newPhonenumberDataInput = document.createElement("input");
-            newPhonenumberTitle.innerHTML = "Phone Number";
-            newPhonenumberDataInput.id = "customer_Phone_number";
-            newPhonenumberDataInput.setAttribute("name", "customer.Phone_number");
-            newPhonenumberDataInput.type = "number";
-            newPhonenumberDataInput.className = "text-box single-line";
-
-            var orderComThreadRow = document.getElementById("order_Com_thread").parentNode.parentNode;
-            var tableBody = document.getElementById("order-input-table").getElementsByTagName("tbody")[0];
-            tableBody.insertBefore(newPhonenumberRow, orderComThreadRow);
-            newPhonenumberRow.appendChild(newPhonenumberTitle);
-            newPhonenumberRow.appendChild(newPhonenumberData);
-            newPhonenumberData.appendChild(newPhonenumberDataInput);
-
-          }
-          else {
-              document.getElementById("customer_Phone_number").parentNode.parentNode.remove();
-          }
-          
-
-
-      }
+      
 
       
 </script>

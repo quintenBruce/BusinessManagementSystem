@@ -31,8 +31,9 @@ namespace InventoryManagementSystem.Services
 
                 for (int i = 0; i < products.Count(); i++)
                 {
+                    var list_ = retrievedCategories;
 
-                    context.Products.Where(a => a.Id == products[i].Id).ToList().First().Category = retrievedCategories.Result.Where(a => a.Id == categoryIds[i]).First();
+                    context.Products.Where(a => a.Id == products[i].Id).ToList().First().Category = retrievedCategories.Result.Where(a => a.Id == categoryIds[i]).ToList().First();
 
                 }
 

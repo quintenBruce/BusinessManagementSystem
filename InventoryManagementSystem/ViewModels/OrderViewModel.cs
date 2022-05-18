@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagementSystem.ViewModels
 {
@@ -9,6 +10,7 @@ namespace InventoryManagementSystem.ViewModels
         public PaymentHistory paymentHistory { get; set; }
         public List<Product> products { get; set; }
         public List<Category> categories { get; set; }
+        [Display(Name = "Category")]
         public List<int> categoryIds { get; set; }
         
     }
