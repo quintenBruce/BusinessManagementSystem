@@ -12,6 +12,12 @@ namespace InventoryManagementSystem.ViewModels
         public List<Category> categories { get; set; }
         [Display(Name = "Category")]
         public List<int> categoryIds { get; set; }
+        public OrderRetrievalModel orderRetrievalModel { get; set; }
+
+        public OrderViewModel()
+        {
+            orderRetrievalModel = new OrderRetrievalModel();
+        }
         
     }
 }

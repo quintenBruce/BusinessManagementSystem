@@ -18,5 +18,17 @@ namespace InventoryManagementSystem.Services
                 return status == 0 ? false : true;
             }
         }
+
+        public bool DeleteOrder(int Id)
+        {
+            using (OrdersContext context = new OrdersContext())
+            {
+                var order = context.Orders.Where(order =>order.Id == Id).First();
+                context.Orders.Remove(order);
+
+                var status = context.SaveChanges();
+                return status == 0 ? false : true;
+            }
+        }
     }
 }

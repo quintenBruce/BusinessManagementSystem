@@ -2,6 +2,7 @@
 using InventoryManagementSystem.ViewModels;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -15,37 +16,66 @@ namespace InventoryManagementSystem.Controllers
 
             OrderViewModel orderViewModel = new OrderViewModel();
             orderViewModel.categories = retrievedCategories;
+
+
+
+            IProduct productInterface = new ProductService();
+
             
+
+            orderViewModel.orderRetrievalModel.allProducts = await productInterface.GetAllProducts();
+            
+
+
+
+            using (OrdersContext context = new OrdersContext())
+            {
+
+
+
+                orderViewModel.orderRetrievalModel.allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
+                orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
+                orderViewModel.orderRetrievalModel.allOrders = context.Orders.ToList();
+                orderViewModel.orderRetrievalModel.allPaymentHistories = context.PaymentHistories.Include(payment => payment.Order).ToList();
+
+            }
+
+            Order order = new Order();
+            ViewData["SingleOrder"] = order;
+
             return View(orderViewModel);
         }
+
+
+
+
+
+
 
         [HttpPost]
         public ActionResult Index(OrderViewModel orderViewModel)
         {
-            ICategory categoryService = new CategoryService();
-            var retrievedCategories = categoryService.GetAllCategories();
+
+
+            
 
 
             for (int i = 0; i < orderViewModel.products.Count(); i++)
             {
-                //orderViewModel.products[i].Category = retrievedCategories.Result.Where(x => x.Id == orderViewModel.categoryIds[i]).First();
                 orderViewModel.products[i].Order = orderViewModel.order;
-                orderViewModel.order.Price += orderViewModel.products[i].Price;
+                orderViewModel.order.Total += orderViewModel.products[i].Price;
             }
 
-
-
-
-
-
-            //customerService.CreateCustomer(orderViewModel.customer);
-           
-
-            //orderViewModel.order.Customer = orderViewModel.customer;
-            if (orderViewModel.paymentHistory != null)
-                orderViewModel.paymentHistory.Order = orderViewModel.order;
             
 
+
+
+            if (orderViewModel.paymentHistory != null)
+            {
+                orderViewModel.paymentHistory.Order = orderViewModel.order;
+                orderViewModel.order.Balance = orderViewModel.order.Total - orderViewModel.paymentHistory.PaymentAmount;
+            }
+                
 
 
             orderViewModel.order.Order_date = DateTime.Now; 
@@ -53,14 +83,15 @@ namespace InventoryManagementSystem.Controllers
             orderGroupService.CreateOrderGroup(orderViewModel.products, orderViewModel.order, orderViewModel.paymentHistory, orderViewModel.customer, orderViewModel.categoryIds);
 
 
+            return RedirectToAction("Index");
+        }
 
-            
 
-
-
-            
-            
-
+        [HttpPost]
+        public ActionResult DeleteOrder(Order order)
+        {
+            IOrder orderService  = new OrderService();
+            bool status = orderService.DeleteOrder(order.Id);
 
             return RedirectToAction("Index");
         }

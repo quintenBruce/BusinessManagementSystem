@@ -16,23 +16,24 @@
     <hr class="m-0 p-0"/>
     <form id="order-form" asp-controller="Order" asp-action="Index" method="post" class="row d-flex">
         <h4 class="mb-3 mt-2">Customer Information</h4>
-        <div class="col-md-4 mb-2">
+        <div class="col-lg-4 mb-2">
             <label asp-for="customer.First_name" class="form-label"></label>
             <input asp-for="customer.First_name" class="form-control form-control-sm"/>
+            <span id="customer_First_name_validation" class="text-danger"></span>
         </div>
-        <div class="col-md-4 mb-2">
+        <div class="col-lg-4 mb-2">
             <label asp-for="customer.Middle_name" class="form-label"></label>
             <input asp-for="customer.Middle_name" class="form-control form-control-sm"/>
         </div>
-        <div class="col-md-4 mb-2">
+        <div class="col-lg-4 mb-2">
             <label asp-for="customer.Last_name" class="form-label"></label>
             <input asp-for="customer.Last_name" class="form-control form-control-sm"/>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <label asp-for="customer.Phone_number" class="form-label"></label>
             <input asp-for="customer.Phone_number" class="form-control form-control-sm" />
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <label asp-for="order.Com_thread" class="form-label"></label>
             <select asp-for="order.Com_thread" class="form-select form-select-sm">
                 <option selected>Select a communication thread</option>
@@ -40,8 +41,9 @@
                 <option value="Page">Facebook Page</option>
                 <option value="Phone">Phone (SMS)</option>
             </select>
+            <span id="order_Com_thread_validation" class="text-danger"></span>
         </div>
-        <div class="col-md-4 mb-2">
+        <div class="col-lg-4 mb-2">
             <div class="form-check" style="margin-bottom: .5rem;">
                 <label asp-for="order.Delivery" class="form-check-label"></label>
                 <input asp-for="order.Delivery" class="form-check-input" type="checkbox">
@@ -52,18 +54,19 @@
             </div>
         </div>
         <h4 class="mb-3">Order Information</h4>
-        <div class="col-md-4 mb-2">
+        <div class="col-lg-4 mb-2">
             <label asp-for="order.Order_fulfillment_date" class="form-label"></label>
             <input asp-for="order.Order_fulfillment_date" class="form-control form-control-sm" type="date" placeholder="Order Fulfillment Date"/>    
+             <span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
         </div> 
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <label asp-for="paymentHistory.PaymentAmount" class="form-label"></label>
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text">$</span>
                 <input asp-for="paymentHistory.PaymentAmount" class="form-control form-control-sm" type="number" step="0.01"/>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <label asp-for="paymentHistory.PaymentType" class="form-label"></label>
             <select asp-for="paymentHistory.PaymentType" class="form-select form-select-sm">
                 <option selected>Select a payment type</option>
@@ -76,19 +79,20 @@
         <h4 class="mb-3">Product Information</h4>
         <div id="product-input-0">
             <div class="row">
-            <div class="col-md-3 mb-2">
+            <div class="col-lg-3 mb-2">
                 <label asp-for="products[0].Name" class="form-label"></label>
                 <input asp-for="products[0].Name" class="form-control form-control-sm" />    
+                
             </div> 
-            <div class="col-md-3 mb-2">
+            <div class="col-lg-3 mb-2">
                 <label asp-for="products[0].Description" class="form-label"></label>
                 <textarea asp-for="products[0].Description" class="form-control form-control-sm" rows="1"></textarea>    
             </div> 
-            <div class="col-md-2 mb-2">
+            <div class="col-lg-2 mb-2">
                 <label asp-for="products[0].Dimensions" class="form-label"></label>
                 <input asp-for="products[0].Dimensions" class="form-control form-control-sm" />    
             </div> 
-            <div class="col-md-2 mb-2">
+            <div class="col-lg-2 mb-2">
                 <label asp-for="categoryIds" class="form-label"></label>
                 <select asp-for="categoryIds[0]" class="form-select form-select-sm">
                     <option selected>Select a category</option>
@@ -97,24 +101,40 @@
                         <option value=@category.Id>@category.Name</option>
                     }
                 </select>
+                
             </div> 
-            <div class="col-md-2 mb-2">
+            <div class="col-lg-2 mb-2">
                 <label asp-for="products[0].Price" class="form-label"></label>
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text">$</span>
-                    <input asp-for="products[0].Price" class="form-control form-control-sm" type="number" step="0.01"/>
+                    <input style="width: 80%;"asp-for="products[0].Price" class="form-control form-control-sm" type="number" step="0.01"/>
+                    
                 </div>
             </div> 
            
             </div>
         </div>
-        <div id="button-row" class="mb-2 mt-2 d-flex flex-row">
-           <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success"/>
-           <button type="button"  class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
-           <button id="remove-product" type="button"  class="btn btn-danger" onclick="removeProduct()" style="margin-left: 10px;">Remove Product</button>
-        </div>
+        <div id="button-row" class="row mb-2 mt-2 d-flex flex-row">
+            <div class="col-5 d-flex justify-content-start">
+                <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success"/>
+                <button type="button"  class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
+                <button id="remove-product" type="button"  class="btn btn-danger" onclick="removeProduct(); updateTotalPrice();" style="margin-left: 10px;">Remove Product</button>
+            </div>
+            <div class="col-7 d-flex justify-content-end ali">
+                <p>Total: <span class="lead">$</span><span id="total-price" class="lead">0</span></p>
+            </div>
+            
+
+            
+       </div>
     </form>
 </div>
+
+
+<partial name="_OrderDisplayPartial" for="orderRetrievalModel">
+
+
+    
 
 
 
@@ -132,6 +152,130 @@
      if (productIndex == 0) {
          document.getElementById("remove-product").style.display = "none";
      }
+
+     
+     
+     var priceInputElement0 = document.getElementById("products_0__Price");
+     priceInputElement0.addEventListener("change", updateTotalPrice);
+
+     function updateTotalPrice(e) {
+         var totalPrice = 0;
+         var totalPriceSpan = document.getElementById("total-price");
+         var j;
+         for (j = 0; j < productIndex + 1; j++) {
+             var currentPrice = parseInt(document.getElementById("products_" + j.toString() + "__Price").value);
+             if (isNaN(currentPrice) == false) {
+                 totalPrice += currentPrice;
+             }
+             
+         }
+         totalPriceSpan.innerHTML = totalPrice.toString();
+     }
+
+
+
+     const form = document.getElementById("order-form");
+     form.addEventListener("submit", (e) => {
+         console.log(errors);
+         var errors = 0;
+         if (customerName.value === "" || customerName.value == null) {
+             errors += 1;
+             document.getElementById("customer_First_name_validation").innerHTML = "Customer First Name Is Required";
+         }
+
+         if (communcationThread.value == "Select a communication thread") {
+             errors += 1;
+             document.getElementById("order_Com_thread_validation").innerHTML = "Communication Thread Is Required";
+         }
+
+         if (orderFulfillmentDate.value === "" || orderFulfillmentDate.value == null) {
+             errors += 1;
+             document.getElementById("order_Order_fulfillment_date_validation").innerHTML = "Order Fulfillment Date Is required";
+         }
+
+         var i;
+         for (i = 0; i < productIndex + 1; i++) {
+             if (document.getElementById("products_" + i.toString() + "__Name").value === "" || document.getElementById("products_" + i.toString() + "__Name").value == null) {
+                 errors += 1;
+                 if (document.getElementById("products_" + i.toString() + "__Name_validation") == null) {
+                    var  message = document.createElement("span");
+                    message.id = "products_" + i.toString() + "__Name_validation";
+                    message.className = "text-danger";
+                    message.innerHTML = "Product Name Is Required";
+                    var parent = document.getElementById("products_" + i.toString() + "__Name").parentNode;
+                    parent.appendChild(message);
+                 }
+             }
+             else {
+                 if (document.getElementById("products_" + i.toString() + "__Name_validation") != null) {
+                    document.getElementById("products_" + i.toString() + "__Name_validation").remove();
+                 }
+             }
+
+
+
+
+             if (document.getElementById("categoryIds_" + i.toString() + "_").value == "Select a category") {
+                 errors += 1;
+                 
+                 if (document.getElementById("categoryIds_" + i.toString() + "_validation") == null) {
+                    
+                    var  message = document.createElement("span");
+                    message.id = "categoryIds_" + i.toString() + "_validation";
+                    message.className = "text-danger";
+                    message.innerHTML = "Category Is Required";
+                    var parent = document.getElementById("categoryIds_" + i.toString() + "_").parentNode;
+                    parent.appendChild(message);
+                 }
+                 }
+             else {
+                   
+                 if (document.getElementById("categoryIds_" + i.toString() + "_validation") != null) {
+                    document.getElementById("categoryIds_" + i.toString() + "_validation").remove();
+                 }
+             }
+             
+             if (document.getElementById("products_" + i.toString() + "__Price").value === "" || document.getElementById("products_" + i.toString() + "__Price").value == null) {
+                 errors += 1;
+                 
+                 if (document.getElementById("products_" + i.toString() + "__Price_validation") == null) {
+                    
+                    var  message = document.createElement("span");
+                    message.id = "products_" + i.toString() + "__Price_validation";
+                    message.className = "text-danger";
+                    message.innerHTML = "Product Price Is Required";
+                    var parent = document.getElementById("products_" + i.toString() + "__Price").parentNode;
+                    parent.appendChild(message);
+                 }
+                 }
+             else {
+                   
+                 if (document.getElementById("products_" + i.toString() + "__Price_validation") != null) {
+                    document.getElementById("products_" + i.toString() + "__Price_validation").remove();
+                 }
+             }
+             
+            }
+
+
+             
+
+         
+         console.log(errors);
+
+         if (errors > 0) {
+             e.preventDefault();
+         }
+
+     })
+
+
+
+
+
+     var customerName = document.getElementById("customer_First_name");
+     var communcationThread = document.getElementById("order_Com_thread");
+     var orderFulfillmentDate = document.getElementById("order_Order_fulfillment_date");
     
 
     function addProduct() {
@@ -151,6 +295,9 @@
         productDivChildNodes[0].children[0].children[1].id = "products_" + productIndex.toString() + "__Name"; //product name input id and name update
         productDivChildNodes[0].children[0].children[1].setAttribute("name", "products[" + productIndex.toString() + "].Name");
         productDivChildNodes[0].children[0].children[1].value = "";
+        if (productDivChildNodes[0].children[0].children[2] != null) {
+            productDivChildNodes[0].children[0].children[2].remove();
+        }
         productDivChildNodes[0].children[1].children[1].id = "products_" + productIndex.toString() + "__Description"; //product description id and name update
         productDivChildNodes[0].children[1].children[1].setAttribute("name", "products[" + productIndex.toString() + "].Description");
         productDivChildNodes[0].children[1].children[1].value = "";
@@ -159,10 +306,16 @@
         productDivChildNodes[0].children[2].children[1].value = "";
         productDivChildNodes[0].children[3].children[1].id = "categoryIds_" + productIndex.toString() + "_"; //product description id and name update
         productDivChildNodes[0].children[3].children[1].setAttribute("name", "categoryIds[" + productIndex.toString() +  "]");
-        productDivChildNodes[0].children[3].children[1].value = "";
-        productDivChildNodes[0].children[4].children[1].children[1].id = "categoryIds_" + productIndex.toString() + "_"; //product description id and name update
+        if (productDivChildNodes[0].children[3].children[2] != null) {
+            productDivChildNodes[0].children[3].children[2].remove();
+        }
+        productDivChildNodes[0].children[4].children[1].children[1].id = "products_" + productIndex.toString() + "__Price"; //product description id and name update
         productDivChildNodes[0].children[4].children[1].children[1].setAttribute("name", "products[" + productIndex.toString() +  "].Price");
         productDivChildNodes[0].children[4].children[1].children[1].value = "";
+        productDivChildNodes[0].children[4].children[1].children[1].addEventListener("change", updateTotalPrice);
+        if (productDivChildNodes[0].children[4].children[1].children[2] != null) {
+            productDivChildNodes[0].children[4].children[1].children[2].remove();
+        }
 
         form.insertBefore(productDiv, buttonRow);
 
@@ -174,15 +327,11 @@
         if (productIndex <= 0) {
             document.getElementById("remove-product").style.display = "none";
             document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
-        }
-        
+        }     
         else {
             document.getElementById("remove-product").style.display = "initial";
             document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
         }
-
-
-        
      }
 
 

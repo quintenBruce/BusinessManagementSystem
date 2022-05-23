@@ -1,0 +1,180 @@
+﻿@using InventoryManagementSystem.Models
+@using InventoryManagementSystem.ViewModels
+@model InventoryManagementSystem.ViewModels.OrderRetrievalModel
+
+
+
+    @*order header*@
+
+
+<div class="order-display-div rounded-3 m-3 p-3" style="">
+    <div class="row order-header-row p-1 m-1">
+        <div class="col-1 m-0 p-0 d-flex flex-column justify-content-center align-items-center align-content-center" style="max-width: 9px;">
+          <div style="height: 33%; width: 11px; background-color: #f72d2dbd;"></div>
+          <div style="height: 33%; width: 11px; background-color: #5ecaff;"></div>
+          <div style="height: 33%; width: 11px; background-color: #b7e85e;"></div>
+        </div>
+        <div class="col-11"  style="width: 96%;">
+            <div class="row">
+                <div class="col-10 col-lg-2">
+                    <h5 class="order-table-header-item">Estimated Due Date </h5>
+                </div>
+                 <div class="col-2 col-lg-2">
+                    <h5 class="order-table-header-item">Balance </h5>
+                 </div>
+                <div class="col-10 col-lg-2">
+                    <h5 class="order-table-header-item">Customer Name</h5>
+                </div>
+                <div class="col-2 col-lg-2">
+                    <h5 class="order-table-header-item">Location</h5>
+                </div>
+                <div class="col-10 col-lg-2">
+                    <h5 class="order-table-header-item">Comm. Thread</h5>
+                </div>
+                <div class="col-lg-2">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    @*individual order*@
+    @{
+        int order_count = 0;
+        var todaysDate = DateTime.Now.Date;
+        Model.allOrders = Model.allOrders.OrderBy(order => order.Order_fulfillment_date).ToList();
+    }
+    @foreach (var order in Model.allOrders)
+    {
+        ViewData["SingleOrder"] = order;
+
+        string customer_name = order.Customer.Last_name == null ? order.Customer.First_name : order.Customer.First_name + order.Customer.Last_name;
+        string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
+        locationDelivery += order.Delivery == true ? " - Delivery" : "";
+        var products = new List<Product>();
+        products = Model.allProducts.Where(a => a.Order == order).ToList();
+
+        var difference = (order.Order_fulfillment_date - DateTime.Now.Date).Days;
+        string orderStatusStyle = "";
+        string statusColor;
+        if (difference <= 0)
+        {
+            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
+        }
+        else if (difference <= 14)
+        {
+            orderStatusStyle = "height: 99%; width: 11px; background-color: " +  "#5ecaff"+ ";";
+        }
+        else
+        {
+            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
+        }
+        
+        
+
+
+        <div class="row order-row p-1 m-1" style="max-width: 100%;">
+            <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
+                <div style="@orderStatusStyle"></div>
+            </div>
+            <div class="col-11" style="width: 96%;">
+                <div class="row">
+                    <div class="col-10 col-lg-2 d-flex align-items-center">
+                        <p class="order-table-date">@order.Order_fulfillment_date.Date.ToShortDateString()</p>
+                    </div>
+                    <div class="col-2 col-lg-2 order-table-item d-flex align-items-center">
+                        <p>$@order.Balance</p>
+                    </div>
+                    <div class="col-12 col-lg-2 order-table-item d-flex align-items-center">
+                        <p style="overflow: auto;">@customer_name</p>
+                    </div>
+                    <div class="col-12 col-lg-2 order-table-item d-flex align-items-center">
+                        <p>@locationDelivery</p>
+                    </div>
+                    <div class="col-8 col-lg-2 order-table-item d-flex align-items-center">
+                        <p style="overflow: auto;">@order.Com_thread</p>
+                    </div>
+                    <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
+                        <button class="btn btn-primary order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn btn-warning order-table-button" type="button"><i class="fa-solid fa-pen"></i></button>
+                        
+                        <partial name="_OrderDeleteFormPartial" for=@ViewData["SingleOrder"]>
+                            
+                            
+                        
+
+
+                            
+                       
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        @*product section*@
+
+        <div class="row  order-row p-1 m-1 collapse show" id="details_@order_count">
+            <div class="row order-header-row p-1 m-1">
+                <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
+                    <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
+                </div>
+                <div class="col-11"  style="width: 96%;">
+                    <div class="row">
+                        <div class="col-lg-4">
+                        <p class="order-table-product-header">Product Name</p>
+                        </div>
+                        <div class="col-lg-4">
+                            <p class="order-table-product-header">Description</p>
+                        </div>
+                        <div class="col-lg-2">
+                            <p class="order-table-product-header">Dimensions</p>
+                        </div>
+                        <div class="col-lg-2">
+                            <p class="order-table-product-header">Price</p>
+                        </div>   
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-content-center">
+                <hr class="m-0 p-0" style="width: 100%;"/>
+            </div>
+
+        @*individual product*@
+
+            @foreach (var product in products)
+            {
+
+                string dimensions = product.Dimensions != null ? product.Dimensions : "";
+                <div class="row p-1 m-1">
+                    <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
+                        <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
+                    </div>
+                    <div class="col-11"  style="width: 96%;">
+                        <div class="row">
+                            <div style="overflow-x:scroll; white-space:nowrap;" class="col-lg-4">
+                                <p>@product.Name</p>
+                            </div>
+                            <div class="col-lg-4">
+                                <textarea style="width: 100%;" rows="1" disabled>@product.Description</textarea>
+                            </div>
+                            <div style="overflow-x:scroll; white-space:nowrap;" class="col-lg-2">
+                                <p>@dimensions</p>
+                            </div>
+                            <div class="col-lg-2">
+                                <p>$@product.Price</p>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+                
+            }
+        </div>
+
+
+        order_count += 1;
+    }
+</div>
+
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

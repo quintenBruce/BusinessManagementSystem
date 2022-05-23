@@ -2,7 +2,7 @@
     body {
         width: 100vw;
         height: 100vh;
-        background-color: #ecf0f5;
+        background-color: #e4e8eb;
     }
 
     main {
@@ -101,11 +101,19 @@
     border-radius: .6rem !important;
     max-width: 2300px;
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+
 }
 
 label {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    padding: 0px;
+    margin: 0px;
 }
 
 h2 {
@@ -120,5 +128,77 @@ h4 {
     color: #222d32;
 }
 
+.order-display-div {
+    background-color: white;
+    border-radius: .6rem !important;
+    max-width: 2300px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+}
+
+h5 {
+    font-weight: 600;
+}
+
+
+
+
+
+@media (max-width: 990px) {
+    .order-header-row {
+        display: none;
+    }
+}
+
+.order-row {
+    padding: 0px;
+   
+    
+}
+@media (min-width: 991px) {
+    .order-table-item {
+        border-left-color: #c6c7c8;
+        border-left-width: 1.9px;
+        border-left-style: solid;
+    }
+}
+
+@media (max-width: 2000px) {
+    .order-table-header-item {
+        font-size: 1.2vw;
+    }
+}
+
+@media (min-width: 2000px) {
+    .order-table-header-item {
+        font-size: 30px;
+    }
+}
+
+
+.order-table-date {
+    color: #3c8dbc;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+
+
+@media (max-width: 1200px) {
+    .order-table-button {
+        transform: scale(.7);
+    }
+}
+
+@media (min-width: 1201px) {
+    .order-table-button {
+        scale: 1;
+        margin: 3px;
+    }
+}
+
+.order-table-product-header {
+    font-weight: 500;
+    
+}
 
 

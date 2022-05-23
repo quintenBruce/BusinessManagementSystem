@@ -7,7 +7,8 @@ namespace InventoryManagementSystem.Models
         public int Id { get; set; }
         public Customer Customer { get; set; }
         [Display(Name = "Total Order Price")]
-        public float Price { get; set; }
+        public float Total { get; set; }
+        public float Balance { get; set; }
         public DateTime Order_date { get; set; }
         [Display(Name = "Order Fulfillment Date")]
         public DateTime Order_fulfillment_date { get; set; }

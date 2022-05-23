@@ -18,5 +18,21 @@ namespace InventoryManagementSystem.Services
                 return status == 0 ? false : true;
             }
         }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            using (OrdersContext context = new OrdersContext())
+            {
+                var products = new List<Product>();
+                var retrievedProducts = await context.Products.AsNoTracking().ToListAsync();
+                foreach (var product in retrievedProducts)
+                {
+                    products.Add(product);
+                }
+
+                return products;
+
+            }
+        }
     }
 }
