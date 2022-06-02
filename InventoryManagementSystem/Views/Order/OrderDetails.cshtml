@@ -1,0 +1,109 @@
+﻿@using System.Web
+@model InventoryManagementSystem.Models.OrderGroup
+
+
+
+@{
+    var customerFullName = @Model.customer.First_name + " " + @Model.customer.Middle_name + " " + @Model.customer.Last_name;
+    var jasdfsdf = Model;
+    var jsdf = 7;
+}
+
+<div class="m-md-5 m-3 mb-2 mb-md-2">
+    <h4 class="page-header-text">Order Details</h4>
+</div>
+<div class="order-details-container p-md-5 p-3 pt-3 pt-md-3">
+    <div class="row">
+        <div class="col-lg-6 mb-3">
+            <div class="order-details-order-information p-3 rounded">
+                <h4 class="mb-3">Order Information</h4>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Order Placement date</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value=@Model.order.Order_date disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Order Due Date</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value=@Model.order.Order_fulfillment_date disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Order Completion Date</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value="@(Model.order.Order_completion_date != null ? Model.order.Order_completion_date.ToString() : "Order Not Fulfilled")" disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Order Status</p>
+                    </div>
+                    <div class="col-5 d-flex justify-content-start">
+                        <input class="order-details-input-inactive" type="checkbox" disabled @(Model.order.Order_status == true ? "checked" : "")/>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Total Price</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value="@("$" + Model.order.Total.ToString())" disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p>Balance</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value="@("$" + Model.order.Balance.ToString())" disabled/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="order-details-customer-information p-3 rounded">
+                <h4 class="mb-3">Customer Information</h4>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="">Name</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value=@customerFullName disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="">Communication Thread</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value=@Model.order.Com_thread disabled/>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="">Delivery</p>
+                    </div>
+                    <div class="col-5 d-flex justify-content-start">
+                        <input class="order-details-input-inactive" type="checkbox" disabled @(Model.order.Delivery == true ? "checked" : "")/>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="">Out-of-Town</p>
+                    </div>
+                    <div class="col-5 d-flex justify-content-start">
+                        <input class="order-details-input-inactive" type="checkbox" disabled @(Model.order.Out_Of_Town == true ? "checked" : "")/>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-6 d-flex align-items-center">
+                        <p class="">Phone Number</p>
+                    </div>
+                    <input class="col-5 order-details-input-inactive" type="text" value=@(Model.order.Customer.Phone_number != 0 ? Model.order.Customer.Phone_number : "N/A") disabled/>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div id="order-display-products-row" class="row">
+        <partial name="~/Views/Order/_OrderDetailsProductsViewPartial.cshtml" model="Model" />
+    </div>
+    
+</div>
+
+tm
+
+

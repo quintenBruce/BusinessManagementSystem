@@ -13,6 +13,7 @@ namespace InventoryManagementSystem.Models
         [Display(Name = "Order Fulfillment Date")]
         public DateTime Order_fulfillment_date { get; set; }
         [Display(Name = "Communication Thread")]
+        public DateTime? Order_completion_date { get; set; }
         public string Com_thread { get; set; }
         [Display(Name = "Order Status")]
         public bool Order_status { get; set; }

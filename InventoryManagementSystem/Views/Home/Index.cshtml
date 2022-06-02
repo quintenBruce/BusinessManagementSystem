@@ -1,10 +1,117 @@
 ﻿@using InventoryManagementSystem.Services
 @using InventoryManagementSystem.Models
+@model InventoryManagementSystem.ViewModels.OrderViewModel
 
 
 @{
-    IProduct productService = new ProductService();
+    int pastDueOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days < 0)).Where(order => order.Order_status == false).ToList().Count();
+    int upcomingOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days <= 14) && ((order.Order_fulfillment_date - DateTime.Now.Date).Days >= 0)).Where(order => order.Order_status == false).ToList().Count();
+    int nonUrgentOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days > 14)).Where(order => order.Order_status == false).ToList().Count();
+    int allOrders = pastDueOrders + upcomingOrders + nonUrgentOrders;
+
+    int previousWeekPastDueOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) < 0)).Where(order => order.Order_status == false).ToList().Count();
+    int previousWeekUpcomingOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) <= 14) && (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) >= 0)).Where(order => order.Order_status == false).ToList().Count();
+    int previousNonUrgentOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) > 14)).Where(order => order.Order_status == false).ToList().Count();
     
+    string pastDueOrdersAnalytic = (pastDueOrders - previousWeekPastDueOrders) >= 0 ? ("+" + (pastDueOrders - previousWeekPastDueOrders)) : ((pastDueOrders - previousWeekPastDueOrders).ToString());
+    string upcomingOrdersAnalytic = (upcomingOrders - previousWeekUpcomingOrders) >= 0 ? ("+" + (upcomingOrders - previousWeekUpcomingOrders)) : ((upcomingOrders - previousWeekUpcomingOrders).ToString());
+    string nonUrgentOrdersAnalytic = (nonUrgentOrders - previousNonUrgentOrders) >= 0 ? ("+" + (nonUrgentOrders - previousNonUrgentOrders)) : ((nonUrgentOrders - previousNonUrgentOrders).ToString());
 
 
 }
+
+
+<div id="home-page-container" class="pb-md-0 pb-0 p-md-5 p-3">
+    <div class="row d-flex">
+        <div class="col-12 d-flex justify-content-start align-items-center">
+            <h4 class="page-header-text">Dashboard</h4>
+        </div>
+    </div>
+    <div class="row mt-2" style="max-width: 2300px;">
+        <div class="col-sm-6 col-xl-3 center-justify-align mb-3">
+            <div class="analytical-box-container p-2">
+                <div class="numerical-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-text">@pastDueOrders</p>
+                </div>
+                <div class="numerical-description-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-description-text">Past Due Orders</p>
+                </div>
+                <div class="analytical-analysis-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="analytical-analysis-text-percent @(Int32.Parse(pastDueOrdersAnalytic) >= 0 ? "icon-urgent" : "icon-normal")">@pastDueOrdersAnalytic</p>
+                    <p class="analytical-analysis-text"> Since last week</p>
+                </div>
+                <div class="icon-div center-justify-align">
+                    <div class="rounded-circle icon-parent center-justify-align">
+                        <i class="fa-solid fa-face-angry d-flex dashboard-analytical-icon center-justify-align icon-urgent"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 center-justify-align mb-3">
+            <div class="analytical-box-container p-2">
+                <div class="numerical-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-text">@upcomingOrders</p>
+                </div>
+                <div class="numerical-description-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-description-text">Upcoming Orders</p>
+                </div>
+                <div class="analytical-analysis-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="analytical-analysis-text-percent @(Int32.Parse(upcomingOrdersAnalytic) >= 0 ? "icon-normal" : "icon-urgent")">@upcomingOrdersAnalytic</p>
+                    <p class="analytical-analysis-text"> Since last week</p>
+                </div>
+                <div class="icon-div center-justify-align">
+                    <div class="rounded-circle icon-parent center-justify-align">
+                        <i class="fa-solid fa-face-grin-beam-sweat d-flex dashboard-analytical-icon center-justify-align icon-normal"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 center-justify-align mb-3">
+            <div class="analytical-box-container p-2">
+                <div class="numerical-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-text">@nonUrgentOrders</p>
+                </div>
+                <div class="numerical-description-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-description-text">Non-urgent Orders</p>
+                </div>
+                <div class="analytical-analysis-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="analytical-analysis-text-percent @(Int32.Parse(nonUrgentOrdersAnalytic) >= 0 ? "icon-normal" : "icon-urgent")">@nonUrgentOrdersAnalytic</p>
+                    <p class="analytical-analysis-text"> Since last week</p>
+                </div>
+                <div class="icon-div center-justify-align">
+                    <div class="rounded-circle icon-parent center-justify-align">
+                        <i class="fa-solid fa-face-smile-beam d-flex dashboard-analytical-icon center-justify-align icon-warning"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 center-justify-align mb-3">
+            <div class="analytical-box-container p-2">
+                <div class="numerical-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-text">@allOrders</p>
+                </div>
+                <div class="numerical-description-div d-flex justify-content-start align-content-center align-items-center">
+                    <p class="numerical-description-text">Pending Orders</p>
+                </div>
+                <div class="analytical-analysis-div d-flex justify-content-start align-content-center align-items-center">  
+                    <p class="analytical-analysis-text-percent @(Int32.Parse(nonUrgentOrdersAnalytic) >= 0 ? "icon-normal" : "icon-urgent")">@nonUrgentOrdersAnalytic</p>
+                    <p class="analytical-analysis-text"> Since last week</p>
+                </div>
+                <div class="icon-div center-justify-align">
+                    <div class="rounded-circle icon-parent center-justify-align">
+                        <i class="fa-solid fa-boxes-stacked d-flex dashboard-analytical-icon center-justify-align icon-brown"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="m-md-5 m-3 mb-3 mt-1">
+    <h4 class="page-header-text">Active Order Summary</h4>
+</div>
+<partial name="_OrderDisplayPartial" for="orderRetrievalModel">
+

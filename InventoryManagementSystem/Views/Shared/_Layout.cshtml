@@ -13,24 +13,44 @@
 <script src="https://kit.fontawesome.com/ec51af881c.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="sidenav">
-        <div class="logo-div d-flex justify-content-center align-content-center align-items-center">
-            <p style="color: white; margin: 0px; font-weight: 550;">INVENTORY MANAGEMENT</p>
+
+
+
+    <div class="mobile-header">
+        <div style="background-color: #367fa9" class="mobile-header-top d-flex justify-content-center align-items-center">
+            <p  style="font-size: 18px; color: white; margin: 0px; font-weight: 550;">INVENTORY MANAGEMENT</p>
         </div>
-        <div class="profile-photo-div container d-flex justify-content-center align-content-center align-items-center">
-            <img class="logo" src="https://res.cloudinary.com/dmremrlru/image/upload/v1652151736/Inventory_1_ejywba.png" alt="logo" />
-        </div>
-        <hr style="color: white; margin: 0px; margin: 0px 6px 0px 6px; margin-bottom: 5px; height: 2px;"/>
-        <div class="container d-flex flex-column p-0">
-            <a asp-controller="Order" asp-action="Index">Orders</a>
-            <a asp-controller="" asp-action="">Clients</a>
-            <a asp-controller="" asp-action="">Products</a>
-            <a asp-controller="" asp-action="">Sales</a>
-            <a asp-controller="" asp-action="">Analytics</a>
+        <div class="row mobile-header-bottom d-flex justify-content-center align-items-center m-0" style="background-color: #3c8dbc" >
+            
+            <div class="col-12 d-flex justify-content-around align-items-center">
+                <a class="mobile-header-links" asp-controller="" asp-action="">Home</a>
+                <a class="mobile-header-links" asp-controller="Order" asp-action="Index">Orders</a>
+                <a class="mobile-header-links" asp-controller="" asp-action="">Analytics</a>
+                <a class="mobile-header-links" asp-controller="" asp-action="">Clients</a>
+                <a class="mobile-header-links" asp-controller="" asp-action="">Products</a>
+                <a class="mobile-header-links" asp-controller="" asp-action="">Sales</a>
+            </div>
         </div>
         
     </div>
-    <div class="nav-header d-flex justify-content-end align-items-end align-content-end">
+    <div class="sidenav">
+        <div class="logo-div d-flex justify-content-center align-content-center align-items-center">
+            <p style="color: white; margin: 0px; font-weight: 550;">ORDER MANAGEMENT</p>
+        </div>
+        <div class="profile-photo-div container d-flex justify-content-center align-content-center align-items-center">
+            <a asp-controller="Home" asp-action="Index"><img class="logo" src="https://res.cloudinary.com/dmremrlru/image/upload/v1652151736/Inventory_1_ejywba.png" alt="logo" /></a>
+        </div>
+        <hr style="color: white; margin: 0px; margin: 0px 6px 0px 6px; margin-bottom: 5px; height: 2px;"/>
+        <div id="sidenav-links" class="container d-flex flex-column p-0">
+            <a asp-controller="Order" asp-action="Index"><i class="fa-regular fa-paste" style="margin-right: 13px;"></i>Orders</a>
+            <a asp-controller="" asp-action=""><i class="fa-regular fa-user" style="margin-right: 13px;"></i>Clients</a>
+            <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>
+            <a asp-controller="" asp-action=""><i class="fa-solid fa-coins" style="margin-right: 13px;"></i>Sales</a>
+            <a asp-controller="" asp-action=""><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
+        </div>
+        
+    </div>
+    <div class="nav-header justify-content-end align-items-center align-content-center">
         <p style="color: white; font-weight: 400; margin-right: 10px;">Hello, j.r.woodworking@protonmail.com</p>
     </div>
     <main role="main" class="">
@@ -44,12 +64,9 @@
         </div>
     </footer>*@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>

@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Services
 {
@@ -13,11 +14,13 @@ namespace InventoryManagementSystem.Services
                 order.Customer = customer;
                 context.Orders.Add(order);
                 status = context.SaveChanges();
-                if (payment != null)
+                if (payment.PaymentAmount != 0 && payment.PaymentType != "Select a payment type")
                 {
                     context.PaymentHistories.Add(payment);
                     status = context.SaveChanges();
                 }
+
+
                 for (int i = 0; i < products.Count(); i++)
                 {
                     context.Add(products[i]);
@@ -42,6 +45,22 @@ namespace InventoryManagementSystem.Services
                 return status == 0 ? false : true;
 
             }
+        }
+
+        public OrderGroup GetOrderGroup(int Id)
+        {
+            OrderGroup orderGroup = new OrderGroup();
+            using (OrdersContext context = new OrdersContext())
+            {
+                orderGroup.order = context.Orders.Include(order => order.Customer).Where(order => order.Id == Id).First();
+                orderGroup.products = context.Products.Include(product => product.Category).Where(product => product.Order == orderGroup.order).ToList();
+
+
+                orderGroup.customer = orderGroup.order.Customer;
+                orderGroup.paymentHistory = context.PaymentHistories.Where(payment => payment.Order == orderGroup.order).ToList();
+            }
+
+            return orderGroup;
         }
     }
 }

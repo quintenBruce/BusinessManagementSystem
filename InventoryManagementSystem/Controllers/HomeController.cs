@@ -1,32 +1,37 @@
-﻿using InventoryManagementSystem.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
+using InventoryManagementSystem.Models;
+using InventoryManagementSystem.ViewModels;
+using InventoryManagementSystem.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> IndexAsync()
         {
-            _logger = logger;
-        }
+            ICategory categoryInterface = new CategoryService();
+            OrderViewModel orderViewModel = new OrderViewModel();
+            orderViewModel.categories = await categoryInterface.GetAllCategories(); //assign all category rows from database to model.categories
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            IProduct productInterface = new ProductService();
+            orderViewModel.orderRetrievalModel.allProducts = await productInterface.GetAllProducts(); //assign all products from database to model.submodel
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            using (OrdersContext context = new OrdersContext())
+            {
+                orderViewModel.orderRetrievalModel.allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
+                orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
+                orderViewModel.orderRetrievalModel.allOrders = context.Orders.Where(order => order.Order_status == false).ToList();
+                orderViewModel.orderRetrievalModel.allPaymentHistories = context.PaymentHistories.Include(payment => payment.Order).ToList();
+            }
+
+            Order order = new Order();
+            ViewData["SingleOrder"] = order;
+            ViewData["orderSummary"] = "active";
+
+            return View(orderViewModel);
+            
         }
     }
 }

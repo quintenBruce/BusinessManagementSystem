@@ -6,6 +6,7 @@ namespace InventoryManagementSystem.Services
     {
         bool CreateOrder(Order order);
         bool DeleteOrder(int Id);
+        bool CompleteOrder(int Id);
 
     }
 }

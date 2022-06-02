@@ -1,0 +1,51 @@
+﻿@model InventoryManagementSystem.Models.OrderGroup
+
+
+<div class="col-12 mb-3">
+   <div class="order-details-product-information p-3 rounded">
+    <h4 class="mb-3">Products Information</h4>
+    <div class="row">
+        <div class="col-3">
+                <h4 class="order-table-header-item">Name</h4>
+        </div>
+        <div class="col-3">
+            <h4 class="order-table-header-item">Description</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Dimensions</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Category</h4>
+        </div>
+        <div class="col-1">
+            <h4 class="order-table-header-item">Price</h4>
+        </div>
+    </div>
+        @{
+            foreach(var product in Model.products)
+            {
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center">
+                        <p>@product.Name</p>
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <textarea class="w-100" rows="1" disabled="">@product.Description</textarea>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <p>@product.Dimensions</p>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <p>@product.Category.Name</p>
+                    </div>
+                    <div class="col-1 d-flex align-items-center">
+                         <p>@product.Price</p>
+                    </div>
+                    <div class="col-1">
+                        <partial name="~/Views/Order/_ProductDeletePartial.cshtml" Model=@product>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+

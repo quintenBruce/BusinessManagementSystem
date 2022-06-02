@@ -6,19 +6,19 @@
 
 
 
+<div class="m-5 mb-3">
+    <h4 class="page-header-text">Add Order</h4>
+</div>
+    
 
 
-
-<div class="order-create-div rounded-3 m-3 p-3" style="">
-    <div class="d-flex justify-content-center m-0 p-0">
-        <h2>Add Order</h2>
-    </div>
-    <hr class="m-0 p-0"/>
+<div class="order-create-div m-5 mt-2 p-3 pt-2" style="">
+    
     <form id="order-form" asp-controller="Order" asp-action="Index" method="post" class="row d-flex">
         <h4 class="mb-3 mt-2">Customer Information</h4>
         <div class="col-lg-4 mb-2">
             <label asp-for="customer.First_name" class="form-label"></label>
-            <input asp-for="customer.First_name" class="form-control form-control-sm"/>
+            <input asp-for="customer.First_name" class="input-class form-control form-control-sm"/>
             <span id="customer_First_name_validation" class="text-danger"></span>
         </div>
         <div class="col-lg-4 mb-2">
@@ -35,11 +35,11 @@
         </div>
         <div class="col-lg-4">
             <label asp-for="order.Com_thread" class="form-label"></label>
-            <select asp-for="order.Com_thread" class="form-select form-select-sm">
-                <option selected>Select a communication thread</option>
-                <option value="Marketplace">Marketplace</option>
-                <option value="Page">Facebook Page</option>
-                <option value="Phone">Phone (SMS)</option>
+            <select asp-for="order.Com_thread" class="input-class form-select form-select-sm">
+                <option class="input-class" selected>Select a communication thread</option>
+                <option class="input-class" value="Marketplace">Marketplace</option>
+                <option class="input-class" value="Page">Facebook Page</option>
+                <option class="input-class" value="Phone">Phone (SMS)</option>
             </select>
             <span id="order_Com_thread_validation" class="text-danger"></span>
         </div>
@@ -56,7 +56,7 @@
         <h4 class="mb-3">Order Information</h4>
         <div class="col-lg-4 mb-2">
             <label asp-for="order.Order_fulfillment_date" class="form-label"></label>
-            <input asp-for="order.Order_fulfillment_date" class="form-control form-control-sm" type="date" placeholder="Order Fulfillment Date"/>    
+            <input asp-for="order.Order_fulfillment_date" class="input-class form-control form-control-sm" type="date" placeholder="Order Fulfillment Date"/>    
              <span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
         </div> 
         <div class="col-lg-4">
@@ -68,12 +68,12 @@
         </div>
         <div class="col-lg-4">
             <label asp-for="paymentHistory.PaymentType" class="form-label"></label>
-            <select asp-for="paymentHistory.PaymentType" class="form-select form-select-sm">
+            <select asp-for="paymentHistory.PaymentType" class="input-class form-select form-select-sm">
                 <option selected>Select a payment type</option>
-                <option value="Venmo">Venmo</option>
-                <option value="Cash App">Cash App</option>
-                <option value="Cash">Cash</option>
-                <option value="Other">Other</option>
+                <option class="input-class" value="Venmo">Venmo</option>
+                <option class="input-class" value="Cash App">Cash App</option>
+                <option class="input-class" value="Cash">Cash</option>
+                <option class="input-class" value="Other">Other</option>
             </select>
         </div>
         <h4 class="mb-3">Product Information</h4>
@@ -94,18 +94,18 @@
             </div> 
             <div class="col-lg-2 mb-2">
                 <label asp-for="categoryIds" class="form-label"></label>
-                <select asp-for="categoryIds[0]" class="form-select form-select-sm">
+                <select asp-for="categoryIds[0]" class="input-class form-select form-select-sm">
                     <option selected>Select a category</option>
                     @foreach (var category in Model.categories)
                     {
-                        <option value=@category.Id>@category.Name</option>
+                        <option class="input-class" value=@category.Id>@category.Name</option>
                     }
                 </select>
                 
             </div> 
             <div class="col-lg-2 mb-2">
                 <label asp-for="products[0].Price" class="form-label"></label>
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3" style="flex-wrap: unset;">
                     <span class="input-group-text">$</span>
                     <input style="width: 80%;"asp-for="products[0].Price" class="form-control form-control-sm" type="number" step="0.01"/>
                     
@@ -120,7 +120,7 @@
                 <button type="button"  class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
                 <button id="remove-product" type="button"  class="btn btn-danger" onclick="removeProduct(); updateTotalPrice();" style="margin-left: 10px;">Remove Product</button>
             </div>
-            <div class="col-7 d-flex justify-content-end ali">
+            <div class="col-7 d-flex justify-content-end">
                 <p>Total: <span class="lead">$</span><span id="total-price" class="lead">0</span></p>
             </div>
             
@@ -131,6 +131,9 @@
 </div>
 
 
+<div class="m-5 mb-3 mt-1">
+    <h4 class="page-header-text">Detailed Order Summary</h4>
+</div>
 <partial name="_OrderDisplayPartial" for="orderRetrievalModel">
 
 

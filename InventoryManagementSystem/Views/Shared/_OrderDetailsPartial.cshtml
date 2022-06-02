@@ -1,0 +1,24 @@
+﻿@using InventoryManagementSystem.Models
+@using InventoryManagementSystem.ViewModels
+@model InventoryManagementSystem.Models.Order
+
+
+
+@{
+    var yes = Model;
+    var yesyes = Model;
+
+}
+
+
+@using(Html.BeginForm("OrderDetails", "Order", FormMethod.Post)) {
+    <input type="hidden" name="Id" value=@Model.Id />
+    
+
+    <button id="home-par" class="btn btn-warning order-table-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+}
+
+
+
+
