@@ -1,0 +1,229 @@
+﻿@model List<Product>
+
+
+@{
+    var sldkfj = Model;
+    var sldkfjsaf = ViewData["orderId"];
+    var sldkf = 34;
+}
+
+
+
+<form id="create-products-form" action="/Product/CreateProduct" data-ajax="true" data-ajax-method="post" data-ajax-update="#product-information-container" data-ajax-mode="replace" data-ajax-success="productUpdate">
+    <input type="hidden" value=@ViewData["orderId"] name=orderId />
+</form>
+
+<form id="edit-products-form" action="/Product/UpdateProducts" data-ajax="true" data-ajax-method="post" data-ajax-update="#product-information-container" data-ajax-mode="replace" data-ajax-success="productUpdate"></form>
+
+        
+
+<div class="col-12 mb-3">
+            <div id="product-rows-container" class="order-details-product-information p-3 rounded">
+                <div class="mb-4 d-flex align-items-center">
+                    <h4>Product Information</h4>
+                    <button id="add-product-button" class="btn m-0" type="button" onclick="addProduct()" style="margin-left: 12px !important; margin-bottom: 6px !important; background-color: #f0f0f0; padding: 3px 7px 3px 7px;"><i class="fa-solid fa-plus" style="color: black; background-color: #f8f9fa00;;"></i></button>
+                </div>
+            <div id="order-details-product-information-header-row" class="row">    
+                <div class="col-2">
+                    <h4 class="order-table-header-item">Name</h4>
+                </div>
+                <div class="col-4">
+                    <h4 class="order-table-header-item">Description</h4>
+                </div>
+                <div class="col-2">
+                    <h4 class="order-table-header-item">Dimensions</h4>
+                </div>
+                <div class="col-2">
+                    <h4 class="order-table-header-item">Category</h4> 
+                </div>
+                <div class="col-1">
+                    <h4 class="order-table-header-item">Price</h4>
+                </div>
+            </div>
+                @{
+                    
+                    var productCount = -1;
+                    foreach(var product in Model)
+                    {
+                        string rowBorder = product == Model.First() ? "" : "order-details-table-row";
+
+
+
+                    productCount += 1;
+                    ViewData["ProductIndex"] = productCount;
+
+                        <input type="hidden" name=@("products[" + productCount.ToString() + "].Order.Id") value=@product.Order.Id form="edit-products-form" />
+                        <input type="hidden" name=@("products[" + productCount.ToString() + "].Id") value=@product.Id form="edit-products-form" />
+
+                                <div id=@("product" + productCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")">
+                                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                                <p>Name</p>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <input type="text" class="order-details-product-info-input-inactive" form="edit-products-form" value=@product.Name name=@("products[" + productCount.ToString() + "].Name") disabled/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 d-flex align-items-center pb-3 pb-lg-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 mobile-only-title">
+                                                <p>Description</p>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                  <textarea class="w-auto order-details-product-textarea order-details-product-info-input-inactive" form="edit-products-form" rows="1" name=@("products[" + productCount.ToString() + "].Description")  disabled>@product.Description</textarea>
+                                            </div> 
+                                        </div> 
+                                          
+                                    </div>
+                                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                            <div class="row w-100">
+                                                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                                    <p>Dimensions</p>
+                                                </div> 
+                                                <div class="col-12 col-sm-5 col-lg-12">
+                                                    <input type="text" form="edit-products-form" class="order-details-product-info-input-inactive" value=@product.Dimensions  name=@("products[" + productCount.ToString() + "].Dimensions") disabled/>
+                                                </div> 
+                                            </div>      
+                                    </div>   
+                                        
+                                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                                <p>Category</p>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <select class="col-11 col-sm-5 order-details-product-info-input-inactive product-category" name=@("products[" + productCount.ToString() + "].Category.Name") form="edit-products-form"  style="background-color: @(productCount % 2 == 0 ? "#f4f7f9" : "white");" disabled>
+                                                    @foreach (var category in (IEnumerable<Category>)ViewData["categories"])
+                                                    {
+                                                        <!option class="input-class" value="@category.Name.Trim()" @(product.Category.Name.Trim() == category.Name.Trim() ? "selected" : "")>@category.Name.Trim()</!option>
+                                                    }                                       
+                                                </select>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1 d-flex align-items-center pb-3 pb-lg-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                                <p>Price</p>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <input form="edit-products-form" type="number" class="order-details-product-info-input-inactive set-product-price" value=@product.Price.ToString() name=@("products[" + productCount.ToString() + "].Price") disabled/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 pb-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-lg-12 d-flex align-items-center">
+                                                <p class="mobile-only-title">Remove Product</p>
+                                            </div>
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <partial name="~/Views/Order/_ProductDeletePartial.cshtml" Model=@product>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                }
+            }
+
+            @{
+                productCount += 1;
+            }
+            
+
+
+
+
+
+
+            @*PARENT ROWS*@
+                    
+            
+            <div id="add-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                   <div class="row w-100">
+                       <div class="col-12 col-sm-6 d-flex align-items-center">
+                           <input id="add-products-submit-button" type="submit" form="create-products-form" onclick="return confirm('Are you sure you want to add these products?')" class="btn mb-0 m-2" value="Submit" style="color: rgb(108, 117, 125); background-color: rgb(240, 240, 240); border: medium none;">
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+            <div id="edit-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                   <div class="row w-100">
+                       <div class="col-12 col-sm-6 d-flex align-items-center">
+                           <input type="submit" form="edit-products-form" onclick="return confirm('Are you sure you want to submit these changes?')" class="btn mb-0 m-2" value="Save Changes" style="color: rgb(108, 117, 125); background-color: rgb(240, 240, 240); border: medium none;">
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+            
+            <div id="sample-product" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                            <p>Name</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <input type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" form="create-products-form">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 d-flex align-items-center pb-3 pb-lg-0">  
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 mobile-only-title">
+                                            <p>Description</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                              <textarea class="order-details-product-textarea order-details-product-info-input-active product-description new-product-property" rows="1" form="create-products-form"></textarea>
+                                        </div> 
+                                    </div> 
+                                    
+                                      
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                                <p>Dimensions</p>
+                                            </div> 
+                                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <input type="text" class="order-details-product-info-input-active product-dimensions new-product-property" form="create-products-form">
+                                            </div>  
+                                        </div>      
+                                </div>   
+                                    
+                                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                            <p>Category</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <select class="col-11 col-sm-5 order-details-product-info-input-active product-category new-product-property" form="create-products-form" style="background-color: white;">
+                                                
+                                            @foreach (var category in (IEnumerable<Category>)ViewData["categories"])
+                                            {
+                                                <!option class="input-class" value="@category.Name.Trim()">@category.Name.Trim()</!option>
+                                            }                                       
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-1 d-flex align-items-center pb-0 pb-lg-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                            <p>Price</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <input type="number" class="order-details-product-info-input-active product-price new-product-property" form="create-products-form">
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+        </div>

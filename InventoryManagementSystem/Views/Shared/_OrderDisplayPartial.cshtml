@@ -7,7 +7,7 @@
     @*order header*@
 
 
-<h1></h1>
+
 
 <div class="order-display-div m-md-5 m-3 p-3 mt-1" style="">
     <div class="row order-header-row p-1 m-1">
@@ -54,7 +54,7 @@
 
         var dropdownOption = order_count <= 4 ? "show" : "";
 
-        string customer_name = order.Customer.Last_name == null ? order.Customer.First_name : order.Customer.First_name + order.Customer.Last_name;
+        string customer_name = order.Customer.fullName;
         string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
         locationDelivery += order.Delivery == true ? " - Delivery" : "";
         var products = new List<Product>();
@@ -124,9 +124,9 @@
                         <p style="overflow: auto;">@order.Com_thread</p>
                     </div>
                     <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
-                        <button class="btn btn-primary order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
+                        <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
                         
-                        <partial name="_OrderDetailsPartial" for=@order>
+                        <partial name="_OrderDetailsButtonPartial" for=@order>
                         <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
 
             var dropdownOption = order_count <= 4 ? "show" : "";
 
-            string customer_name = order.Customer.Last_name == null ? order.Customer.First_name : order.Customer.First_name + order.Customer.Last_name;
+            string customer_name = order.Customer.fullName;
             string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
             locationDelivery += order.Delivery == true ? " - Delivery" : "";
             var products = new List<Product>();
@@ -260,8 +260,8 @@
                             <p style="overflow: auto;">@order.Com_thread</p>
                         </div>
                         <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
-                        <button class="btn btn-primary order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
-                            <partial name="_OrderDetailsPartial" for=@order>
+                        <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
+                            <partial name="_OrderDetailsButtonPartial" for=@order>
                             <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
                         </div>
                     </div>

@@ -23,9 +23,9 @@
         <div class="row mobile-header-bottom d-flex justify-content-center align-items-center m-0" style="background-color: #3c8dbc" >
             
             <div class="col-12 d-flex justify-content-around align-items-center">
-                <a class="mobile-header-links" asp-controller="" asp-action="">Home</a>
+                <a class="mobile-header-links" asp-controller="Home" asp-action="Index">Home</a>
                 <a class="mobile-header-links" asp-controller="Order" asp-action="Index">Orders</a>
-                <a class="mobile-header-links" asp-controller="" asp-action="">Analytics</a>
+                <a class="mobile-header-links" asp-controller="Analytics" asp-action="Index">Analytics</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Clients</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Products</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Sales</a>
@@ -34,9 +34,7 @@
         
     </div>
     <div class="sidenav">
-        <div class="logo-div d-flex justify-content-center align-content-center align-items-center">
-            <p style="color: white; margin: 0px; font-weight: 550;">ORDER MANAGEMENT</p>
-        </div>
+        
         <div class="profile-photo-div container d-flex justify-content-center align-content-center align-items-center">
             <a asp-controller="Home" asp-action="Index"><img class="logo" src="https://res.cloudinary.com/dmremrlru/image/upload/v1652151736/Inventory_1_ejywba.png" alt="logo" /></a>
         </div>
@@ -46,12 +44,25 @@
             <a asp-controller="" asp-action=""><i class="fa-regular fa-user" style="margin-right: 13px;"></i>Clients</a>
             <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>
             <a asp-controller="" asp-action=""><i class="fa-solid fa-coins" style="margin-right: 13px;"></i>Sales</a>
-            <a asp-controller="" asp-action=""><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
-        </div>
+            <a asp-controller="Analytics" asp-action="Index"><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
+        </div> 
         
     </div>
-    <div class="nav-header justify-content-end align-items-center align-content-center">
-        <p style="color: white; font-weight: 400; margin-right: 10px;">Hello, j.r.woodworking@protonmail.com</p>
+    <div class="nav-header" style="margin: 0px; margin-left: 220px !important;">
+        <div class="row m-0 p-0" style="width: calc(100% - 220px);">
+            <div class="col-6 p-0 d-flex justify-content-start align-content-center align-items-center">
+                <form id="search-by-name-form" action="/Order/SearchByName">
+                    <input id="search-by-name-input" type="text" placeholder="Search By Name" name="searchQuery" />
+                    <button id="search-by-name-submit-button" class="btn" type="submit" style=""><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+            <div class="col-3">
+
+            </div>
+            <div class="col-3 p-0 d-flex justify-content-end align-items-center align-content-center">
+                <p style="color: #555b5e; font-weight: 400; margin-right: 10px;">Hello, j.r.woodworking@protonmail.com</p>
+            </div>
+        </div>
     </div>
     <main role="main" class="">
             @RenderBody()
@@ -67,6 +78,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+    <script src="~/lib/Script/jquery.unobtrusive-ajax.js"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace InventoryManagementSystem.Models
 {
     public class Customer
@@ -6,11 +8,8 @@ namespace InventoryManagementSystem.Models
         public int Id { get; set; }
         [Required]
         [Display(Name = "First Name")]
-        public string First_name { get; set; }
-        [Display(Name = "Middle Name")]
-        public string? Middle_name { get; set; }
-        [Display(Name = "Last Name")]
-        public string? Last_name { get; set; }
+        [Column(TypeName = "varchar(MAX)")]
+        public string fullName { get; set; }
         [Display(Name = "Phone Number")]
         public int? Phone_number { get; set; }
     }

@@ -26,7 +26,7 @@ body, html {
         z-index: 1;
         top: 0;
         left: 0;
-        background-color: #222d32;
+        background-color: #293042;
         overflow-x: hidden;
     }
 
@@ -86,8 +86,9 @@ body, html {
     .nav-header {
         height: 56px;
         width: 100vw;
-        background-color: #3c8dbc;
+        background-color: #ffffff;
         display: flex;
+        margin-left: 220px;
     }
 }
 
@@ -222,6 +223,12 @@ h4 {
     color: #777;
     font-family: 'Inter', sans-serif;
     font-weight: 700;
+}
+
+.order-table-button {
+    color: #6c757d !important;
+    background-color: #f0f0f0 !important;
+    border: none;
 }
 
 @media (max-width: 1200px) {
@@ -387,10 +394,90 @@ h4 {
 .order-details-input-inactive {
     color: #6c757d;
     border: 1px solid #ced4da !important;
-    border-right: none !important;
-    border-left: none !important;
     border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: .2rem;
+    margin-left: calc(var(--bs-gutter-x) * .5);
 }
+
+.order-details-input-inactive::placeholder {
+    color: #adadad;
+}
+
+
+.order-details-input-active {
+    color: #4a4a4a; 
+    border: 1px solid #ced4da !important;
+    border-radius: .2rem;
+    margin-left: calc(var(--bs-gutter-x) * .5);
+}
+
+
+
+.order-details-product-info-input-inactive, .order-details-payment-info-input-inactive {
+    color: #6c757d;
+    width: 100%;
+    border: none;
+    background-color: #00000000;
+    padding-left: calc(var(--bs-gutter-x) * .5);
+}
+
+
+@media (min-width: 576px) and (max-width: 991px) {
+    .order-details-product-info-input-inactive, .order-details-payment-info-input-inactive {
+        color: #6c757d;
+        width: 100%;
+        border: 1px solid #ced4da !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding-left: calc(var(--bs-gutter-x) * .5);
+    }   
+}
+
+@media (max-width: 991px) {
+    .order-details-product-info-input-active, .order-details-payment-info-input-active {
+        color: #6c757d;
+        width: auto;
+        border: 1px solid #ced4da !important;
+        border-radius: .2rem;
+        padding-left: calc(var(--bs-gutter-x) * .5);
+    }
+}
+
+@media (min-width: 992px) {
+    .order-details-product-info-input-active, .order-details-payment-info-input-active {
+        color: #6c757d;
+        width: 100%;
+        border: 1px solid #ced4da !important;
+        border-radius: .2rem;
+        padding-left: calc(var(--bs-gutter-x) * .5);
+    }
+}
+
+
+
+
+
+
+@media (min-width: 992px) {
+    .order-details-product-textarea {
+        width: 100% !important;
+        padding-right: 9px;
+    }
+}
+
+@media (max-width: 576px) {
+    .order-details-product-textarea {
+        width: 100% !important;
+        padding-right: 9px;
+    }
+}
+
+
+
+
 
 .color-pill {
     border-radius: 5px;
@@ -432,10 +519,18 @@ textarea {
 
 @media (min-width: 992px) and (max-width: 1144px){
     .order-details-customer-information, .order-details-order-information {
-        min-height: 420px;
+        min-height: 430px;
         height: auto;
     }
 }
+
+@media (min-width: 1145px) {
+    .order-details-customer-information, .order-details-order-information {
+        min-height: 390px;
+        height: auto;
+    }
+}
+
 
 
 
@@ -449,21 +544,59 @@ textarea {
 }
 
 
+@media (max-width: 991px) {
+    #order-details-product-information-header-row {
+        display: none;
+    }
+}
+
+@media (min-width: 992px) {
+    .mobile-only-title {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .mobile-only-title > p {
+        font-weight: 400;
+    }
+}
+
+.text-area {
+    width: 100%;
+}
+
+.order-details-table-row {
+    border-top-color: #dee6ed;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.order-details-table-row-grey {
+    background-color: #f4f7f9;
+}
 
 
 
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
 
 
+#search-by-name-input {
+    margin-left: 40px;
+    background-color: #f3f6fb;
+    border: none;
+    padding: .35rem .75rem;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+#search-by-name-input:focus {
+    outline: none;
+}

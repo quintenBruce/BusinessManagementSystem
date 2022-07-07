@@ -8,11 +8,11 @@ namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             ICategory categoryInterface = new CategoryService();
-            OrderViewModel orderViewModel = new OrderViewModel();
-            orderViewModel.categories = await categoryInterface.GetAllCategories(); //assign all category rows from database to model.categories
+            HomeIndex orderViewModel = new HomeIndex();
+            
 
 
             IProduct productInterface = new ProductService();
@@ -24,14 +24,18 @@ namespace InventoryManagementSystem.Controllers
                 orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
                 orderViewModel.orderRetrievalModel.allOrders = context.Orders.Where(order => order.Order_status == false).ToList();
                 orderViewModel.orderRetrievalModel.allPaymentHistories = context.PaymentHistories.Include(payment => payment.Order).ToList();
+                ViewData["productCategories"] = context.Categories.ToList();
             }
 
             Order order = new Order();
             ViewData["SingleOrder"] = order;
             ViewData["orderSummary"] = "active";
+            
 
             return View(orderViewModel);
             
         }
+
+        
     }
 }

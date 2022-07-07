@@ -1,0 +1,168 @@
+﻿@model List<PaymentHistory>
+
+@{
+    var ksadkfj = ViewData["orderId"];
+    var sldkf = Model;
+
+    var lkdsjf = 5;
+}
+
+<form id="create-payments-form" action="/Payment/CreatePayments" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate">
+    <input type="hidden" value=@ViewData["orderId"] name=orderId />
+</form>
+
+<form id="edit-payments-form" action="/Payment/UpdatePayment" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate"></form>
+
+<div class="col-12 mb-3">
+            <div id="payment-rows-container" class="order-details-product-information p-3 rounded">
+                <div class="mb-4 d-flex align-items-center">
+                    <h4>Payment History</h4>
+                    <button id="add-payment-button" class="btn m-0" type="submit" onclick="addPayment()" style="margin-left: 12px !important; margin-bottom: 6px !important; background-color: #f0f0f0; padding: 3px 7px 3px 7px;"><i class="fa-solid fa-plus" style="color: black; background-color: #f8f9fa00;"></i></button>
+                </div>
+            <div id="order-details-product-information-header-row" class="row">
+                <div class="col-6">
+                    <h4 class="order-table-header-item">Amount</h4>
+                </div>
+                <div class="col-5">
+                    <h4 class="order-table-header-item">Type</h4>
+                </div>
+            </div>
+            @{
+                var paymentCount = -1;
+                foreach(var payment in Model)
+                {
+
+                    string rowBorder = payment == Model.First() ? "" : "order-details-table-row";
+
+                    paymentCount += 1;
+                    ViewData["PaymentIndex"] = paymentCount;
+
+
+                    <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Order.Id") value=@payment.Order.Id form="edit-payments-form" />
+                    <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Id") value=@payment.Id form="edit-payments-form" />
+                          
+                    
+
+
+                            <div id=@("payment" + paymentCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")">
+
+                                <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                            <p>Amount</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.PaymentAmount) name=@("payments[" + paymentCount.ToString() + "].PaymentAmount") disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-lg-5 d-flex align-items-center pb-3 pb-lg-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 mobile-only-title">
+                                            <p>Type</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <select class="col-11 col-sm-5 order-details-payment-info-input-inactive" name=@("payments[" + paymentCount.ToString() + "].PaymentType") form="edit-payments-form"  style="background-color: @(paymentCount % 2 == 0 ? "#f4f7f9" : "white");" disabled>
+                                                @foreach (var category in (IEnumerable<string>)ViewData["paymentTypeCategories"])
+                                                {
+                                                    <!option class="input-class" value="@category.Trim()" @(payment.PaymentType.Trim() == category.Trim() ? "selected" : "")>@category.Trim()</!option>
+                                                }                                       
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-1 pb-0">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-lg-12 d-flex align-items-center">
+                                            <p class="mobile-only-title">Remove Product</p>
+                                        </div>
+                                        <div class="col-12 col-sm-5 col-lg-12">
+                                            <partial name="~/Views/Order/_PaymentDeletePartial.cshtml" Model=@payment>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                } 
+            }
+
+            @{
+                paymentCount += 1;
+            }
+            
+
+
+
+
+
+
+            @*PARENT ROWS*@
+
+
+            <div id="add-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                   <div class="row w-100">
+                       <div class="col-12 col-sm-6 d-flex align-items-center">
+                           <input id="add-payments-submit-button" type="submit" form="create-payments-form" onclick="return confirm('Are you sure you want to add these payments?')" class="btn mb-0 m-2" value="Submit" style="color: rgb(108, 117, 125); background-color: rgb(240, 240, 240); border: medium none;">
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+            <div id="edit-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                   <div class="row w-100">
+                       <div class="col-12 col-sm-6 d-flex align-items-center">
+                           <input type="submit" form="edit-payments-form" onclick="return confirm('Are you sure you want to submit these changes?')" class="btn mb-0 m-2" value="Save Changes" style="color: rgb(108, 117, 125); background-color: rgb(240, 240, 240); border: medium none;">
+                       </div>
+                   </div>
+               </div>
+            </div>
+
+
+
+            <div id="sample-payment" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+                <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                            <p>Amount</p>
+                        </div>
+                        <div class="col-12 col-sm-5 col-lg-12">
+                            <input type="number" class="mt-2 mb-2 order-details-payment-info-input-active payment-amount new-payment-property" form="create-payments-form" />
+                        </div>
+                     </div>
+                 </div>
+                 <div class="col-lg-5 d-flex align-items-center pb-3 pb-lg-0">
+                     <div class="row w-100">
+                          <div class="col-12 col-sm-6 mobile-only-title">
+                              <p>Type</p>
+                          </div>
+                          <div class="col-12 col-sm-5 col-lg-12">
+                              <select class="col-11 col-sm-5 order-details-payment-info-input-active payment-type new-payment-property"  form="create-payments-form"  style="background-color: @(paymentCount % 2 == 0 ? "#f4f7f9" : "white");">
+                                  @foreach (var category in (IEnumerable<string>)ViewData["paymentTypeCategories"])
+                                  {
+                                      <!option class="input-class" value="@category.Trim()">@category.Trim()</!option>
+                                  }                                       
+                              </select>
+                          </div>
+                     </div>
+                </div>                   
+            </div>
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+
+                          

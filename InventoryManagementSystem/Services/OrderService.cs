@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Services
 {
@@ -28,12 +29,19 @@ namespace InventoryManagementSystem.Services
             }
         }
 
-        public bool DeleteOrder(int Id)
+        public bool DeleteOrder(int orderId)
         {
             using (OrdersContext context = new OrdersContext())
             {
-                var order = context.Orders.Where(order => order.Id == Id).First();
-                context.Orders.Remove(order);
+                context.Remove(context.Orders.First(order => order.Id == orderId));
+                context.RemoveRange(context.Products.Where(product => product.Order.Id == orderId).ToList());
+
+                if (context.PaymentHistories.Where(payment => payment.Order.Id == orderId).ToList() != null)
+                {
+                    var payments = context.PaymentHistories.Where(payment => payment.Order.Id == orderId).ToList();
+                    context.RemoveRange(payments);
+                }
+                    
 
                 var status = context.SaveChanges();
                 return status == 0 ? false : true;
