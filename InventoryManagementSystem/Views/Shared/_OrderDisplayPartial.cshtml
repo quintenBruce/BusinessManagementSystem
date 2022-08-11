@@ -25,7 +25,7 @@
                     <h5 class="order-table-header-item">Balance </h5>
                  </div>
                 <div class="col-10 col-lg-2">
-                    <h5 class="order-table-header-item">Customer Name</h5>
+                    <h5 class="order-table-header-item">Name</h5>
                 </div>
                 <div class="col-2 col-lg-2">
                     <h5 class="order-table-header-item">Location</h5>
@@ -56,25 +56,19 @@
 
         string customer_name = order.Customer.fullName;
         string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
-        locationDelivery += order.Delivery == true ? " - Delivery" : "";
+        locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
         var products = new List<Product>();
         products = Model.allProducts.Where(a => a.Order == order).ToList();
 
         var difference = (order.Order_fulfillment_date - DateTime.Now.Date).Days;
         string orderStatusStyle = "";
-        string statusColor;
         if (difference < 0)
-        {
             orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
-        }
         else if (difference <= 14)
-        {
             orderStatusStyle = "height: 99%; width: 11px; background-color: " +  "#5ecaff"+ ";";
-        }
         else
-        {
             orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
-        }
+
 
 
         var orderPaymentHistory = new List<PaymentHistory>();
@@ -82,9 +76,7 @@
             foreach (var payment in Model.allPaymentHistories)
             {
                 if (payment.Order == order)
-                {
                     orderPaymentHistory.Add(payment);
-                }
             }
 
             var orderCategories = new List<Category>();
@@ -100,7 +92,6 @@
             }
 
             var orderDetailsViewModel = new OrderDetailsViewModel(order, order.Customer, orderPaymentHistory, orderCategories, orderProducts);
-            var one = 9;
         
         <div class="row order-row p-1 m-1" style="max-width: 100%;">
             <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
@@ -205,7 +196,7 @@
 
             string customer_name = order.Customer.fullName;
             string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
-            locationDelivery += order.Delivery == true ? " - Delivery" : "";
+            locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
             var products = new List<Product>();
             products = Model.allProducts.Where(a => a.Order == order).ToList();
 

@@ -44,7 +44,7 @@
                     
 
 
-                            <div id=@("payment" + paymentCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")">
+                            <div id=@("payment" + paymentCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(paymentCount % 2 == 0 ? "table-row-grey" : "")">
 
                                 <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
                                     <div class="row w-100">
@@ -103,7 +103,7 @@
             @*PARENT ROWS*@
 
 
-            <div id="add-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="add-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                 <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                    <div class="row w-100">
                        <div class="col-12 col-sm-6 d-flex align-items-center">
@@ -113,7 +113,7 @@
                </div>
             </div>
 
-            <div id="edit-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="edit-payments-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                 <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                    <div class="row w-100">
                        <div class="col-12 col-sm-6 d-flex align-items-center">
@@ -125,7 +125,7 @@
 
 
 
-            <div id="sample-payment" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="sample-payment" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(paymentCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                 <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
                     <div class="row w-100">
                         <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">

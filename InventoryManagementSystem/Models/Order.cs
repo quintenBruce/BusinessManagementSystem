@@ -17,10 +17,16 @@ namespace InventoryManagementSystem.Models
         public string Com_thread { get; set; }
         [Display(Name = "Order Status")]
         public bool Order_status { get; set; }
-        [Display(Name = "Delivery?")]
-        public bool Delivery { get; set; }
+        [Display(Name = "Delivery Fee")]
+        public int DeliveryFee { get; set; }
         [Display(Name = "Out-of-Town?")]
         public bool Out_Of_Town { get; set; }
 
+        public static implicit operator List<object>(Order v)
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }

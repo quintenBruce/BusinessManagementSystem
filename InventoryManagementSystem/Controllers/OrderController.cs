@@ -27,8 +27,8 @@ namespace InventoryManagementSystem.Controllers
             }
 
             Order order = new Order();
-            
 
+            ViewData["orderSummary"] = "detailed";
 
             return View(orderViewModel);
         }
@@ -39,13 +39,13 @@ namespace InventoryManagementSystem.Controllers
             for (int i = 0; i < orderGroup.products.Count(); i++) //iterate over products to set order foreign key to order
             {
                 orderGroup.products[i].Order = orderGroup.order;
-                orderGroup.order.Total += orderGroup.products[i].Price;
+                orderGroup.order.Total += orderGroup.products[i].Price + orderGroup.order.DeliveryFee;
             }
 
             if (orderGroup.paymentHistory != null) //if model includes downpayment, set order foreign key to order and
             {                                          //update order balance
                 orderGroup.paymentHistory[0].Order = orderGroup.order;
-                orderGroup.order.Balance = orderGroup.order.Total - orderGroup.paymentHistory[0].PaymentAmount;
+                orderGroup.order.Balance = orderGroup.order.Total -  orderGroup.paymentHistory[0].PaymentAmount;
             }
 
             orderGroup.order.Order_date = DateTime.Now;
@@ -116,7 +116,7 @@ namespace InventoryManagementSystem.Controllers
                 bool orderBalance = updatedOrder.Balance == existingOrder.Balance;
                 bool orderTotal = updatedOrder.Total == existingOrder.Total;
                 bool orderComThread = updatedOrder.Com_thread == existingOrder.Com_thread.Trim();
-                bool deliver = updatedOrder.Delivery == existingOrder.Delivery;
+                bool deliver = updatedOrder.DeliveryFee == existingOrder.DeliveryFee;
                 bool status = updatedOrder.Order_status == existingOrder.Order_status;
                 bool outoftown = updatedOrder.Out_Of_Town == existingOrder.Out_Of_Town;
 
@@ -132,8 +132,14 @@ namespace InventoryManagementSystem.Controllers
                     existingOrder.Total = updatedOrder.Total;
                 if (updatedOrder.Com_thread != existingOrder.Com_thread.Trim())
                     existingOrder.Com_thread = updatedOrder.Com_thread;
-                if (updatedOrder.Delivery != existingOrder.Delivery)
-                    existingOrder.Delivery = updatedOrder.Delivery;
+                if (updatedOrder.DeliveryFee != existingOrder.DeliveryFee) 
+                {
+                    
+                    existingOrder.Total = existingOrder.Total - existingOrder.DeliveryFee + updatedOrder.DeliveryFee; //update total and balance
+                    existingOrder.Balance = existingOrder.Balance - existingOrder.DeliveryFee + updatedOrder.DeliveryFee;
+                    existingOrder.DeliveryFee = updatedOrder.DeliveryFee;
+                }
+                    
                 if (updatedOrder.Order_status != existingOrder.Order_status)
                     existingOrder.Order_status = updatedOrder.Order_status;
                 if (updatedOrder.Out_Of_Town != existingOrder.Out_Of_Town)
@@ -141,7 +147,7 @@ namespace InventoryManagementSystem.Controllers
 
                 if (updatedCustomer.fullName != existingCustomer.fullName.Trim())
                 {
-                    existingCustomer.fullName = updatedCustomer.fullName;
+                    existingCustomer.fullName = updatedCustomer.fullName.Trim();
 
                 }
 
@@ -152,9 +158,9 @@ namespace InventoryManagementSystem.Controllers
 
                 existingOrder.Customer = existingCustomer;
 
-                var orderCustomerDetailsPartialModel = new OrderCustomerDetailsViewModel(existingOrder);
+                
 
-                return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", orderCustomerDetailsPartialModel);
+                    return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", existingOrder);
             }
         }
 

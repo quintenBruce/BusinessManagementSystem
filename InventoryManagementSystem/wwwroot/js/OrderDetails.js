@@ -12,6 +12,7 @@ document.getElementById("edit-switch").checked = false
 
 
 function toggleEdit() {
+    
     if (document.getElementById("edit-switch").checked == true) {
 
         //enable order and customer information inputs
@@ -188,7 +189,10 @@ function toggleEdit() {
 
 
 
-
+var toggleEditCall = function () {
+    document.getElementById("edit-switch").checked = false
+    toggleEdit()
+}
 
 
 
@@ -203,7 +207,7 @@ var paymentUpdate = function () {
 
     $(".set-payment-amount").each(function () {
         
-        console.log(parseFloat($(this).val()))
+       
         totalPayments += parseFloat($(this).val())
     })
 
@@ -231,9 +235,11 @@ var productUpdate = function () {
 
 
     //add each product price to totalPrice variable
+    totalPrice += parseFloat($("#delivery-fee-input").val())
+    console.log("this~~~~")
+    console.log(parseFloat($("#delivery-fee-input").val()))
     $(".set-product-price").each(function () {
-        console.log(totalPrice)
-        console.log($(this).val())
+        
         totalPrice += parseFloat($(this).val())
     })
 
@@ -273,13 +279,13 @@ function addProduct() {
     var newProductRow = $("#sample-product").clone()
 
     //if adding first product and that product has the grey class
-    if (productCount == 0 && newProductRow.hasClass("order-details-table-row-grey")) 
+    if (productCount == 0 && newProductRow.hasClass("table-row-grey")) 
         productGreyRow = true //grey row is true
     
 
   
     //if grey row is false then remove grey class, else, add grey class
-    productGreyRow == false ? newProductRow.removeClass("order-details-table-row-grey") : newProductRow.addClass("order-details-table-row-grey")
+    productGreyRow == false ? newProductRow.removeClass("table-row-grey") : newProductRow.addClass("table-row-grey")
 
 
     newProductRow.css("display", "flex")
@@ -316,11 +322,11 @@ function addPayment() {
     var newPaymentRow = $("#sample-payment").clone()
 
     //if adding first payment and that product has the grey class
-    if (paymentCount == 0 && newPaymentRow.hasClass("order-details-table-row-grey"))
+    if (paymentCount == 0 && newPaymentRow.hasClass("table-row-grey"))
         paymentGreyRow = true //grey row is true
 
     //if grey row is false then remove grey class, else, add grey class
-    paymentGreyRow == false ? newPaymentRow.removeClass("order-details-table-row-grey") : newPaymentRow.addClass("order-details-table-row-grey")
+    paymentGreyRow == false ? newPaymentRow.removeClass("table-row-grey") : newPaymentRow.addClass("table-row-grey")
 
     newPaymentRow.css("display", "flex")
     newPaymentRow.addClass("new-product-row")

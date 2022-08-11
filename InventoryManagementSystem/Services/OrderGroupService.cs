@@ -30,11 +30,6 @@ namespace InventoryManagementSystem.Services
                 }
                 status = context.SaveChanges();
 
-               
-                
-
-                status = context.SaveChanges();
-
                 return status == 0 ? false : true;
 
             }

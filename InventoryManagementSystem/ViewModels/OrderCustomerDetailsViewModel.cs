@@ -10,7 +10,7 @@ namespace InventoryManagementSystem.ViewModels
         public OrderCustomerDetailsViewModel(Order order)
         {
             this.order = order;
-            this.order.Customer = customer;
+            this.order.Customer = order.Customer;
         }
     }
 }

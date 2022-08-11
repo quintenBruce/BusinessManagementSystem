@@ -55,7 +55,7 @@
                         <input type="hidden" name=@("products[" + productCount.ToString() + "].Order.Id") value=@product.Order.Id form="edit-products-form" />
                         <input type="hidden" name=@("products[" + productCount.ToString() + "].Id") value=@product.Id form="edit-products-form" />
 
-                                <div id=@("product" + productCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")">
+                                <div id=@("product" + productCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(productCount % 2 == 0 ? "table-row-grey" : "")">
                                     <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                                         <div class="row w-100">
                                             <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
@@ -142,7 +142,7 @@
             @*PARENT ROWS*@
                     
             
-            <div id="add-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="add-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                 <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                    <div class="row w-100">
                        <div class="col-12 col-sm-6 d-flex align-items-center">
@@ -152,7 +152,7 @@
                </div>
             </div>
 
-            <div id="edit-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="edit-products-submit-button-row" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                 <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                    <div class="row w-100">
                        <div class="col-12 col-sm-6 d-flex align-items-center">
@@ -163,7 +163,7 @@
             </div>
 
             
-            <div id="sample-product" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "order-details-table-row-grey" : "")" style="display: none">
+            <div id="sample-product" class="row pt-3 pt-lg-0 pb-3 pb-lg-0 order-details-table-row @(productCount % 2 == 0 ? "table-row-grey" : "")" style="display: none">
                                 <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
                                     <div class="row w-100">
                                         <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">

@@ -1,0 +1,73 @@
+﻿
+
+@{
+    var ljslkdf = ViewBag.Duration;
+    var lsakdjf = 83;
+}
+
+
+
+
+
+<div class="mb-lg-4 m-md-5 m-3 mt-3 mt-md-3">
+   <div class="row">
+      <div class="col-lg-6">
+         <div class="flex-fill white-card rounded h-100 p-3">
+            <div class="row">
+               <h5 class="mb-4">Delivery Tool</h5>
+            </div>
+            <form id="delivery-tool-form" action="/Tools/DeliveryTool" data-ajax="true" data-ajax-method="post" data-ajax-update="#deliver-tool-partial"  data-ajax-loading="#load" >
+
+            <div class="row pb-4">
+               <p class="col-6">Delivery Address</p>
+               <input type="text" class="col-5 order-details-input-active" name="address"/>
+            </div>
+            <div class="row pb-3">
+               <p class="col-6">Gas Price</p>
+               <input type="number" value="3.5" class="col-5 order-details-input-active" name="gasPrice"/>
+            </div>
+            <div class="row pb-3 d-flex">
+               <input type="submit" class="btn" value="Submit" style="margin-left: calc(var(--bs-gutter-x) * .5); width: 100px; color: rgb(108, 117, 125); background-color: rgb(240, 240, 240); border: medium none;" >
+            </div>
+            </form>
+            <div id="loading-icon-container" class="row d-flex justify-content-center align-items-center">                
+                <img id="load" style="width: 50px; display:none;" src="https://res.cloudinary.com/dmremrlru/image/upload/v1660180355/loading-buffering_hutsmm.gif" alt="" />
+            </div>
+            <!--insert if statement-->
+            @if (ViewBag.Response == true)
+            {
+                    <div class="row pb-3">
+                       <p class="col-6">Distance</p>
+                       <p class="col-6">@(ViewBag.Distance) Miles</p>
+                    </div>
+                    <div class="row pb-3">
+                       <p class="col-6">Duration</p>
+                       <p class="col-6">@(ViewBag.Duration)</p>
+                    </div>
+                    <div class="row pb-3">
+                       <p class="col-6">Fuel Cost</p>
+                       <p class="col-6">$@(ViewBag.TripCost)</p>
+                    </div>
+                    <div class="row pb-3">
+                       <p class="col-6">Suggested Delivery Fee</p>
+                       <p class="col-6">$@(ViewBag.SuggestedDeliveryFee).00</p>
+                    </div>
+                    <div class="row pb-2">
+                       <iframe
+                          width="600"
+                          height="350"
+                          style="border-radius: 4%"
+                          loading="lazy"
+                          allowfullscreen
+                          referrerpolicy="no-referrer-when-downgrade"
+                          src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyCw3HMSfl7k1HeJnNxeWR-YXVlTxXqcMWQ
+                          &origin=33.53091556874041,%20-101.96229348385079&destination=@(ViewBag.Address)&maptype=satellite">
+                       </iframe>
+
+                    </div>
+            }
+            
+         </div>
+      </div>
+   </div>
+</div>

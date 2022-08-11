@@ -63,7 +63,7 @@
                     <div class="col-12 col-sm-6 d-flex align-items-center">
                         <p class="">Name</p>
                     </div>
-                    <input class="col-11 col-sm-5 order-details-input-inactive" name="updatedCustomer.First_name" type="text" value='@(Model.Customer.fullName.ToString())' disabled/>
+                    <input class="col-11 col-sm-5 order-details-input-inactive" name="updatedCustomer.fullName" type="text" value='@(Model.Customer.fullName.ToString())' disabled/>
                    
                 </div>
                 <div class="row pb-4">
@@ -80,10 +80,10 @@
                 </div>
                 <div class="row pb-4">  
                     <div class="col-12 col-sm-6 d-flex align-items-center">  
-                        <p class="">Delivery</p>
+                        <p class="">Delivery Fee</p>
                     </div>
                     <div class="col-11 col-sm-5 d-flex justify-content-start">
-                        <input class="order-details-input-inactive" name="updatedOrder.Delivery" type="checkbox" value="true" disabled @(Model.Delivery == true ? "checked" : "")/>
+                        <input id="delivery-fee-input" class="order-details-input-inactive" name="updatedOrder.DeliveryFee" type="number" value=@Model.DeliveryFee disabled/>
                     </div> 
                 </div>
                 <div class="row pb-4">

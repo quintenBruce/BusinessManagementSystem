@@ -1,144 +1,154 @@
-﻿var productIndex = 0;
-if (productIndex == 0) {
-    document.getElementById("remove-product").style.display = "none";
-}
+﻿
+if (productIndex == 0) 
+    document.getElementById("remove-product").style.display = "none"
 
 
 
-var priceInputElement0 = document.getElementById("orderGroup_products_0__Price");
-priceInputElement0.addEventListener("change", updateTotalPrice);
+function updateTotalAndBalance() {
+    var totalPrice = 0
+    var totalPriceSpan = $("#total-price")
+    var balanceSpan = $("#balance")
 
-function updateTotalPrice(e) {
-    var totalPrice = 0;
-    var totalPriceSpan = document.getElementById("total-price");
+
     var j;
     for (j = 0; j < productIndex + 1; j++) {
-        var currentPrice = parseInt(document.getElementById("orderGroup_products_" + j.toString() + "__Price").value);
-        if (isNaN(currentPrice) == false) {
-            totalPrice += currentPrice;
-        }
-
+        var currentPrice = parseInt($("#orderGroup_products_" + j.toString() + "__Price").val())
+        if (currentPrice)
+            totalPrice += currentPrice
     }
-    totalPriceSpan.innerHTML = totalPrice.toString();
+
+    if (parseInt($("#order-deliver-fee").val()))
+        totalPrice += parseInt($("#order-deliver-fee").val()) //add delivery fee to total price
+
+    isNaN(totalPrice) ? totalPriceSpan.html("0") : totalPriceSpan.html(totalPrice.toString())
+
+   $("#downpayment-amount").val() == "" ? balanceSpan.html(totalPrice.toString()) : balanceSpan.html(totalPrice - parseInt($("#downpayment-amount").val()))
 }
+
+
+
+
+
+
+
+
+
+$("#orderGroup_products_0__Price, #order-deliver-fee, #downpayment-amount").each(function () { //add change event listener to update total price
+    $(this).change(function () {
+        updateTotalAndBalance()
+    })
+})
+
+
+
 
 
 
 const form = document.getElementById("order-form");
+
+
+
 form.addEventListener("submit", (e) => {
-    console.log(errors);
     var errors = 0;
 
-    if (customerName.value === "" || customerName.value == null) {
+    var customerName = $("#customer-full-name").val().trim()
+    var communcationThread = $("#customer-com-thread").val()
+    var fulfillmentDate = $("#order-fulfillment-date").val();
+
+    if (customerName == "") {
         errors += 1;
-        document.getElementById("customer_First_name_validation").innerHTML = "Customer First Name Is Required";
+        $("#customer_First_name_validation").html("Customer First Name Is Required")
     }
 
     else 
-        document.getElementById("customer_First_name_validation").innerHTML = "";
+        $("#customer_First_name_validation").html("")
     
 
-    if (communcationThread.value == "Select a communication thread") {
+    if (communcationThread == "Select a communication thread") {
         errors += 1;
-        document.getElementById("order_Com_thread_validation").innerHTML = "Communication Thread Is Required";
+        $("#order_Com_thread_validation").html("Communication Thread Is Required")
     }
 
     else 
-        document.getElementById("order_Com_thread_validation").innerHTML = "";
+        $("#order_Com_thread_validation").html("")
     
 
 
-    if (orderFulfillmentDate.value === "" || orderFulfillmentDate.value == null) {
+    if (fulfillmentDate == "") {
         errors += 1;
-        document.getElementById("order_Order_fulfillment_date_validation").innerHTML = "Order Fulfillment Date Is required";
+        $("#order_Order_fulfillment_date_validation").html("Order Fulfillment Date Is required")
     }
 
     else
-        document.getElementById("order_Order_fulfillment_date_validation").innerHTML = "";
+        $("#order_Order_fulfillment_date_validation").html("")
 
     var i;
     for (i = 0; i < productIndex + 1; i++) {
-        if (document.getElementById("orderGroup_products_" + i.toString() + "__Name").value === "" || document.getElementById("orderGroup_products_" + i.toString() + "__Name").value == null) {
+        if ($("#orderGroup_products_" + i.toString() + "__Name").val() === "" ) {
             errors += 1;
-            if (document.getElementById("products_" + i.toString() + "__Name_validation") == null) {
-                var message = document.createElement("span");
-                message.id = "products_" + i.toString() + "__Name_validation";
-                message.className = "text-danger";
-                message.innerHTML = "Product Name Is Required";
-                var parent = document.getElementById("orderGroup_products_" + i.toString() + "__Name").parentNode;
-                parent.appendChild(message);
+            if (!$("#products_" + i.toString() + "__Name_validation").length) { //create error message span
+                var message = $("<span>Product Name Is Required</span>")
+                               .addClass("text-danger")
+                               .attr("id", "products_" + i.toString() + "__Name_validation")
+
+                var parent = $("#orderGroup_products_" + i.toString() + "__Name").parent();
+                parent.append(message)
             }
         }
-        else {
-            if (document.getElementById("products_" + i.toString() + "__Name_validation") != null) {
-                document.getElementById("products_" + i.toString() + "__Name_validation").remove();
-            }
-        }
-
-
-
-
-        if (document.getElementById("orderGroup_products_" + i.toString() + "__Category_Id").value == "Select a category") {
-            errors += 1;
-
-            if (document.getElementById("categoryIds_" + i.toString() + "_validation") == null) {
-
-                var message = document.createElement("span");
-                message.id = "categoryIds_" + i.toString() + "_validation";
-                message.className = "text-danger";
-                message.innerHTML = "Category Is Required";
-                var parent = document.getElementById("orderGroup_products_" + i.toString() + "__Category_Id").parentNode;
-                parent.appendChild(message);
-            }
-        }
-        else {
-
-            if (document.getElementById("categoryIds_" + i.toString() + "_validation") != null) {
-                document.getElementById("categoryIds_" + i.toString() + "_validation").remove();
+        else { //delete error message span
+            if ($("#products_" + i.toString() + "__Name_validation").length) {
+                $("#products_" + i.toString() + "__Name_validation").remove();
             }
         }
 
-        if (document.getElementById("orderGroup_products_" + i.toString() + "__Price").value === "" || document.getElementById("orderGroup_products_" + i.toString() + "__Price").value == null) {
+
+
+
+        if (!$("#orderGroup_products_" + i.toString() + "__Category_Id").val()) {
             errors += 1;
 
-            if (document.getElementById("products_" + i.toString() + "__Price_validation") == null) {
+            if (!$("#categoryIds_" + i.toString() + "_validation").length) {
 
-                var message = document.createElement("span");
-                message.id = "products_" + i.toString() + "__Price_validation";
-                message.className = "text-danger";
-                message.innerHTML = "Product Price Is Required";
-                var parent = document.getElementById("orderGroup_products_" + i.toString() + "__Price").parentNode;
-                parent.appendChild(message);
+                var message = $("<span>Category Is Required</span>")
+                                .addClass("text-danger")
+                                .attr("id", "categoryIds_" + i.toString() + "_validation")
+
+                var parent = $("#orderGroup_products_" + i.toString() + "__Category_Id").parent();
+                parent.append(message)
             }
         }
         else {
 
-            if (document.getElementById("products_" + i.toString() + "__Price_validation") != null) {
-                document.getElementById("products_" + i.toString() + "__Price_validation").remove();
+            if ($("#categoryIds_" + i.toString() + "_validation").length) {
+                $("#categoryIds_" + i.toString() + "_validation").remove();
             }
+        }
+
+        if ($("#orderGroup_products_" + i.toString() + "__Price").val() === "") {
+            errors += 1;
+
+            if (!$("#products_" + i.toString() + "__Price_validation").length) {
+
+                var message = $("<span>Product Price Is Required</span>")
+                               .addClass("text-danger")
+                               .attr("id", "products_" + i.toString() + "__Price_validation");
+   
+                var parent = $("#orderGroup_products_" + i.toString() + "__Price").parent().parent();
+                parent.append(message)
+            }
+        }
+        else {
+
+            if ($("#products_" + i.toString() + "__Price_validation")) 
+                $("#products_" + i.toString() + "__Price_validation").remove();
+            
         }
 
     }
 
-
-
-
-
-    console.log(errors);
-
-    if (errors > 0) {
+    if (errors > 0) 
         e.preventDefault();
-    }
-
-    else {
-        console.log($("#customer-first-name-input").val())
-        if ($("#customer-middle-name-input").val() != "")
-            $("#customer-first-name-input").val($("#customer-first-name-input").val().concat(" ", $("#customer-middle-name-input").val()))
-        if ($("#customer-last-name-input").val() != "")
-            $("#customer-first-name-input").val($("#customer-first-name-input").val().concat(" ", $("#customer-last-name-input").val()))
-
-        console.log($("#customer-first-name-input").val())
-    }
+    
 
 })
 
@@ -146,16 +156,13 @@ form.addEventListener("submit", (e) => {
 
 
 
-var customerName = document.getElementById("customer-first-name-input");
-var communcationThread = document.getElementById("orderGroup_order_Com_thread");
-var orderFulfillmentDate = document.getElementById("orderGroup_order_Order_fulfillment_date");
 
 
 
-
+var productIndex = 0;
 
 function addProduct() {
-    productIndex += 1;
+    productIndex += 1
     if (productIndex == 0) {
         document.getElementById("remove-product").style.display = "none";
     }
@@ -163,49 +170,65 @@ function addProduct() {
     else {
         document.getElementById("remove-product").style.display = "initial";
     }
-    var form = document.getElementById("order-form");
-    var buttonRow = document.getElementById("button-row");
-    var productDiv = document.getElementById("product-input-0").cloneNode(true);
-    productDiv.id = "product-input-" + productIndex.toString();
-    var productDivChildNodes = productDiv.children;
-    productDivChildNodes[0].children[0].children[1].id = "orderGroup_products_" + productIndex.toString() + "__Name"; //product name input id and name update
-    productDivChildNodes[0].children[0].children[1].setAttribute("name", "orderGroup.products[" + productIndex.toString() + "].Name");
-    productDivChildNodes[0].children[0].children[1].value = "";
-    if (productDivChildNodes[0].children[0].children[2] != null) {
-        productDivChildNodes[0].children[0].children[2].remove();
-    }
-    productDivChildNodes[0].children[1].children[1].id = "orderGroup_products_" + productIndex.toString() + "__Description"; //product description id and name update
-    productDivChildNodes[0].children[1].children[1].setAttribute("name", "orderGroup.products[" + productIndex.toString() + "].Description");
-    productDivChildNodes[0].children[1].children[1].value = "";
-    productDivChildNodes[0].children[2].children[1].id = "orderGroup_products_" + productIndex.toString() + "__Dimensions"; //product description id and name update
-    productDivChildNodes[0].children[2].children[1].setAttribute("name", "orderGroup.products[" + productIndex.toString() + "].Dimensions");
-    productDivChildNodes[0].children[2].children[1].value = "";
-    productDivChildNodes[0].children[3].children[1].id = "orderGroup_products_" + productIndex.toString() + "__Category_Id"; //product description id and name update
-    productDivChildNodes[0].children[3].children[1].setAttribute("name", "orderGroup.products[" + productIndex.toString() + "].Category.Id");
-    if (productDivChildNodes[0].children[3].children[2] != null) {
-        productDivChildNodes[0].children[3].children[2].remove();
-    }
-    productDivChildNodes[0].children[4].children[1].children[1].id = "orderGroup_products_" + productIndex.toString() + "__Price"; //product description id and name update
-    productDivChildNodes[0].children[4].children[1].children[1].setAttribute("name", "orderGroup.products[" + productIndex.toString() + "].Price");
-    productDivChildNodes[0].children[4].children[1].children[1].value = "";
-    productDivChildNodes[0].children[4].children[1].children[1].addEventListener("change", updateTotalPrice);
-    if (productDivChildNodes[0].children[4].children[1].children[2] != null) {
-        productDivChildNodes[0].children[4].children[1].children[2].remove();
-    }
 
-    form.insertBefore(productDiv, buttonRow);
+    var container = $("#create-order-div");
+    var buttonRow = $("#button-row").parent();
+    var newProductRow = $("#initial-product-row").clone();
+
+    productIndex % 2 == 1 ? newProductRow.removeClass("table-row-grey") : newProductRow.addClass("table-row-grey")
+
+    newProductRow.find("span").each(function () {
+        if ($(this).html() != "$")
+            $(this).html("")
+    })
+
+    newProductRow.find("input").filter(function () {
+        console.log($(this).attr('id'))
+        return $(this).attr('id') == "orderGroup_products_0__Name";
+    }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Name")
+      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Name")
+      .val("")
+    
+    
+    newProductRow.find("textarea").filter(function () {
+        return $(this).attr('id') == "orderGroup_products_0__Description";
+    }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Description")
+      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Description")
+      .val("")
+
+    newProductRow.find("input").filter(function () {
+        return $(this).attr('id') == "orderGroup_products_0__Dimensions";
+    }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Dimensions")
+      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Dimensions")
+      .val("")
+
+    newProductRow.find("select").filter(function () {
+        return $(this).attr('id') == "orderGroup_products_0__Category_Id";
+    }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Category_Id")
+      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Category.Id")
+      .val("")
+
+    newProductRow.find("input").filter(function () {
+        return $(this).attr('id') == "orderGroup_products_0__Price";
+    }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Price")
+      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Price")
+      .val("")
+      .change(function () { //add change event listener 
+          updateTotalAndBalance()
+      })
+    
+
+
+    newProductRow.attr("id", "product-input-" + productIndex.toString())
+    newProductRow.insertBefore(buttonRow)
 
 }
 
 function removeProduct() {
     productIndex -= 1;
 
-    if (productIndex <= 0) {
-        document.getElementById("remove-product").style.display = "none";
-        document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
-    }
-    else {
-        document.getElementById("remove-product").style.display = "initial";
-        document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
-    }
+    productIndex <= 0 ? document.getElementById("remove-product").style.display = "none" : document.getElementById("remove-product").style.display = "initial";  
+    
+    document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
+    updateTotalAndBalance()
 }

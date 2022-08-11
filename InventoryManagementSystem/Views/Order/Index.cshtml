@@ -9,126 +9,203 @@
 <div class="m-5 mb-3">
     <h4 class="page-header-text">Add Order</h4>
 </div>
-    
 
 
-<div class="order-create-div m-5 mt-2 p-3 pt-2" style="">
-    
-    <form id="order-form" asp-controller="Order" asp-action="Index" method="post" class="row d-flex">
-        <h4 class="mb-3 mt-2">Customer Information</h4>
-        <div class="col-lg-4 mb-2">
-            <label asp-for="orderGroup.order.Customer.fullName" class="form-label"></label>
-            <input id="customer-first-name-input" name="orderGroup.customer.fullName" type="text" class="input-class form-control form-control-sm"/>
-            <span id="customer_First_name_validation" class="text-danger"></span>
-        </div>
-        <div class="col-lg-4 mb-2">
-            <label class="form-label">Middle Name</label>
-            <input id="customer-middle-name-input" class="form-control form-control-sm"/>
-        </div>
-        <div class="col-lg-4 mb-2">
-            <label class="form-label">Last Name</label>
-            <input id="customer-last-name-input" class="form-control form-control-sm"/>
-        </div>
-        <div class="col-lg-4">
-            <label asp-for="orderGroup.order.Customer.Phone_number" class="form-label"></label>
-            <input aspzzzz-for="customer.Phone_number" class="form-control form-control-sm" />
-        </div>
-        <div class="col-lg-4">
-            <label asp-for="orderGroup.order.Com_thread" class="form-label"></label>
-            <select asp-for="orderGroup.order.Com_thread" class="input-class form-select form-select-sm">
-                <option class="input-class" selected>Select a communication thread</option>
-                <option class="input-class" value="Marketplace">Marketplace</option>
-                <option class="input-class" value="Page">Facebook Page</option>
-                <option class="input-class" value="Phone">Phone (SMS)</option>
-            </select>
-            <span id="order_Com_thread_validation" class="text-danger"></span>
-        </div>
-        <div class="col-lg-4 mb-2">
-            <div class="form-check" style="margin-bottom: .5rem;">
-                <label asp-for="orderGroup.order.Delivery" class="form-check-label"></label>
-                <input asp-for="orderGroup.order.Delivery" class="form-check-input" type="checkbox">
-            </div>
-            <div class="form-check">
-                <label asp-for="orderGroup.order.Out_Of_Town" class="form-check-label"></label>
-                <input asp-for="orderGroup.order.Out_Of_Town" class="form-check-input" type="checkbox">
-            </div>
-        </div>
-        <h4 class="mb-3">Order Information</h4>
-        <div class="col-lg-4 mb-2">
-            <label asp-for="orderGroup.order.Order_fulfillment_date" class="form-label"></label>
-            <input asp-for="orderGroup.order.Order_fulfillment_date" class="input-class form-control form-control-sm" type="date" placeholder="Order Fulfillment Date"/>    
-             <span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
-        </div> 
-        <div class="col-lg-4">
-            <label asp-for="orderGroup.paymentHistory[0].PaymentAmount" class="form-label"></label>
-            <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text">$</span>
-                <input asp-for="orderGroup.paymentHistory[0].PaymentAmount" class="form-control form-control-sm" type="number" step="0.01"/>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <label asp-for="orderGroup.paymentHistory[0].PaymentType" class="form-label"></label>
-            <select asp-for="orderGroup.paymentHistory[0].PaymentType" class="input-class form-select form-select-sm">
-                <option selected>Select a payment type</option>
-                <option class="input-class" value="Venmo">Venmo</option>
-                <option class="input-class" value="Cash App">Cash App</option>
-                <option class="input-class" value="Cash">Cash</option>
-                <option class="input-class" value="Other">Other</option>
-            </select>
-        </div>
-        <h4 class="mb-3">Product Information</h4>
-        <div id="product-input-0">
-            <div class="row">
-            <div class="col-lg-3 mb-2">
-                <label asp-for="orderGroup.products[0].Name" class="form-label"></label>
-                <input asp-for="orderGroup.products[0].Name" class="form-control form-control-sm" />    
-                
-            </div> 
-            <div class="col-lg-3 mb-2">
-                <label asp-for="orderGroup.products[0].Description" class="form-label"></label>
-                <textarea asp-for="orderGroup.products[0].Description" class="form-control form-control-sm" rows="1"></textarea>    
-            </div> 
-            <div class="col-lg-2 mb-2">
-                <label asp-for="orderGroup.products[0].Dimensions" class="form-label"></label>
-                <input asp-for="orderGroup.products[0].Dimensions" class="form-control form-control-sm" />    
-            </div> 
-            <div class="col-lg-2 mb-2">
-                <label class="form-label">Category</label>
-                <select asp-for="orderGroup.products[0].Category.Id" class="input-class form-select form-select-sm">
-                    <option selected>Select a category</option>
-                    @foreach (var category in (IEnumerable<Category>)ViewData["productCategories"])
-                    {
-                        <option class="input-class" value=@category.Id>@category.Name</option>
-                    }
-                </select>
-                
-            </div> 
-            <div class="col-lg-2 mb-2">
-                <label asp-for="orderGroup.products[0].Price" class="form-label"></label>
-                <div class="input-group input-group-sm mb-3" style="flex-wrap: unset;">
-                    <span class="input-group-text">$</span>
-                    <input style="width: 80%;"asp-for="orderGroup.products[0].Price" class="form-control form-control-sm" type="number" step="0.01"/>
-                    
-                </div>
-            </div> 
-           
-            </div>
-        </div>
-        <div id="button-row" class="row mb-2 mt-2 d-flex flex-row">
+<div id="create-order-div" class="m-md-5 m-3 mt-3 mt-md-3">
+	<form id="order-form" asp-controller="Order" asp-action="Index" method="post" class="row d-flex">
+	<div id="order-customer-info-container">
+		<div class="row">
+			<div class="col-lg-6 mb-3" style="padding-right: 0px;">
+				<div class="create-order-information p-3">
+					<h4 class="mb-4">Order Information</h4>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Order fulfillment date</p>
+						</div>
+						<input id="order-fulfillment-date" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Order_fulfillment_date" type="date">
+						<span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
+					</div>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Down Payment Amount</p>
+						</div>
+						<input id="downpayment-amount" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.paymentHistory[0].PaymentAmount" type="number">
+					</div>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Payment Type</p>
+						</div>
+						<select class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.paymentHistory[0].PaymentType" style="background-color:#ffffff;">
+							<option class="input-class" value="Venmo">Venmo</option>
+							<option class="input-class" value="Cash App">Cash App</option>
+							<option class="input-class" value="Cash">Cash</option>
+							<option class="input-class" value="Other">Other</option>
+						</select>
+					</div>
+					<div class="row">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Delivery Fee</p>
+						</div>
+						<input id="order-deliver-fee" class="col-11 col-sm-5 order-details-input-active number-input" name="orderGroup.order.DeliveryFee" type="number" />
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 mb-3" style="padding-left: 0px;">
+				<div class="create-customer-information p-3">
+					<h4 class="mb-4">Customer Information</h4>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Full Name</p>
+						</div>
+						<input id="customer-full-name" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Customer.fullName" type="text">
+						<span id="customer_First_name_validation" class="text-danger"></span>
+					</div>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Out-of-Town</p>
+						</div>
+						<div class="col-11 col-sm-5 d-flex justify-content-start">
+							<input asp-for="orderGroup.order.Out_Of_Town" type="checkbox">
+						</div>
+					</div>
+					<div class="row pb-4">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Communication Thread</p>
+						</div>
+						<select id="customer-com-thread" class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.order.Com_thread" style="background-color:#ffffff;">
+							<option class="input-class" selected>Select a communication thread</option>
+							<option class="input-class" value="Marketplace">Marketplace</option>
+							<option class="input-class" value="Page">Facebook Page</option>
+							<option class="input-class" value="Phone">Phone (SMS)</option>
+						</select>
+						<span id="order_Com_thread_validation" class="text-danger"></span>
+					</div>
+					<div class="row pb-1">
+						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
+							<p>Phone Number</p>
+						</div>
+						<input asp-for="orderGroup.order.Customer.Phone_number" type="number" class="col-11 col-sm-5 order-details-input-active number-input" type="number" >
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="rounded">
+			<h4 class="m-3 mt-1">Product Information</h4>
+			<div id="create-order-product-information-header-row" class="row">
+				<div class="col-2">
+					<h4 class="create-product-table-header">Name</h4>
+				</div>
+				<div class="col-4">
+					<h4 class="create-product-table-header">Description</h4>
+				</div>
+				<div class="col-2">
+					<h4 class="create-product-table-header">Dimensions</h4>
+				</div>
+				<div class="col-2">
+					<h4 class="create-product-table-header">Category</h4>
+				</div>
+				<div class="col-2">
+					<h4 class="create-product-table-header">Price</h4>
+				</div>
+			</div>
+		</div>
+		<div id="initial-product-row" class="row m-0 table-row-grey table-row">
+			<div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+				<div class="row w-100">
+					<div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+						<p>Name</p>
+					</div>
+					<div class="col-12 col-sm-5 col-lg-12">
+						<input id="orderGroup_products_0__Name" name="orderGroup.products[0].Name" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" name="products[1].Name">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 d-flex align-items-center pb-3 pb-lg-0">
+				<div class="row w-100">
+					<div class="col-12 col-sm-6 mobile-only-title">
+						<p>Description</p>
+					</div>
+					<div class="col-12 col-sm-5 col-lg-12">
+						<textarea id="orderGroup_products_0__Description" name="orderGroup.products[0].Description" class="order-details-product-textarea order-details-product-info-input-active product-description new-product-property" rows="1"  name="products[1].Description"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+				<div class="row w-100">
+					<div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+						<p>Dimensions</p>
+					</div>
+					<div class="col-12 col-sm-5 col-lg-12">
+						<input id="orderGroup_products_0__Dimensions" name="orderGroup.products[0].Dimensions" type="text" class="order-details-product-info-input-active product-dimensions new-product-property" name="products[1].Dimensions">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+				<div class="row w-100">
+					<div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+						<p>Category</p>
+					</div>
+					<div class="col-12 col-sm-5 col-lg-12">
+						<select id="orderGroup_products_0__Category_Id" value="" name="orderGroup.products[0].Category.Id" class="col-11 col-sm-5 order-details-product-info-input-active product-category new-product-property" style="background-color: white;" name="products[1].Category.Name">
+							@foreach (var category in (IEnumerable<Category>)ViewData["productCategories"])
+                            {
+                                <!option class="input-class" value="@category.Id">@category.Name.Trim()</!option>
+                            }    
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2 d-flex align-items-center pb-0 pb-lg-0">
+				<div class="row w-100">
+					<div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+						<p>Price</p>
+					</div>
+					<div class="col-12 col-sm-5 col-lg-12">
+						<div class="input-group input-group-sm" style="flex-wrap: unset;">
+							<span class="input-group-text">$</span>
+							<input id="orderGroup_products_0__Price" name="orderGroup.products[0].Price"  class="form-control form-control-sm" type="number" step="0.01" data-val="true" data-val-number="The field Price must be a number." data-val-required="The Price field is required." id="orderGroup_products_0__Price" name="orderGroup.products[0].Price" value="">
+                         </div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="row m-0">
+			<div id="button-row" class="row mb-2 mt-2 d-flex flex-row">
             <div class="col-5 d-flex justify-content-start">
-                <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success"/>
-                <button type="button"  class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
-                <button id="remove-product" type="button"  class="btn btn-danger" onclick="removeProduct(); updateTotalPrice();" style="margin-left: 10px;">Remove Product</button>
+                <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success">
+                <button type="button" class="btn btn-primary" onclick="addProduct()" style="margin-left: 10px;">Add Product</button>
+                <button id="remove-product" type="button" class="btn btn-danger" onclick="removeProduct(); updateTotalPrice();" style="margin-left: 10px; display: none;">Remove Product</button>
             </div>
             <div class="col-7 d-flex justify-content-end">  
-                <p>Total: <span class="lead">$</span><span id="total-price" class="lead">0</span></p>
+                <p>Total: <span class="lead">$</span><span id="total-price" class="lead">0</span> (Balance:  <span class="lead">$</span><span id="balance" class="lead">0</span>)</p>
             </div>
             
 
             
-       </div>
-    </form>
+       </div>	
+		</div>
+	</div>
+	 </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
 
 
 <div class="m-5 mb-3 mt-1">

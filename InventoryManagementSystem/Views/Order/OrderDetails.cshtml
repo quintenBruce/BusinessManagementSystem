@@ -47,7 +47,7 @@
 
 
 <div class="order-details-container p-md-5 p-3 pt-3 pt-md-3">
-    <form action="/Order/UpdateOrder" data-ajax="true" data-ajax-method="post" data-ajax-update="#order-customer-container"> 
+    <form action="/Order/UpdateOrder" data-ajax="true" data-ajax-method="post" data-ajax-update="#order-customer-container" data-ajax-success="toggleEditCall"> 
         <input type="hidden" name="updatedOrder.Id" value="@Model.order.Id" />
         <input type="hidden" name="updatedCustomer.Id" value="@Model.order.Customer.Id" />
         <div id="order-customer-container">

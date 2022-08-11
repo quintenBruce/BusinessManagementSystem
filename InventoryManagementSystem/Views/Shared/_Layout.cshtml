@@ -10,6 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Prompt:wght@200;300&family=Saira+Semi+Condensed:wght@300&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/lib/Script/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="https://kit.fontawesome.com/ec51af881c.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -40,10 +46,10 @@
         </div>
         <hr style="color: white; margin: 0px; margin: 0px 6px 0px 6px; margin-bottom: 5px; height: 2px;"/>
         <div id="sidenav-links" class="container d-flex flex-column p-0">
+            <a asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house" style="margin-right: 13px;"></i>Home</a>
             <a asp-controller="Order" asp-action="Index"><i class="fa-regular fa-paste" style="margin-right: 13px;"></i>Orders</a>
-            <a asp-controller="" asp-action=""><i class="fa-regular fa-user" style="margin-right: 13px;"></i>Clients</a>
+            <a asp-controller="Tools" asp-action="Index"><i class="fa-solid fa-wrench" style="margin-right: 13px;"></i>Tools</a>
             <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>
-            <a asp-controller="" asp-action=""><i class="fa-solid fa-coins" style="margin-right: 13px;"></i>Sales</a>
             <a asp-controller="Analytics" asp-action="Index"><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
         </div> 
         
@@ -74,10 +80,7 @@
             &copy; 2022 - InventoryManagementSystem
         </div>
     </footer>*@
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/Script/jquery.unobtrusive-ajax.js"></script>
+    
+    
 </body>
 </html>
