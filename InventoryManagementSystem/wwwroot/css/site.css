@@ -166,7 +166,7 @@ p, span {
 h2 {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    color: #555b5e;
+    color: #495057;
     font-size: 1.7rem;
 }
 
@@ -739,4 +739,67 @@ td {
     padding: 0px;
     margin: 0px;
     color: #6b747d;
+}
+
+.btn-primary-2 {
+    color: #fff;
+    background-color: #3f80ea;
+    border-color: #3f80ea;
+}
+
+#entry-container {
+    border-radius: .55rem;
+    border-color: #ced4da;
+    border-style: solid;
+    border-width: .13rem;
+    color: #212529;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.drawing-trash-icon {
+    color: #6c757d;
+}
+
+.remove-entry {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+
+#winner-alert-container {
+    z-index: 8;
+    width: 76vw;
+    height: fit-content;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e4e4e4;
+    border-radius: 15px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    max-width: 1200px;
+    min-height: 37vh;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    color: #495057;
+    
+}
+
+.center-text {
+    text-align: center;
+}
+
+h3 {
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    color: rgb(73, 80, 87);
+    font-size: 1.7rem;
 }

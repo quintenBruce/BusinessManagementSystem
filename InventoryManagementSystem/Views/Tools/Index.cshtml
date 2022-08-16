@@ -2,6 +2,89 @@
     <h4 class="page-header-text">Tools</h4>
 </div>
 
-<div id="deliver-tool-partial">
-    <partial name="_DeliveryToolPartial">
+
+
+
+<div class="mb-lg-4 m-md-5 m-3 mt-3 mt-md-3">
+   <div class="row">
+      <div id="deliver-tool-partial" class="col-xl-6">
+         <partial name="_DeliveryToolPartial">
+      </div>
+      <div class="col-xl-6">
+            <form id="drawing-form"></form>
+         <div class="flex-fill white-card rounded p-3">
+            <div class="row">
+               <h5 class="mb-4">Drawing / Raffle Tool</h5>
+            </div>
+            <div class="row">
+               <div class="col-sm-3 col-12 div-flex center-justify-align">
+                  <div>
+                     <input id="num-winners-input" class="col-lg-3 w-100 form-control" style="display: inline-block;" placeholder="# Winners (1-3)" type="number" name="numWinners" min="1" max="3" form="drawing-form"/>
+                  </div>
+               </div>
+               <div class="col-sm-3 col-12 div-flex center-justify-align">
+                  <div class="w-75">
+                     <a id="draw-button" class="col-lg-3 btn btn-primary-2 w-100" style="display: inline-block; width: 80%;">Draw</a>
+                  </div>  
+               </div>
+               <div class="col-sm-3 col-12 div-flex center-justify-align">
+                  <div class="w-75">
+                     <a id="clear-button" class="col-lg-3 btn btn-primary-2 w-100" style="display: inline-block;">Clear</a>
+                  </div>    
+               </div>
+               <div class="col-sm-3 col-12 div-flex center-justify-align">  
+                  <div class="w-75">
+                     <a id="add-entry-button" class="col-lg-3 btn btn-primary-2 w-100" style="display: inline-block;">Add</a>
+                  </div>
+               </div>
+            </div> 
+            <div id="entry-container" class=" mt-4 p-2" style="display: none"></div>
+            
+         </div>
+         
+      </div>
+   </div>
+</div>  
+
+
+
+
+
+
+
+
+
+
+
+<div id="entry-row-prototype" class="row mt-2 entry-row prototype" style="display: none">
+    <div class="col-6">
+                     <input class="col-lg-3 w-100 form-control name-input" style="display: inline-block;" placeholder="Name" />
+                  </div>
+                  <div class="col-3">
+                     <input class="col-lg-3 w-100 form-control num-entries-input" style="display: inline-block;" placeholder="# Entries" />
+                  </div>
+                  <div class="col-3 d-flex center-justify-align">
+                     <button type="button" class="remove-entry"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle me-2 drawing-trash-icon">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                     </svg></button>
+                  </div>
 </div>
+
+
+<div id="winner-alert-container" class="pt-3 pb-5" style="display: none;">
+    <div class="row d-flex center-justify-align mt-5">   
+        <h1 class="center-text mb-4">Results Are In!!!</h1>
+        <h2 class="center-text mt-5"></h2>
+        <h3 class="center-text mt-3"></h3>
+        <h3 class="center-text mt-3"></h3>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="~/js/Tools.js"></script>
+
+  
+
+
+

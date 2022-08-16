@@ -4,6 +4,7 @@ using InventoryManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace InventoryManagementSystem.Controllers
 {
     public class OrderController : Controller
@@ -52,10 +53,10 @@ namespace InventoryManagementSystem.Controllers
             IOrderGroup orderGroupService = new OrderGroupService(); //call OrderService.CreateOrderGroup to create new order and other table rows
             orderGroupService.CreateOrderGroup(orderGroup.products, orderGroup.order, orderGroup.paymentHistory[0], orderGroup.order.Customer);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); 
         }
 
-
+        
         public ActionResult DeleteOrder(int orderId)
         {
             IOrder orderService = new OrderService();
