@@ -47,5 +47,13 @@ namespace InventoryManagementSystem.Services
                 return status == 0 ? false : true;
             }
         }
+
+        public static bool OrderExists(int orderId)
+        {
+            using (OrdersContext context = new OrdersContext())
+            {
+                return context.Orders.Any(order => order.Id == orderId);
+            }
+        }
     }
 }
