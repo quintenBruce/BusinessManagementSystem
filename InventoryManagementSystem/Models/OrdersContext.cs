@@ -4,6 +4,14 @@ namespace InventoryManagementSystem.Models
 {
     public class OrdersContext : DbContext
     {
+        public OrdersContext(DbContextOptions<OrdersContext> options)
+    : base(options)
+        { }
+
+        public OrdersContext()
+        {
+
+        }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Category> Categories { get; set; }

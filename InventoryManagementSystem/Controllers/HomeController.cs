@@ -8,15 +8,21 @@ namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public async Task<IActionResult> Index()
+        private readonly IProduct _productService;
+        public HomeController(IProduct productService)
         {
-            ICategory categoryInterface = new CategoryService();
+            _productService = productService;
+        }
+
+        public IActionResult Index()
+        {
+            
             HomeIndex orderViewModel = new HomeIndex();
             
 
 
-            IProduct productInterface = new ProductService();
-            orderViewModel.orderRetrievalModel.allProducts = await productInterface.GetAllProducts(); //assign all products from database to model.submodel
+            
+            orderViewModel.orderRetrievalModel.allProducts = _productService.GetProducts(); //assign all products from database to model.submodel
 
             using (OrdersContext context = new OrdersContext())
             {

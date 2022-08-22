@@ -116,8 +116,7 @@
                     </div>
                     <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
-                        
-                        <partial name="_OrderDetailsButtonPartial" for=@order>
+                        <a href="@Url.Action("OrderDetails", "Order", new {id=order.Id})" class="btn btn-light order-table-button"><i class="fa-solid fa-pencil"></i></a>
                         <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
                     </div>
                 </div>
@@ -197,13 +196,12 @@
             string customer_name = order.Customer.fullName;
             string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
             locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-            var products = new List<Product>();
-            products = Model.allProducts.Where(a => a.Order == order).ToList();
+            List<Product> products = Model.allProducts.Where(a => a.Order == order).ToList();
 
             var difference = (order.Order_fulfillment_date - DateTime.Now.Date).Days;
             string orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
 
-            var orderPaymentHistory = new List<PaymentHistory>();
+            List<PaymentHistory> orderPaymentHistory = new();
 
             foreach (var payment in Model.allPaymentHistories)
             {
@@ -252,7 +250,7 @@
                         </div>
                         <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
-                            <partial name="_OrderDetailsButtonPartial" for=@order>
+                            <a href="@Url.Action("OrderDetails", "Order", new {id=order.Id})" class="btn btn-light order-table-button"><i class="fa-solid fa-pencil"></i></a>
                             <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
                         </div>
                     </div>

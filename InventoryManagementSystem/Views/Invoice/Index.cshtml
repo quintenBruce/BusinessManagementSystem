@@ -1,1 +1,237 @@
-﻿<h1>jdhasdjkjsdf</h1>
+﻿@model InventoryManagementSystem.ViewModels.InvoiceViewModel
+
+
+ 
+@{
+    var jlsdkfj = Model.SubTotal;
+    var slkdf = 2;
+}
+
+
+
+
+<form id="edit-template-form" method="post" asp-controller="Invoice" asp-action="GetInvoice" class="row d-flex"></form>
+<div class="m-5 mb-3">
+    <h4 class="page-header-text">Edit Invoice</h4>
+</div>
+<div id="edit-template-container" class="m-md-5 m-3  mb-md-0 mt-3 mt-md-3 p-0">
+    <h4 class="p-3">Order Information</h4>
+    <div class="row">
+        <div class="col-lg-6 mb-2" style="padding-right: 0px;">
+            <div class="create-order-information p-3">
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Payment Due Date</p>
+                    </div>
+                    <input asp-for=PaymentDueBy placeholder="Payment Due Date" class="col-11 col-sm-5 order-details-input-active" form="edit-template-form">
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0">
+                        <p>Customer Information</p>
+                    </div>
+                    <input asp-for=CustomerInformation value=@Model.CustomerInformation placeholder="Customer Info" class="col-11 col-sm-5 order-details-input-active" form="edit-template-form">
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Discount/Promotion</p>
+                    </div>
+                    <input asp-for=Discount placeholder="Discount/Promotion" class="col-11 col-sm-5 order-details-input-active" value="----" form="edit-template-form">
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Special Notes</p>
+                    </div>
+                    <textarea asp-for=SpecialNotes placeholder="Special Notes" class="col-11 col-sm-5 order-details-input-active number-input" form="edit-template-form"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-3" style="padding-left: 0px;">
+            <div class="create-customer-information p-3">
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Subtotal</p>
+                    </div>
+                    <div class="col-11 col-sm-5" style="flex-wrap: unset;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">$</span>
+                            <input asp-for=SubTotal value=@Model.SubTotal placeholder="Subtotal" class="form-control form-control-sm" type="number" value="@Model.SubTotal" form="edit-template-form">
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Tax Rate</p>
+                    </div>
+                    <div class="col-11 col-sm-5" style="flex-wrap: unset;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">%</span>
+                            <input asp-for=TaxRate value=@Model.TaxRate placeholder="Tax Rate (%)" class="form-control form-control-sm" type="number" value="0" form="edit-template-form">
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Tax</p>
+                    </div>
+                    <div class="col-11 col-sm-5" style="flex-wrap: unset;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">$</span>
+                            <input asp-for=Tax value=@Model.Tax placeholder="Tax ($)" class="form-control form-control-sm" type="number" value="0" form="edit-template-form">
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-1">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Total</p>
+                    </div>
+                    <div class="col-11 col-sm-5" style="flex-wrap: unset;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text">$</span>
+                            <input asp-for=Total value=@Model.Total placeholder="Total ($)" class="form-control form-control-sm" type="number" value=@Model.Total  form="edit-template-form">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="edit-template-container" class="m-md-5 m-3 mt-1  mb-md-0 mt-md-3 p-0 pb-3">
+    <h4 class="p-3">Item Information</h4>
+    <div id="create-order-product-information-header-row" class="row">
+        <div class="col-6">
+            <h4 class="order-table-header-item">Description</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Cost</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">QTY</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Amount</h4>
+        </div>
+    </div>
+    @for (int i = 0; i < Model.ItemDescriptions.Count; i++)
+    {
+    <div class="row m-0 @(i % 2 == 0 ? "table-row-grey" : "") table-row">
+        <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>Description</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <textarea asp-for="ItemDescriptions[i]" rows="1" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" placeholder="Item Info" form="edit-template-form"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 mobile-only-title">
+                    <p>Cost</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="ItemUnitCosts[i]" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Cost" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>QTY</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="ItemQTYs[i]" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="QTY" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>Amount</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="ItemAmounts[i]" type="text" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Amount" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+
+    <!--PAYMENT INFORMATION-->
+
+
+<div id="edit-template-container" class="m-md-5 mb-md-0 m-3 mt-1 mt-md-3 p-0">
+    <h4 class="p-3">Payment Information</h4>
+    <div id="create-order-product-information-header-row" class="row">
+        <div class="col-6">
+            <h4 class="order-table-header-item">Payment</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Cost</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">QTY</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Amount</h4>
+        </div>
+    </div>
+    @for (int i = 0; i < Model.PaymentDescriptions.Count; i++)
+    {
+    <div class="row m-0 @(i % 2 == 0 ? "table-row-grey" : "") table-row">
+        <div class="col-lg-6 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>Payment</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <textarea asp-for="PaymentDescriptions[i]" rows="1" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" placeholder="Payment Info" form="edit-template-form"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 mobile-only-title">
+                    <p>Cost</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="PaymentUnitCosts[i]" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Cost" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>QTY</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="PaymentQTYs[i]" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="QTY" form="edit-template-form" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+            <div class="row w-100">
+                <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                    <p>Amount</p>
+                </div>
+                <div class="col-12 col-sm-5 col-lg-12">
+                    <input asp-for="PaymentAmounts[i]" type="text" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Amount" form="edit-template-form">
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+    <div class="row m-0 mt-2">
+        <div id="button-row" class="row mb-2 mt-2 d-flex flex-row">
+            <div class="col-5 d-flex justify-content-start">
+                <input id="order-input-submit" type="submit" value="Generate Invoice" class="btn btn-primary-2"  form="edit-template-form">
+            </div>
+        </div>
+    </div>
+</div>

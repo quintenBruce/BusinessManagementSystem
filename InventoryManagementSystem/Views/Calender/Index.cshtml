@@ -1,0 +1,56 @@
+﻿@using InventoryManagementSystem.ViewModels
+@model List<CalenderViewModel>
+
+
+
+<link href='../lib/main.css' rel='stylesheet' />
+<script src='../lib/main.js'></script>
+
+
+
+<div id='calendar' class="m-4"></div>
+
+
+@{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+  var ksjgf = @Html.Raw(Json.Serialize(@Model))
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+   
+      initialDate: today,
+      editable: false,
+      selectable: true,
+      businessHours: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      events: ksjgf
+    });
+
+    calendar.render();
+  });
+
+</script>

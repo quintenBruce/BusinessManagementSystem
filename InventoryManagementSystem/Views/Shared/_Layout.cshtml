@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - InventoryManagementSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
     <link rel="stylesheet" href="~/InventoryManagementSystem.styles.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Prompt:wght@200;300&family=Saira+Semi+Condensed:wght@300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/lib/Script/jquery.unobtrusive-ajax.js"></script>
@@ -34,7 +35,7 @@
                 <a class="mobile-header-links" asp-controller="Analytics" asp-action="Index">Analytics</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Clients</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Products</a>
-                <a class="mobile-header-links" asp-controller="" asp-action="">Sales</a>
+                
             </div>
         </div>
         
@@ -47,6 +48,7 @@
         <hr style="color: white; margin: 0px; margin: 0px 6px 0px 6px; margin-bottom: 5px; height: 2px;"/>
         <div id="sidenav-links" class="container d-flex flex-column p-0">
             <a asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house" style="margin-right: 13px;"></i>Home</a>
+            <a asp-controller="Calender" asp-action="Index"><i class="fa-regular fa-calendar" style="margin-right: 13px;"></i>Calender</a>
             <a asp-controller="Order" asp-action="Index"><i class="fa-regular fa-paste" style="margin-right: 13px;"></i>Orders</a>
             <a asp-controller="Tools" asp-action="Index"><i class="fa-solid fa-wrench" style="margin-right: 13px;"></i>Tools</a>
             <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>

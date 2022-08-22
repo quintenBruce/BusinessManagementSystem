@@ -142,12 +142,14 @@ body, html {
     }
 }
 
-#create-order-div {
+#create-order-div, #edit-template-container {
     background-color: white;
     border-radius: 0.4rem !important;
     max-width: 2300px;
     box-shadow: 0 0 .875rem 0 rgba(41,48,66,.05);
 }
+
+
 
 label {
     font-family: 'Inter', sans-serif;
@@ -803,3 +805,35 @@ h3 {
     color: rgb(73, 80, 87);
     font-size: 1.7rem;
 }
+
+#calendar {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Full Calender styles */
+
+.fc-daygrid-event-harness > a { /*Targets event links*/
+    color: #6b747d;
+}
+
+.fc-col-header-cell-cushion { /* Day Abbreviation */
+    color: #6b747d;
+    text-decoration: none;
+}
+
+.fc-daygrid-day-number {
+    color: #6b747d;
+    text-decoration: none;
+}
+
+.fc-daygrid-more-link, .fc-more-link {
+    color: #6b747d;
+}
+
+.fc-daygrid-more-link:hover, .fc-more-link:hover {
+    color: #62666b;
+}
+
+
+

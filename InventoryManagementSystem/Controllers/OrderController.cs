@@ -9,15 +9,28 @@ namespace InventoryManagementSystem.Controllers
 {
     public class OrderController : Controller
     {
-        public async Task<ViewResult> Index()
+        private readonly IOrder _orderService;
+        private readonly IOrderGroup _orderGroupService;
+        private readonly IProduct _productService;
+        private readonly ICategory _categoryService;
+
+        public OrderController (IOrder orderService, IOrderGroup orderGroupService, IProduct productService, ICategory categoryService)
         {
-            ICategory categoryInterface = new CategoryService();
+            _orderService = orderService;
+            _orderGroupService = orderGroupService;
+            _productService = productService;
+            _categoryService = categoryService;
+        }
+
+        public ViewResult Index()
+        {
+            
             OrderIndex orderViewModel = new OrderIndex();
 
-            IProduct productInterface = new ProductService();
-            orderViewModel.orderRetrievalModel.allProducts = await productInterface.GetAllProducts(); //assigning all products from database to model.submodel
+            
+            orderViewModel.orderRetrievalModel.allProducts = _productService.GetProducts(); //assigning all products from database to model.submodel
 
-            using (OrdersContext context = new OrdersContext())
+            using (OrdersContext context = new())
             {
                 orderViewModel.orderRetrievalModel.allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
                 orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
@@ -50,8 +63,7 @@ namespace InventoryManagementSystem.Controllers
             }
 
             orderGroup.order.Order_date = DateTime.Now;
-            IOrderGroup orderGroupService = new OrderGroupService(); //call OrderService.CreateOrderGroup to create new order and other table rows
-            orderGroupService.CreateOrderGroup(orderGroup.products, orderGroup.order, orderGroup.paymentHistory[0], orderGroup.order.Customer);
+            _orderGroupService.CreateOrderGroup(orderGroup.products, orderGroup.order, orderGroup.paymentHistory[0], orderGroup.order.Customer);
 
             return RedirectToAction("Index"); 
         }
@@ -59,8 +71,7 @@ namespace InventoryManagementSystem.Controllers
         
         public ActionResult DeleteOrder(int orderId)
         {
-            IOrder orderService = new OrderService();
-            bool status = orderService.DeleteOrder(orderId);
+            bool status = _orderService.DeleteOrder(orderId);
 
             return RedirectToAction("Index", "Home");
         }
@@ -68,25 +79,21 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public ActionResult CompleteOrder(Order order)
         {
-            IOrder orderService = new OrderService();
-            orderService.CompleteOrder(order.Id);
+            _orderService.CompleteOrder(order.Id);
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult OrderDetails(Order order)
+        public ActionResult OrderDetails(int Id)
         {
-            OrderGroup orderGroup = new OrderGroup();
-            ICategory categoryService = new CategoryService();
-            IOrderGroup orderGroupService = new OrderGroupService();
-            orderGroup = orderGroupService.GetOrderGroup(order.Id);
+
+            OrderGroup orderGroup = _orderGroupService.GetOrderGroup(Id);
 
             List<Category> productCategories = new List<Category>();
             List<string> paymentCategories = new List<string>();
 
             using (OrdersContext context = new OrdersContext())
-            {
                 productCategories = context.Categories.ToList();
-            }
+            
 
             paymentCategories.Add("Venmo");
             paymentCategories.Add("Cash App");

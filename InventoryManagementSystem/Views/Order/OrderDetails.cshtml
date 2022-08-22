@@ -24,12 +24,15 @@
             <h4 class="mb-0 page-header-text">Order Details</h4> 
             <div class="dropdown">
                 <button id="delete-order-dropdown" class="p-0 btn btn-light" style="margin-left: 12px" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis" style="color: #555b5e"></i></button>
-                <ul style="p-0" class="dropdown-menu" aria-labelledby="delete-order-dropdown">
+                <ul class="dropdown-menu p-0" aria-labelledby="delete-order-dropdown">
                     <li>
                         <form action="/Order/DeleteOrder">
                             <input type="hidden" value=@Model.order.Id name="orderId" />
                             <button class="dropdown-item" onclick="return confirm('Are you sure you want to delete order?')" type="submit" href="#">Delete Order</button>
                         </form>
+                    </li>
+                    <li>
+                        @Html.ActionLink("Generate Invoice", "Index", "Invoice", new {id=@Model.order.Id}, new {@class="dropdown-item"})
                     </li>
                 </ul>
             </div>
