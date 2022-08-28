@@ -22,7 +22,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Order fulfillment date</p>
 						</div>
-						<input id="order-fulfillment-date" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Order_fulfillment_date" type="date">
+						<input id="order-fulfillment-date" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.FulfillmentDate" type="date">
 						<span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
 					</div>
 					<div class="row pb-4">
@@ -35,7 +35,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Payment Type</p>
 						</div>
-						<select class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.paymentHistory[0].PaymentType" style="background-color:#ffffff;">
+						<select class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.paymentHistory[0].Type" style="background-color:#ffffff;">
 							<option class="input-class" value="Venmo">Venmo</option>
 							<option class="input-class" value="Cash App">Cash App</option>
 							<option class="input-class" value="Cash">Cash</option>
@@ -57,7 +57,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Full Name</p>
 						</div>
-						<input id="customer-full-name" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Customer.fullName" type="text">
+						<input id="customer-full-name" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Customer.FullName" type="text">
 						<span id="customer_First_name_validation" class="text-danger"></span>
 					</div>
 					<div class="row pb-4">
@@ -65,14 +65,14 @@
 							<p>Out-of-Town</p>
 						</div>
 						<div class="col-11 col-sm-5 d-flex justify-content-start">
-							<input asp-for="orderGroup.order.Out_Of_Town" type="checkbox">
+							<input asp-for="orderGroup.order.OutOfTown" type="checkbox">
 						</div>
 					</div>
 					<div class="row pb-4">
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Communication Thread</p>
 						</div>
-						<select id="customer-com-thread" class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.order.Com_thread" style="background-color:#ffffff;">
+						<select id="customer-com-thread" class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.order.ComThread" style="background-color:#ffffff;">
 							<option class="input-class" selected>Select a communication thread</option>
 							<option class="input-class" value="Marketplace">Marketplace</option>
 							<option class="input-class" value="Page">Facebook Page</option>
@@ -84,7 +84,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Phone Number</p>
 						</div>
-						<input asp-for="orderGroup.order.Customer.Phone_number" type="number" class="col-11 col-sm-5 order-details-input-active number-input" type="number" >
+						<input asp-for="orderGroup.order.Customer.PhoneNumber" type="number" class="col-11 col-sm-5 order-details-input-active number-input" type="number" >
 					</div>
 				</div>
 			</div>

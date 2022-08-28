@@ -17,7 +17,7 @@ namespace InventoryManagementSystem.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -47,12 +47,12 @@ namespace InventoryManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("Phone_number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("fullName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("varchar(MAX)");
+
+                    b.Property<int?>("PhoneNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -70,9 +70,12 @@ namespace InventoryManagementSystem.Migrations
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
-                    b.Property<string>("Com_thread")
+                    b.Property<string>("ComThread")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -80,19 +83,16 @@ namespace InventoryManagementSystem.Migrations
                     b.Property<int>("DeliveryFee")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Order_completion_date")
+                    b.Property<DateTime>("FulfillmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Order_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Order_fulfillment_date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Order_status")
+                    b.Property<bool>("OutOfTown")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Out_Of_Town")
+                    b.Property<DateTime>("PlacementDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<float>("Total")
@@ -105,7 +105,7 @@ namespace InventoryManagementSystem.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.PaymentHistory", b =>
+            modelBuilder.Entity("InventoryManagementSystem.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,13 +113,13 @@ namespace InventoryManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<float>("PaymentAmount")
-                        .HasColumnType("real");
-
-                    b.Property<string>("PaymentType")
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -127,7 +127,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("PaymentHistories");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Product", b =>
@@ -177,10 +177,10 @@ namespace InventoryManagementSystem.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.Models.PaymentHistory", b =>
+            modelBuilder.Entity("InventoryManagementSystem.Models.Payment", b =>
                 {
                     b.HasOne("InventoryManagementSystem.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("Payments")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -195,7 +195,7 @@ namespace InventoryManagementSystem.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.HasOne("InventoryManagementSystem.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -203,6 +203,13 @@ namespace InventoryManagementSystem.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("InventoryManagementSystem.Models.Order", b =>
+                {
+                    b.Navigation("Payments");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

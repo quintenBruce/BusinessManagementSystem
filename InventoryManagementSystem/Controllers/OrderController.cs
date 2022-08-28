@@ -1,9 +1,9 @@
-﻿using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.DTOs;
+using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -12,30 +12,28 @@ namespace InventoryManagementSystem.Controllers
         private readonly IOrder _orderService;
         private readonly IOrderGroup _orderGroupService;
         private readonly IProduct _productService;
-        private readonly ICategory _categoryService;
+        private WebApiService _webApiService;
 
-        public OrderController (IOrder orderService, IOrderGroup orderGroupService, IProduct productService, ICategory categoryService)
+        public OrderController(IOrder orderService, IOrderGroup orderGroupService, IProduct productService, WebApiService webApiService)
         {
             _orderService = orderService;
             _orderGroupService = orderGroupService;
             _productService = productService;
-            _categoryService = categoryService;
+            _webApiService = webApiService;
         }
 
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
-            
-            OrderIndex orderViewModel = new OrderIndex();
+            OrderIndex orderViewModel = new();
 
-            
-            orderViewModel.orderRetrievalModel.allProducts = _productService.GetProducts(); //assigning all products from database to model.submodel
+            orderViewModel.orderRetrievalModel.Products = _productService.GetProducts(); //assigning all products from database to model.submodel
 
             using (OrdersContext context = new())
             {
-                orderViewModel.orderRetrievalModel.allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
-                orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
-                orderViewModel.orderRetrievalModel.allOrders = context.Orders.ToList();
-                orderViewModel.orderRetrievalModel.allPaymentHistories = context.PaymentHistories.Include(payment => payment.Order).ToList();
+                orderViewModel.orderRetrievalModel.Products = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
+                orderViewModel.orderRetrievalModel.Customers = context.Customers.ToList();
+                orderViewModel.orderRetrievalModel.Orders = context.Orders.ToList();
+                orderViewModel.orderRetrievalModel.Payments = context.Payments.Include(payment => payment.Order).ToList();
 
                 ViewData["productCategories"] = context.Categories.ToList();
             }
@@ -50,7 +48,7 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public ActionResult Index(OrderGroup orderGroup)
         {
-            for (int i = 0; i < orderGroup.products.Count(); i++) //iterate over products to set order foreign key to order
+            for (int i = 0; i < orderGroup.products.Count; i++) //iterate over products to set order foreign key to order
             {
                 orderGroup.products[i].Order = orderGroup.order;
                 orderGroup.order.Total += orderGroup.products[i].Price + orderGroup.order.DeliveryFee;
@@ -59,16 +57,15 @@ namespace InventoryManagementSystem.Controllers
             if (orderGroup.paymentHistory != null) //if model includes downpayment, set order foreign key to order and
             {                                          //update order balance
                 orderGroup.paymentHistory[0].Order = orderGroup.order;
-                orderGroup.order.Balance = orderGroup.order.Total -  orderGroup.paymentHistory[0].PaymentAmount;
+                orderGroup.order.Balance = orderGroup.order.Total - orderGroup.paymentHistory[0].Amount;
             }
 
-            orderGroup.order.Order_date = DateTime.Now;
+            orderGroup.order.PlacementDate = DateTime.Now;
             _orderGroupService.CreateOrderGroup(orderGroup.products, orderGroup.order, orderGroup.paymentHistory[0], orderGroup.order.Customer);
 
-            return RedirectToAction("Index"); 
+            return RedirectToAction("Index");
         }
 
-        
         public ActionResult DeleteOrder(int orderId)
         {
             bool status = _orderService.DeleteOrder(orderId);
@@ -83,93 +80,22 @@ namespace InventoryManagementSystem.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult OrderDetails(int Id)
+        public async Task<ActionResult> OrderDetails(int id)
         {
+            Order order = await _webApiService.GetOrder(id);
 
-            OrderGroup orderGroup = _orderGroupService.GetOrderGroup(Id);
+            ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
+            ViewData["categories"] = await _webApiService.GetCategoriesAsync();
+            ViewData["orderId"] = order.Id;
 
-            List<Category> productCategories = new List<Category>();
-            List<string> paymentCategories = new List<string>();
-
-            using (OrdersContext context = new OrdersContext())
-                productCategories = context.Categories.ToList();
-            
-
-            paymentCategories.Add("Venmo");
-            paymentCategories.Add("Cash App");
-            paymentCategories.Add("Cash");
-            paymentCategories.Add("Other");
-
-
-
-
-            ViewData["paymentTypeCategories"] = paymentCategories;
-            ViewData["categories"] = productCategories;
-
-
-            return View(orderGroup);
+            return View(order);
         }
 
-        public PartialViewResult UpdateOrder(Order updatedOrder, Customer updatedCustomer)
+        public async Task<PartialViewResult> UpdateOrder(Order updatedOrder, Customer updatedCustomer)
         {
-            using (OrdersContext context = new())
-            {
-                var existingOrder = context.Orders.Where(_order => _order.Id == updatedOrder.Id).First();
-                var existingCustomer = context.Customers.Where(_customer => _customer.Id == updatedCustomer.Id).First();
-
-                bool orderDate = updatedOrder.Order_date.ToString("yyyy/MM/dd") == existingOrder.Order_date.ToString("yyyy/MM/dd");
-                bool orderCompletionDate = updatedOrder.Order_completion_date?.ToString("yyyy/MM/dd") == existingOrder.Order_completion_date?.ToString("yyyy/MM/dd");
-                bool orderDueDate = updatedOrder.Order_fulfillment_date.ToString("yyyy/MM/dd") == existingOrder.Order_fulfillment_date.ToString("yyyy/MM/dd");
-
-                bool orderBalance = updatedOrder.Balance == existingOrder.Balance;
-                bool orderTotal = updatedOrder.Total == existingOrder.Total;
-                bool orderComThread = updatedOrder.Com_thread == existingOrder.Com_thread.Trim();
-                bool deliver = updatedOrder.DeliveryFee == existingOrder.DeliveryFee;
-                bool status = updatedOrder.Order_status == existingOrder.Order_status;
-                bool outoftown = updatedOrder.Out_Of_Town == existingOrder.Out_Of_Town;
-
-                if (updatedOrder.Order_date.ToString("yyyy/MM/dd") != existingOrder.Order_date.ToString("yyyy/MM/dd"))
-                    existingOrder.Order_date = updatedOrder.Order_date;
-                if (updatedOrder.Order_completion_date?.ToString("yyyy/MM/dd") != existingOrder.Order_completion_date?.ToString("yyyy/MM/dd"))
-                    existingOrder.Order_completion_date = updatedOrder.Order_completion_date;
-                if (updatedOrder.Order_fulfillment_date.ToString("yyyy/MM/dd") != existingOrder.Order_fulfillment_date.ToString("yyyy/MM/dd"))
-                    existingOrder.Order_fulfillment_date = updatedOrder.Order_fulfillment_date;
-                if (updatedOrder.Balance != existingOrder.Balance)
-                    existingOrder.Balance = updatedOrder.Balance;
-                if (updatedOrder.Total != existingOrder.Total)
-                    existingOrder.Total = updatedOrder.Total;
-                if (updatedOrder.Com_thread != existingOrder.Com_thread.Trim())
-                    existingOrder.Com_thread = updatedOrder.Com_thread;
-                if (updatedOrder.DeliveryFee != existingOrder.DeliveryFee) 
-                {
-                    
-                    existingOrder.Total = existingOrder.Total - existingOrder.DeliveryFee + updatedOrder.DeliveryFee; //update total and balance
-                    existingOrder.Balance = existingOrder.Balance - existingOrder.DeliveryFee + updatedOrder.DeliveryFee;
-                    existingOrder.DeliveryFee = updatedOrder.DeliveryFee;
-                }
-                    
-                if (updatedOrder.Order_status != existingOrder.Order_status)
-                    existingOrder.Order_status = updatedOrder.Order_status;
-                if (updatedOrder.Out_Of_Town != existingOrder.Out_Of_Town)
-                    existingOrder.Out_Of_Town = updatedOrder.Out_Of_Town;
-
-                if (updatedCustomer.fullName != existingCustomer.fullName.Trim())
-                {
-                    existingCustomer.fullName = updatedCustomer.fullName.Trim();
-
-                }
-
-                if (updatedCustomer.Phone_number != existingCustomer.Phone_number)
-                    existingCustomer.Phone_number = updatedCustomer.Phone_number;
-
-                var status_ = context.SaveChanges();
-
-                existingOrder.Customer = existingCustomer;
-
-                
-
-                    return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", existingOrder);
-            }
+            updatedOrder.Customer = updatedCustomer;
+            Order newOrder = await _webApiService.UpdateOrder(OrderDTO.ToOrderDTO(updatedOrder));
+            return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", newOrder);
         }
 
         public ActionResult SearchByName(string searchQuery)
@@ -177,32 +103,25 @@ namespace InventoryManagementSystem.Controllers
             searchQuery = searchQuery.ToLower().Trim();
 
             List<Order> orders = new();
-            HomeIndex HomeViewModel = new HomeIndex();
+            OrderRetrievalModel viewModel = new();
 
             using (OrdersContext context = new())
             {
-                foreach (var order_ in context.Orders.Include(order => order.Customer).ToList())
+                foreach (var _order in context.Orders.Include(order => order.Customer).ToList())
                 {
-                    var name = order_.Customer.fullName.ToLower().Replace(" ", "");
-
+                    var name = _order.Customer.FullName.ToLower().Replace(" ", "");
 
                     if (name.Contains(searchQuery))
                     {
-                        HomeViewModel.orderRetrievalModel.allProducts.AddRange(context.Products.Include(product => product.Category).Include(product => product.Order).Where(product => product.Order == order_).ToList());
-                        HomeViewModel.orderRetrievalModel.allOrders.Add(order_);
-                        HomeViewModel.orderRetrievalModel.allCustomers.Add(order_.Customer);
-                        HomeViewModel.orderRetrievalModel.allPaymentHistories.AddRange(context.PaymentHistories.Where(payment => payment.Order == order_).ToList());
+                        viewModel.Products.AddRange(context.Products.Include(product => product.Category).Include(product => product.Order).Where(product => product.Order == _order).ToList());
+                        viewModel.Orders.Add(_order);
+                        viewModel.Customers.Add(_order.Customer);
+                        viewModel.Payments.AddRange(context.Payments.Where(payment => payment.Order == _order).ToList());
                     }
-
-
-
                 }
             }
 
-            return View("~/Views/Home/Index.cshtml", HomeViewModel);
-
+            return View("~/Views/Home/Index.cshtml", viewModel);
         }
-
-
     }
 }

@@ -52,7 +52,7 @@
                     productCount += 1;
                     ViewData["ProductIndex"] = productCount;
 
-                        <input type="hidden" name=@("products[" + productCount.ToString() + "].Order.Id") value=@product.Order.Id form="edit-products-form" />
+                        <input type="hidden" name=@("products[" + productCount.ToString() + "].Order.Id") value=@ViewData["orderId"] form="edit-products-form" />
                         <input type="hidden" name=@("products[" + productCount.ToString() + "].Id") value=@product.Id form="edit-products-form" />
 
                                 <div id=@("product" + productCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(productCount % 2 == 0 ? "table-row-grey" : "")">
@@ -62,7 +62,7 @@
                                                 <p>Name</p>
                                             </div>
                                             <div class="col-12 col-sm-5 col-lg-12">
-                                                <input type="text" class="order-details-product-info-input-inactive" form="edit-products-form" value=@product.Name name=@("products[" + productCount.ToString() + "].Name") disabled/>
+                                                <input type="text" class="order-details-product-info-input-inactive" form="edit-products-form" value="@product.Name") name=@("products[" + productCount.ToString() + "].Name") disabled/>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                                     <p>Dimensions</p>
                                                 </div> 
                                                 <div class="col-12 col-sm-5 col-lg-12">
-                                                    <input type="text" form="edit-products-form" class="order-details-product-info-input-inactive" value=@product.Dimensions  name=@("products[" + productCount.ToString() + "].Dimensions") disabled/>
+                                                    <input type="text" form="edit-products-form" class="order-details-product-info-input-inactive" value="@product.Dimensions"  name=@("products[" + productCount.ToString() + "].Dimensions") disabled/>
                                                 </div> 
                                             </div>      
                                     </div>   

@@ -1,5 +1,5 @@
 ﻿@using InventoryManagementSystem.ViewModels
-@model InventoryManagementSystem.Models.OrderGroup
+@model InventoryManagementSystem.Models.Order
 
 
 
@@ -9,8 +9,9 @@
 
 
 @{
-    var customerFullName = @Model.order.Customer.fullName;
-    ViewData["orderId"] = Model.order.Id;  
+    var customerFullName = @Model.Customer.FullName;
+    
+    var dfg = @Model.Customer.FullName;
 
 }
 
@@ -27,12 +28,12 @@
                 <ul class="dropdown-menu p-0" aria-labelledby="delete-order-dropdown">
                     <li>
                         <form action="/Order/DeleteOrder">
-                            <input type="hidden" value=@Model.order.Id name="orderId" />
+                            <input type="hidden" value=@Model..Id name="orderId" />
                             <button class="dropdown-item" onclick="return confirm('Are you sure you want to delete order?')" type="submit" href="#">Delete Order</button>
                         </form>
                     </li>
                     <li>
-                        @Html.ActionLink("Generate Invoice", "Index", "Invoice", new {id=@Model.order.Id}, new {@class="dropdown-item"})
+                        @Html.ActionLink("Generate Invoice", "Index", "Invoice", new {id=@Model.Id}, new {@class="dropdown-item"})
                     </li>
                 </ul>
             </div>
@@ -50,19 +51,20 @@
 
 
 <div class="order-details-container p-md-5 p-3 pt-3 pt-md-3">
-    <form action="/Order/UpdateOrder" data-ajax="true" data-ajax-method="post" data-ajax-update="#order-customer-container" data-ajax-success="toggleEditCall"> 
-        <input type="hidden" name="updatedOrder.Id" value="@Model.order.Id" />
-        <input type="hidden" name="updatedCustomer.Id" value="@Model.order.Customer.Id" />
+    <form action="/Order/UpdateOrder" data-ajax="true" data-ajax-method="post" data-ajax-update="#order-customer-container" data-ajax-success="toggleEditCall" data-ajax-loading="#load"> 
+        <input type="hidden" name="updatedOrder.Id" value="@Model.Id" />
+        <input type="hidden" name="updatedCustomer.Id" value="@Model.Customer.Id" />
         <div id="order-customer-container">
-            <partial name="~/Views/Order/_OrderCustomerDetailsPartial.cshtml" model=@Model.order />
+            <partial name="~/Views/Order/_OrderCustomerDetailsPartial.cshtml" model=@Model />
+            
         </div>
         
     </form>
     <div id="product-information-container" class="row">
-        <partial name="~/Views/Order/_ProductsPartial.cshtml" for="products" />
+        <partial name="~/Views/Order/_ProductsPartial.cshtml" for="Products" />
     </div>
     <div id="payment-information-container" class="row">
-        <partial name="~/Views/Order/_PaymentHistoryPartial.cshtml" for="paymentHistory" />
+        <partial name="~/Views/Order/_PaymentHistoryPartial.cshtml" for="Payments" />
     </div>
     
 </div>

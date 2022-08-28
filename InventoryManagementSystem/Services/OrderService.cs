@@ -11,10 +11,12 @@ namespace InventoryManagementSystem.Services
             context = ordersContext;
         }
 
-        public bool CompleteOrder(int Id)
+        //COMPLETED
+
+        public bool CompleteOrder(int Id) 
         {
-            context.Orders.Where(order => order.Id == Id).ToList().FirstOrDefault().Order_status = true;
-            context.Orders.Where(order => order.Id == Id).ToList().FirstOrDefault().Order_completion_date = DateTime.Now;
+            context.Orders.Where(order => order.Id == Id).ToList().FirstOrDefault().Status = true;
+            context.Orders.Where(order => order.Id == Id).ToList().FirstOrDefault().CompletionDate = DateTime.Now;
 
             var status = context.SaveChanges();
             return status == 0 ? false : true;
@@ -34,9 +36,9 @@ namespace InventoryManagementSystem.Services
             context.Remove(context.Orders.First(order => order.Id == orderId));
             context.RemoveRange(context.Products.Where(product => product.Order.Id == orderId).ToList());
 
-            if (context.PaymentHistories.Where(payment => payment.Order.Id == orderId).ToList() != null)
+            if (context.Payments.Where(payment => payment.Order.Id == orderId).ToList() != null)
             {
-                var payments = context.PaymentHistories.Where(payment => payment.Order.Id == orderId).ToList();
+                var payments = context.Payments.Where(payment => payment.Order.Id == orderId).ToList();
                 context.RemoveRange(payments);
             }
 

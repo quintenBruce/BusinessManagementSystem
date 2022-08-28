@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 
+
 builder.Services.AddDbContext<DbContext, OrdersContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=inventory_management;Integrated Security=True;"));
 builder.Services.AddScoped<DbContext, OrdersContext>();
 builder.Services.AddScoped<IProduct, ProductService>();
@@ -19,6 +20,7 @@ builder.Services.AddScoped<ICategory, CategoryService>();
 builder.Services.AddScoped<IOrderGroup, OrderGroupService>();
 builder.Services.AddScoped<IPaymentHistory, PaymentHistoryService>();
 builder.Services.AddScoped<ICalender, CalenderService>();
+builder.Services.AddHttpClient<WebApiService>();
 
 var app = builder.Build();
 

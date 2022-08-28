@@ -1,4 +1,4 @@
-﻿@model List<PaymentHistory>
+﻿@model List<Payment>
 
 @{
     var ksadkfj = ViewData["orderId"];
@@ -7,11 +7,11 @@
     var lkdsjf = 5;
 }
 
-<form id="create-payments-form" action="/Payment/CreatePayments" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate">
+<form id="create-payments-form" action="/Payment/CreatePayments" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate" data-ajax-loading="#load">
     <input type="hidden" value=@ViewData["orderId"] name=orderId />
 </form>
 
-<form id="edit-payments-form" action="/Payment/UpdatePayment" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate"></form>
+<form id="edit-payments-form" action="/Payment/UpdatePayment" data-ajax="true" data-ajax-method="post" data-ajax-update="#payment-information-container" data-ajax-mode="replace" data-ajax-success="paymentUpdate" data-ajax-loading="#load"></form>
 
 <div class="col-12 mb-3">
             <div id="payment-rows-container" class="order-details-product-information p-3 rounded">
@@ -38,7 +38,7 @@
                     ViewData["PaymentIndex"] = paymentCount;
 
 
-                    <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Order.Id") value=@payment.Order.Id form="edit-payments-form" />
+                    <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Order.Id") value=@ViewData["orderId"] form="edit-payments-form" />
                     <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Id") value=@payment.Id form="edit-payments-form" />
                           
                     
@@ -52,7 +52,7 @@
                                             <p>Amount</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-12">
-                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.PaymentAmount) name=@("payments[" + paymentCount.ToString() + "].PaymentAmount") disabled/>
+                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.Amount) name=@("payments[" + paymentCount.ToString() + "].PaymentAmount") disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -65,10 +65,10 @@
                                             <p>Type</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-12">
-                                            <select class="col-11 col-sm-5 order-details-payment-info-input-inactive" name=@("payments[" + paymentCount.ToString() + "].PaymentType") form="edit-payments-form"  style="background-color: @(paymentCount % 2 == 0 ? "#f4f7f9" : "white");" disabled>
+                                            <select class="col-11 col-sm-5 order-details-payment-info-input-inactive" name=@("payments[" + paymentCount.ToString() + "].Type") form="edit-payments-form"  style="background-color: @(paymentCount % 2 == 0 ? "#f4f7f9" : "white");" disabled>
                                                 @foreach (var category in (IEnumerable<string>)ViewData["paymentTypeCategories"])
                                                 {
-                                                    <!option class="input-class" value="@category.Trim()" @(payment.PaymentType.Trim() == category.Trim() ? "selected" : "")>@category.Trim()</!option>
+                                                    <!option class="input-class" value="@category.Trim()" @(payment.Type.Trim() == category.Trim() ? "selected" : "")>@category.Trim()</!option>
                                                 }                                       
                                             </select>
                                         </div>
@@ -164,5 +164,6 @@
             </div>
 
         </div>
+        <img id="load" style="width: 50px; display:none;" src="https://res.cloudinary.com/dmremrlru/image/upload/v1660180355/loading-buffering_hutsmm.gif" alt="" />
 
                           

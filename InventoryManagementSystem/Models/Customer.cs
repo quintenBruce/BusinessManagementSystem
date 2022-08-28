@@ -9,8 +9,8 @@ namespace InventoryManagementSystem.Models
         [Required]
         [Display(Name = "First Name")]
         [Column(TypeName = "varchar(MAX)")]
-        public string fullName { get; set; }
+        public string FullName { get; set; }
         [Display(Name = "Phone Number")]
-        public int? Phone_number { get; set; }
+        public int? PhoneNumber { get; set; }
     }
 }

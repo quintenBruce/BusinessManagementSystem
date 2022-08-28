@@ -12,16 +12,16 @@ namespace InventoryManagementSystem.Services
             _context = context;
         }
 
-        public bool CreateOrderGroup(List<Product> products, Order order, PaymentHistory payment, Customer customer)
+        public bool CreateOrderGroup(List<Product> products, Order order, Payment payment, Customer customer)
         {
             _context.Customers.Add(customer);
             var status = _context.SaveChanges();
             order.Customer = customer;
             _context.Orders.Add(order);
             status = _context.SaveChanges();
-            if (payment.PaymentAmount != 0 && payment.PaymentType != "Select a payment type")
+            if (payment.Amount != 0 && payment.Type != "Select a payment type")
             {
-                _context.PaymentHistories.Add(payment);
+                _context.Payments.Add(payment);
                 status = _context.SaveChanges();
             }
 
@@ -42,7 +42,7 @@ namespace InventoryManagementSystem.Services
 
             orderGroup.order = _context.Orders.Include(order => order.Customer).Where(order => order.Id == Id).First();
             orderGroup.products = _context.Products.Include(product => product.Order).Include(product => product.Category).Where(product => product.Order == orderGroup.order).ToList();
-            orderGroup.paymentHistory = _context.PaymentHistories.Where(payment => payment.Order == orderGroup.order).ToList();
+            orderGroup.paymentHistory = _context.Payments.Where(payment => payment.Order == orderGroup.order).ToList();
 
             return orderGroup;
         }

@@ -20,11 +20,11 @@ namespace InventoryManagementSystem.Services
             List<Order> orders = orderService.GetOrders();
             List<Product> products = productService.GetProducts();
 
-            foreach (Order order in orders.Where(x => x.Order_status == false))
+            foreach (Order order in orders.Where(x => x.Status == false))
             {
                 string title = products.Where(x => x.Order.Id == order.Id).ToList().Count.ToString();
                 title = (title == "1") ? (title + " Product") : (title + " Products");
-                string start = order.Order_fulfillment_date.ToString("yyyy/MM/dd").Replace("/", "-");
+                string start = order.FulfillmentDate.ToString("yyyy/MM/dd").Replace("/", "-");
                 string url = "https://localhost:44306/Order/OrderDetails/" + order.Id.ToString();
                 CalenderViewModel model = new(title, start, "#3788d8", "#3788d8", url);
                 viewModel.Add(model);

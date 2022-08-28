@@ -40,7 +40,7 @@ namespace InventoryManagementSystem.Migrations
                 column: "Id");
 
             migrationBuilder.CreateTable(
-                name: "PaymentHistories",
+                name: "Payments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -51,9 +51,9 @@ namespace InventoryManagementSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentHistories", x => x.Id);
+                    table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentHistories_Orders_OrderId",
+                        name: "FK_Payments_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -61,8 +61,8 @@ namespace InventoryManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentHistories_OrderId",
-                table: "PaymentHistories",
+                name: "IX_Payments_OrderId",
+                table: "Payments",
                 column: "OrderId");
 
             migrationBuilder.AddForeignKey(
@@ -93,7 +93,7 @@ namespace InventoryManagementSystem.Migrations
                 table: "Products");
 
             migrationBuilder.DropTable(
-                name: "PaymentHistories");
+                name: "Payments");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Products",

@@ -21,12 +21,9 @@ namespace InventoryManagementSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-            
-            
             List<Order> orders = new();
             List<Product> products = new();
-            List<PaymentHistory> payments = new();
+            List<Payment> payments = new();
             List<Customer> customers = new();
             List<Category> categories = new();
             
@@ -36,7 +33,7 @@ namespace InventoryManagementSystem.Controllers
                 orders = context.Orders.ToList();
                 customers = context.Customers.ToList();
                 products = context.Products.Include(product => product.Order).Include(x => x.Category).ToList();
-                payments = context.PaymentHistories.ToList();
+                payments = context.Payments.ToList();
                 categories = context.Categories.ToList();
             }
 
@@ -85,13 +82,13 @@ namespace InventoryManagementSystem.Controllers
 
             ViewBag.TotalRevenue = orders.Sum(x => x.Total);
             ViewBag.EstimatedProfit = ViewBag.TotalRevenue * .6;
-            ViewBag.UpcomingRevenue = products.Where(product => product.Order.Order_status == false).Sum(product => product.Price);
+            ViewBag.UpcomingRevenue = products.Where(product => product.Order.Status == false).Sum(product => product.Price);
             
-            ViewBag.CurrentMonthRevenue = products.Where(x => x.Order.Order_status == true && x.Order.Order_completion_date?.ToString("MM/yyyy") == currentMonthandYear).Sum(product => product.Price);
-            ViewBag.CurrentYearRevenue = products.Where(x => x.Order.Order_status == true && x.Order.Order_completion_date?.ToString("yyyy") == currentYear.ToString()).Sum(product => product.Price);
+            ViewBag.CurrentMonthRevenue = products.Where(x => x.Order.Status == true && x.Order.CompletionDate?.ToString("MM/yyyy") == currentMonthandYear).Sum(product => product.Price);
+            ViewBag.CurrentYearRevenue = products.Where(x => x.Order.Status == true && x.Order.CompletionDate?.ToString("yyyy") == currentYear.ToString()).Sum(product => product.Price);
 
 
-            var PreviousYearRevenueUpToCurrentMonth = orders.Where(x => (x.Order_status == true) && (x.Order_completion_date.Value.ToString("yyyy") == (currentYear - 1).ToString()) && (x.Order_completion_date.Value.DayOfYear <= currentDate.DayOfYear)).ToList().Sum(x => x.Total);
+            var PreviousYearRevenueUpToCurrentMonth = orders.Where(x => (x.Status == true) && (x.CompletionDate.Value.ToString("yyyy") == (currentYear - 1).ToString()) && (x.CompletionDate.Value.DayOfYear <= currentDate.DayOfYear)).ToList().Sum(x => x.Total);
 
             ViewBag.PreviousYearRevenueUpToCurrentMonth = PreviousYearRevenueUpToCurrentMonth;
 
@@ -120,25 +117,25 @@ namespace InventoryManagementSystem.Controllers
 
             foreach (var order in orders)
             {
-                if (int.Parse(order.Order_date.ToString("yyyy")) == currentYear || (int.Parse(order.Order_completion_date.Value.ToString("yyyy")) == currentYear - 1 && int.Parse(order.Order_completion_date.Value.ToString("MM")) > currentMonth))
+                if (int.Parse(order.PlacementDate.ToString("yyyy")) == currentYear || (int.Parse(order.CompletionDate.Value.ToString("yyyy")) == currentYear - 1 && int.Parse(order.CompletionDate.Value.ToString("MM")) > currentMonth))
                 {
-                    var orderPlacementMonth = int.Parse(order.Order_date.ToString("MM"));
+                    var orderPlacementMonth = int.Parse(order.PlacementDate.ToString("MM"));
                     monthTotalOrdersPlacedArray[orderPlacementMonth - 1] += 1;
                 }
             }
-            foreach (var order in orders.Where(x => x.Order_status == true).ToList())
+            foreach (var order in orders.Where(x => x.Status == true).ToList())
             {
                 
 
 
-                if (int.Parse(order.Order_completion_date.Value.ToString("yyyy")) == currentYear || (int.Parse(order.Order_completion_date.Value.ToString("yyyy")) == currentYear - 1 && int.Parse(order.Order_completion_date.Value.ToString("MM")) > currentMonth))   
+                if (int.Parse(order.CompletionDate.Value.ToString("yyyy")) == currentYear || (int.Parse(order.CompletionDate.Value.ToString("yyyy")) == currentYear - 1 && int.Parse(order.CompletionDate.Value.ToString("MM")) > currentMonth))   
                 {
-                    var orderCompletionMonth = int.Parse(order.Order_completion_date.Value.ToString("MM"));
+                    var orderCompletionMonth = int.Parse(order.CompletionDate.Value.ToString("MM"));
                     monthRevenueList[orderCompletionMonth - 1] += order.Total;
 
-                    var orderCompletionDate = order.Order_completion_date.Value.Date;
+                    var orderCompletionDate = order.CompletionDate.Value.Date;
                    
-                    if (DateTime.Compare(orderCompletionDate, order.Order_fulfillment_date.Date) > 0)
+                    if (DateTime.Compare(orderCompletionDate, order.FulfillmentDate.Date) > 0)
                         monthPastDueOrderList[orderCompletionMonth - 1] += 1;
                     else
                         monthOnTimeOrderList[orderCompletionMonth - 1] += 1;
@@ -175,8 +172,7 @@ namespace InventoryManagementSystem.Controllers
             ViewBag.MonthTotalOrdersPlaced = monthTotalOrdersPlacedPart2; //list of orders placed for each month
 
 
-            bool flag = true;
-
+          
             string baseURL = "https://graph.facebook.com/";
 
             int[] monthEngagedUsersArray = new int[] { 34, 46, 21, 12, 37, 32, 51, 43, 23, 20, 14, 46 };
@@ -334,7 +330,7 @@ namespace InventoryManagementSystem.Controllers
 
             //ViewBag.monthPagePosts = monthPagePostsArray;
 
-            ViewBag.PendingRevenue = orders.Where(x => x.Order_status == false).Sum(x => x.Total);
+            ViewBag.PendingRevenue = orders.Where(x => x.Status == false).Sum(x => x.Total);
             ViewBag.PendingProfit = ViewBag.PendingRevenue * .6;
 
 

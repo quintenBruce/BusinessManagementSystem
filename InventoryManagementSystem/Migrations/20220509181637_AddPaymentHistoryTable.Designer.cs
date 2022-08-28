@@ -124,7 +124,7 @@ namespace InventoryManagementSystem.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("PaymentHistories");
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.Models.Product", b =>

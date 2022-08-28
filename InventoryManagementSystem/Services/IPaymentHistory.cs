@@ -4,8 +4,8 @@ namespace InventoryManagementSystem.Services
 {
     public interface IPaymentHistory
     {
-        bool CreatePayment(PaymentHistory payment);
+        bool CreatePayment(Payment payment);
         bool DeletePayment(int paymentId);
-        bool UpdatePayment(PaymentHistory updatedPayment);
+        bool UpdatePayment(Payment updatedPayment);
     }
 }

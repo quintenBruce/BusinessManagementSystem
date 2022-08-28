@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InventoryManagementSystem.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagementSystem.Models
 {
@@ -9,18 +10,20 @@ namespace InventoryManagementSystem.Models
         [Display(Name = "Total Order Price")]
         public float Total { get; set; }
         public float Balance { get; set; }
-        public DateTime Order_date { get; set; }
+        public DateTime PlacementDate { get; set; }
         [Display(Name = "Order Fulfillment Date")]
-        public DateTime Order_fulfillment_date { get; set; }
+        public DateTime FulfillmentDate { get; set; }
         [Display(Name = "Communication Thread")]
-        public DateTime? Order_completion_date { get; set; }
-        public string Com_thread { get; set; }
+        public DateTime? CompletionDate { get; set; }
+        public string ComThread { get; set; }
         [Display(Name = "Order Status")]
-        public bool Order_status { get; set; }
+        public bool Status { get; set; }
         [Display(Name = "Delivery Fee")]
         public int DeliveryFee { get; set; }
         [Display(Name = "Out-of-Town?")]
-        public bool Out_Of_Town { get; set; }
+        public bool OutOfTown { get; set; }
+        public ICollection<Product>? Products { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
 
         public static implicit operator List<object>(Order v)
         {

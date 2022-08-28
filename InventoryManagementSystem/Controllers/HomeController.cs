@@ -22,14 +22,14 @@ namespace InventoryManagementSystem.Controllers
 
 
             
-            orderViewModel.orderRetrievalModel.allProducts = _productService.GetProducts(); //assign all products from database to model.submodel
+            orderViewModel.orderRetrievalModel.Products = _productService.GetProducts(); //assign all products from database to model.submodel
 
             using (OrdersContext context = new OrdersContext())
             {
-                orderViewModel.orderRetrievalModel.allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
-                orderViewModel.orderRetrievalModel.allCustomers = context.Customers.ToList();
-                orderViewModel.orderRetrievalModel.allOrders = context.Orders.Where(order => order.Order_status == false).ToList();
-                orderViewModel.orderRetrievalModel.allPaymentHistories = context.PaymentHistories.Include(payment => payment.Order).ToList();
+                orderViewModel.orderRetrievalModel.Products = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
+                orderViewModel.orderRetrievalModel.Customers = context.Customers.ToList();
+                orderViewModel.orderRetrievalModel.Orders = context.Orders.Where(order => order.Status == false).ToList();
+                orderViewModel.orderRetrievalModel.Payments = context.Payments.Include(payment => payment.Order).ToList();
                 ViewData["productCategories"] = context.Categories.ToList();
             }
 

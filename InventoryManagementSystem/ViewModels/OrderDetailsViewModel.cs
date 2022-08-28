@@ -5,7 +5,7 @@ namespace InventoryManagementSystem.ViewModels
     {
         public Order order { get; set; }
         public Customer customer { get; set; }
-        public List<PaymentHistory>? paymentHistory { get; set; }
+        public List<Payment>? paymentHistory { get; set; }
         public List<Category> category { get; set; }
         public List<Product> products { get; set; }
 
@@ -13,7 +13,7 @@ namespace InventoryManagementSystem.ViewModels
         {
 
         }
-        public OrderDetailsViewModel(Order _order, Customer _customer, List<PaymentHistory> _payments, List<Category> _category, List<Product> _products)
+        public OrderDetailsViewModel(Order _order, Customer _customer, List<Payment> _payments, List<Category> _category, List<Product> _products)
         {
             this.order = _order;
             this.customer = _customer;

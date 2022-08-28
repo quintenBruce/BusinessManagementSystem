@@ -2,15 +2,15 @@
 
 namespace InventoryManagementSystem.Models
 {
-    public class PaymentHistory
+    public class Payment
     {
         public int Id { get; set; }
 
         [Display(Name = "Down Payment Amount")]
-        public float PaymentAmount { get; set; }
+        public float Amount { get; set; }
 
         [Display(Name = "Payment Service")]
-        public string PaymentType { get; set; }
+        public string Type { get; set; }
 
         public Order Order { get; set; }
     }

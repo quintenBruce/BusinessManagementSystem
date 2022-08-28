@@ -4,14 +4,14 @@
 
 
 @{
-    int pastDueOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days < 0)).Where(order => order.Order_status == false).ToList().Count();
-    int upcomingOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days <= 14) && ((order.Order_fulfillment_date - DateTime.Now.Date).Days >= 0)).Where(order => order.Order_status == false).ToList().Count();
-    int nonUrgentOrders = Model.orderRetrievalModel.allOrders.Where(order => ((order.Order_fulfillment_date - DateTime.Now.Date).Days > 14)).Where(order => order.Order_status == false).ToList().Count();
+    int pastDueOrders = Model.orderRetrievalModel.Orders.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days < 0)).Where(order => order.Status == false).ToList().Count();
+    int upcomingOrders = Model.orderRetrievalModel.Orders.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days <= 14) && ((order.FulfillmentDate - DateTime.Now.Date).Days >= 0)).Where(order => order.Status == false).ToList().Count();
+    int nonUrgentOrders = Model.orderRetrievalModel.Orders.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days > 14)).Where(order => order.Status == false).ToList().Count();
     int allOrders = pastDueOrders + upcomingOrders + nonUrgentOrders;
 
-    int previousWeekPastDueOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) < 0)).Where(order => order.Order_status == false).ToList().Count();
-    int previousWeekUpcomingOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) <= 14) && (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) >= 0)).Where(order => order.Order_status == false).ToList().Count();
-    int previousNonUrgentOrders = Model.orderRetrievalModel.allOrders.Where(order => (((order.Order_fulfillment_date - DateTime.Now.Date).Days + 7) > 14)).Where(order => order.Order_status == false).ToList().Count();
+    int previousWeekPastDueOrders = Model.orderRetrievalModel.Orders.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) < 0)).Where(order => order.Status == false).ToList().Count();
+    int previousWeekUpcomingOrders = Model.orderRetrievalModel.Orders.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) <= 14) && (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) >= 0)).Where(order => order.Status == false).ToList().Count();
+    int previousNonUrgentOrders = Model.orderRetrievalModel.Orders.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) > 14)).Where(order => order.Status == false).ToList().Count();
     
     string pastDueOrdersAnalytic = (pastDueOrders - previousWeekPastDueOrders) >= 0 ? ("+" + (pastDueOrders - previousWeekPastDueOrders)) : ((pastDueOrders - previousWeekPastDueOrders).ToString());
     string upcomingOrdersAnalytic = (upcomingOrders - previousWeekUpcomingOrders) >= 0 ? ("+" + (upcomingOrders - previousWeekUpcomingOrders)) : ((upcomingOrders - previousWeekUpcomingOrders).ToString());

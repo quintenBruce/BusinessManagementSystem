@@ -45,8 +45,8 @@
     @{
         int order_count = 0;
         var todaysDate = DateTime.Now.Date;
-        var activeOrders = Model.allOrders.Where(order => order.Order_status == false).OrderBy(order => order.Order_fulfillment_date).ToList();
-        var inactiveOrders = Model.allOrders.Where(order => order.Order_status == true).OrderBy(order => order.Order_fulfillment_date).ToList();
+        var activeOrders = Model.Orders.Where(order => order.Status == false).OrderBy(order => order.FulfillmentDate).ToList();
+        var inactiveOrders = Model.Orders.Where(order => order.Status == true).OrderBy(order => order.FulfillmentDate).ToList();
     }
     @foreach (var order in activeOrders)
     {
@@ -54,13 +54,13 @@
 
         var dropdownOption = order_count <= 4 ? "show" : "";
 
-        string customer_name = order.Customer.fullName;
-        string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
+        string customer_name = order.Customer.FullName;
+        string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
         locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
         var products = new List<Product>();
-        products = Model.allProducts.Where(a => a.Order == order).ToList();
+        products = Model.Products.Where(a => a.Order == order).ToList();
 
-        var difference = (order.Order_fulfillment_date - DateTime.Now.Date).Days;
+        var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
         string orderStatusStyle = "";
         if (difference < 0)
             orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
@@ -71,9 +71,9 @@
 
 
 
-        var orderPaymentHistory = new List<PaymentHistory>();
+        var orderPaymentHistory = new List<Payment>();
 
-            foreach (var payment in Model.allPaymentHistories)
+            foreach (var payment in Model.Payments)
             {
                 if (payment.Order == order)
                     orderPaymentHistory.Add(payment);
@@ -82,7 +82,7 @@
             var orderCategories = new List<Category>();
             var orderProducts = new List<Product>();
 
-            foreach (var product in Model.allProducts)
+            foreach (var product in Model.Products)
             {
                 if (product.Order == order)
                 {
@@ -100,7 +100,7 @@
             <div class="col-11" style="width: 96%;">
                 <div class="row">
                     <div class="col-10 col-lg-2 d-flex align-items-center">
-                        <p class="order-table-date">@order.Order_fulfillment_date.Date.ToShortDateString()</p>
+                        <p class="order-table-date">@order.FulfillmentDate.Date.ToShortDateString()</p>
                     </div>
                     <div class="col-2 col-lg-2 order-table-item d-flex align-items-center">
                         <p>$@order.Balance</p>
@@ -112,7 +112,7 @@
                         <p>@locationDelivery</p>
                     </div>
                     <div class="col-8 col-lg-2 order-table-item d-flex align-items-center">
-                        <p style="overflow: auto;">@order.Com_thread</p>
+                        <p style="overflow: auto;">@order.ComThread</p>
                     </div>
                     <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
@@ -193,17 +193,17 @@
 
             var dropdownOption = order_count <= 4 ? "show" : "";
 
-            string customer_name = order.Customer.fullName;
-            string locationDelivery = order.Out_Of_Town == true ? "Out-of-town" : "Local";
+            string customer_name = order.Customer.FullName;
+            string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
             locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-            List<Product> products = Model.allProducts.Where(a => a.Order == order).ToList();
+            List<Product> products = Model.Products.Where(a => a.Order == order).ToList();
 
-            var difference = (order.Order_fulfillment_date - DateTime.Now.Date).Days;
+            var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
             string orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
 
-            List<PaymentHistory> orderPaymentHistory = new();
+            List<Payment> orderPaymentHistory = new();
 
-            foreach (var payment in Model.allPaymentHistories)
+            foreach (var payment in Model.Payments)
             {
                 if (payment.Order == order)
                 {
@@ -214,7 +214,7 @@
             var orderCategories = new List<Category>();
             var orderProducts = new List<Product>();
 
-            foreach (var product in Model.allProducts)
+            foreach (var product in Model.Products)
             {
                 if (product.Order == order)
                 {
@@ -234,7 +234,7 @@
                 <div class="col-11" style="width: 96%;">
                     <div class="row">
                         <div class="col-10 col-lg-2 d-flex align-items-center">
-                            <p class="order-table-date">@order.Order_completion_date?.Date.ToShortDateString()</p>
+                            <p class="order-table-date">@order.CompletionDate?.Date.ToShortDateString()</p>
                         </div>
                         <div class="col-2 col-lg-2 order-table-item d-flex align-items-center">
                             <p>$@order.Balance</p>
@@ -246,7 +246,7 @@
                             <p>@locationDelivery</p>
                         </div>
                         <div class="col-8 col-lg-2 order-table-item d-flex align-items-center">
-                            <p style="overflow: auto;">@order.Com_thread</p>
+                            <p style="overflow: auto;">@order.ComThread</p>
                         </div>
                         <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>

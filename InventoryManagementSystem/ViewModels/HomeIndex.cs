@@ -16,10 +16,10 @@ namespace InventoryManagementSystem.ViewModels
         public HomeIndex()
         {
             orderRetrievalModel = new OrderRetrievalModel();
-            orderRetrievalModel.allProducts = new List<Product>();
-            orderRetrievalModel.allCustomers = new List<Customer>();
-            orderRetrievalModel.allOrders = new List<Order>();
-            orderRetrievalModel.allPaymentHistories = new List<PaymentHistory>();
+            orderRetrievalModel.Products = new List<Product>();
+            orderRetrievalModel.Customers = new List<Customer>();
+            orderRetrievalModel.Orders = new List<Order>();
+            orderRetrievalModel.Payments = new List<Payment>();
         }
     }
 }

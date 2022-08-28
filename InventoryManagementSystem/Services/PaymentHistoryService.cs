@@ -13,14 +13,14 @@ namespace InventoryManagementSystem.Services
             _ordersContext = ordersContext;
         }
 
-        public bool CreatePayment(PaymentHistory payment)
+        public bool CreatePayment(Payment payment)
         {
             int orderId = payment.Order.Id;
             payment.Order = null;
 
-            _ordersContext.PaymentHistories.Add(payment);
+            _ordersContext.Payments.Add(payment);
             payment.Order = _ordersContext.Orders.Where(order => order.Id == orderId).First();
-            payment.Order.Balance = payment.Order.Balance - payment.PaymentAmount;
+            payment.Order.Balance = payment.Order.Balance - payment.Amount;
 
             var status = _ordersContext.SaveChanges();
 
@@ -29,25 +29,25 @@ namespace InventoryManagementSystem.Services
 
         public bool DeletePayment(int paymentId)
         {
-            var payment = _ordersContext.PaymentHistories.Include(payment => payment.Order).Where(payment => payment.Id == paymentId).First();
-            _ordersContext.PaymentHistories.Remove(payment);
-            payment.Order.Balance = payment.Order.Balance + payment.PaymentAmount;
+            var payment = _ordersContext.Payments.Include(payment => payment.Order).Where(payment => payment.Id == paymentId).First();
+            _ordersContext.Payments.Remove(payment);
+            payment.Order.Balance = payment.Order.Balance + payment.Amount;
 
             var status = _ordersContext.SaveChanges();
 
             return status == 0 ? false : true;
         }
 
-        public bool UpdatePayment(PaymentHistory updatedPayment)
+        public bool UpdatePayment(Payment updatedPayment)
         {
-            var existingPayment = _ordersContext.PaymentHistories.AsNoTracking().First(payment => payment.Id == updatedPayment.Id);
+            var existingPayment = _ordersContext.Payments.AsNoTracking().First(payment => payment.Id == updatedPayment.Id);
 
             int orderId = updatedPayment.Order.Id;
             existingPayment.Order = null;
             updatedPayment.Order = null;
 
-            existingPayment.PaymentType = existingPayment.PaymentType.Trim();
-            updatedPayment.PaymentType = updatedPayment.PaymentType.Trim();
+            existingPayment.Type = existingPayment.Type.Trim();
+            updatedPayment.Type = updatedPayment.Type.Trim();
 
             var sldkfhjsd = JsonConvert.SerializeObject(existingPayment);
             var lkjg = JsonConvert.SerializeObject(updatedPayment);

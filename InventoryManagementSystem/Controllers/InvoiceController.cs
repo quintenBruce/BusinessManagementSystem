@@ -1,9 +1,8 @@
-﻿using InventoryManagementSystem.Services;
-using Anvil.Client;
-using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.ViewModels;
+﻿using Anvil.Client;
 using InventoryManagementSystem.Models;
-
+using InventoryManagementSystem.Services;
+using InventoryManagementSystem.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -18,7 +17,6 @@ namespace InventoryManagementSystem.Controllers
             _orderGroupService = orderGroupService;
         }
 
-        
         public IActionResult Index(int Id)
         {
             if (_orderService.OrderExists(Id))
@@ -30,10 +28,10 @@ namespace InventoryManagementSystem.Controllers
             else
                 return NotFound();
         }
+
         [HttpPost]
         public async Task<ActionResult> GetInvoice(InvoiceViewModel invoiceViewModel)
         {
-
             var restClient = new RestClient("0ktlnqe3MiSzSRypO97rUyg3i1dwDo1t");
 
             var descriptions = invoiceViewModel.ItemDescriptions;
@@ -48,12 +46,7 @@ namespace InventoryManagementSystem.Controllers
             var amounts = invoiceViewModel.ItemAmounts;
             amounts.AddRange(invoiceViewModel.PaymentAmounts);
 
-
-
-
-
-
-            Random r = new Random();
+            Random r = new();
 
             // Use Payload.Request objects to create your API call.
             var payload = new Anvil.Payloads.Request.FillPdf
@@ -75,41 +68,41 @@ namespace InventoryManagementSystem.Controllers
                      {"yourItemName611", descriptions.ElementAtOrDefault(5) ?? ""},
                      {"yourItemName712", descriptions.ElementAtOrDefault(6) ?? ""},
                      {"yourItemName813", descriptions.ElementAtOrDefault(7) ?? ""},
-                     {"unitCost114",  unitCosts.ElementAtOrDefault(0) != null ? unitCosts.ElementAtOrDefault(0) : ""},
-                     {"unitCost215",  unitCosts.ElementAtOrDefault(1) != null ? unitCosts.ElementAtOrDefault(1) : ""},
-                     {"unitCost316",  unitCosts.ElementAtOrDefault(2) != null ? unitCosts.ElementAtOrDefault(2) : ""},
-                     {"unitCost417",  unitCosts.ElementAtOrDefault(3) != null ? unitCosts.ElementAtOrDefault(3) : ""},
-                     {"unitCost518",  unitCosts.ElementAtOrDefault(4) != null ? unitCosts.ElementAtOrDefault(4) : ""},
-                     {"unitCost619",  unitCosts.ElementAtOrDefault(5) != null ? unitCosts.ElementAtOrDefault(5) : ""},
-                     {"unitCost720",  unitCosts.ElementAtOrDefault(6) != null ? unitCosts.ElementAtOrDefault(6) : ""},
-                     {"unitCost821",  unitCosts.ElementAtOrDefault(7) != null ? unitCosts.ElementAtOrDefault(7) : ""},
-                     {"qtyHrRate122", QTYs.ElementAtOrDefault(0) != null ? QTYs.ElementAtOrDefault(0) : ""},
-                     {"qtyHrRate223", QTYs.ElementAtOrDefault(1) != null ? QTYs.ElementAtOrDefault(1) : ""},
-                     {"qtyHrRate326", QTYs.ElementAtOrDefault(4) != null ? QTYs.ElementAtOrDefault(4) : ""},
-                     {"qtyHrRate424", QTYs.ElementAtOrDefault(2) != null ? QTYs.ElementAtOrDefault(2) : ""},
-                     {"qtyHrRate525", QTYs.ElementAtOrDefault(3) != null ? QTYs.ElementAtOrDefault(3) : ""},
-                     {"qtyHrRate628", QTYs.ElementAtOrDefault(6) != null ? QTYs.ElementAtOrDefault(6) : ""},
-                     {"qtyHrRate727", QTYs.ElementAtOrDefault(5) != null ? QTYs.ElementAtOrDefault(5) : ""},
-                     {"qtyHrRate829", QTYs.ElementAtOrDefault(7) != null ? QTYs.ElementAtOrDefault(7) : ""},
-                     {"amount130",  amounts.ElementAtOrDefault(0) != null ?  amounts.ElementAtOrDefault(0) : ""},
-                     {"amount231",  amounts.ElementAtOrDefault(1) != null ?  amounts.ElementAtOrDefault(1) : ""},
-                     {"amount332",  amounts.ElementAtOrDefault(2) != null ?  amounts.ElementAtOrDefault(2) : ""},
-                     {"amount433",  amounts.ElementAtOrDefault(3) != null ?  amounts.ElementAtOrDefault(3) : ""},
-                     {"amount534",  amounts.ElementAtOrDefault(4) != null ?  amounts.ElementAtOrDefault(4) : ""},
-                     {"amount635",  amounts.ElementAtOrDefault(5) != null ?  amounts.ElementAtOrDefault(5) : ""},
-                     {"amount736",  amounts.ElementAtOrDefault(6) != null ?  amounts.ElementAtOrDefault(6) : ""},
-                     {"amount837",  amounts.ElementAtOrDefault(7) != null ?  amounts.ElementAtOrDefault(7) : ""},
-                     {"specialNotesAndInstructions38",  invoiceViewModel.SpecialNotes},
+                     {"unitCost114",  unitCosts.ElementAtOrDefault(0)},
+                     {"unitCost215",  unitCosts.ElementAtOrDefault(1)},
+                     {"unitCost316",  unitCosts.ElementAtOrDefault(2)},
+                     {"unitCost417",  unitCosts.ElementAtOrDefault(3)},
+                     {"unitCost518",  unitCosts.ElementAtOrDefault(4)},
+                     {"unitCost619",  unitCosts.ElementAtOrDefault(5)},
+                     {"unitCost720",  unitCosts.ElementAtOrDefault(6)},
+                     {"unitCost821",  unitCosts.ElementAtOrDefault(7)},
+                     {"qtyHrRate122", QTYs.ElementAtOrDefault(0)},
+                     {"qtyHrRate223", QTYs.ElementAtOrDefault(1)},
+                     {"qtyHrRate326", QTYs.ElementAtOrDefault(4)},
+                     {"qtyHrRate424", QTYs.ElementAtOrDefault(2)},
+                     {"qtyHrRate525", QTYs.ElementAtOrDefault(3)},
+                     {"qtyHrRate628", QTYs.ElementAtOrDefault(6)},
+                     {"qtyHrRate727", QTYs.ElementAtOrDefault(5)},
+                     {"qtyHrRate829", QTYs.ElementAtOrDefault(7)},
+                     {"amount130",  amounts.ElementAtOrDefault(0)},
+                     {"amount231",  amounts.ElementAtOrDefault(1)},
+                     {"amount332",  amounts.ElementAtOrDefault(2)},
+                     {"amount433",  amounts.ElementAtOrDefault(3)},
+                     {"amount534",  amounts.ElementAtOrDefault(4)},
+                     {"amount635",  amounts.ElementAtOrDefault(5)},
+                     {"amount736",  amounts.ElementAtOrDefault(6)},
+                     {"amount837",  amounts.ElementAtOrDefault(7)},
+                     {"specialNotesAndInstructions38",  invoiceViewModel.SpecialNotes ?? ""},
                      {"addressInFooter39",  "Address in footer"},
                      {"emailInFooter42",  "j.r.woodworking@protonmail.com"},
                      {"websiteInFooter43",  "https://jrwoodworking.azurewebsites.net/"},
-                     {"subtotal44",  invoiceViewModel.SubTotal},
+                     {"subtotal44",  invoiceViewModel.SubTotal ?? 0},
                      {"discount45",  ""},
-                     {"taxRate46",  invoiceViewModel.TaxRate},
-                     {"tax47",  invoiceViewModel.Tax},
-                     {"total48",  invoiceViewModel.Total},
-                     {"billingTo49",  invoiceViewModel.CustomerInformation},
-                     {"shipToIfDifferent50",  ""}, 
+                     {"taxRate46",  invoiceViewModel.TaxRate ?? 0},
+                     {"tax47",  invoiceViewModel.Tax ?? 0},
+                     {"total48",  invoiceViewModel.Total ?? 0},
+                     {"billingTo49",  invoiceViewModel.CustomerInformation ?? ""},
+                     {"shipToIfDifferent50",  ""},
                      {"billTo51",  "Bill to"},
                      {"shipTo52",  ""},
                      {"comapnyAddress53",  "Lubbock, TX 79424"},

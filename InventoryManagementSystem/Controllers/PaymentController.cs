@@ -22,16 +22,16 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public PartialViewResult DeletePayment(int paymentId)
         {
-            List<PaymentHistory> allPayments;
+            List<Payment> allPayments;
 
             using (OrdersContext context = new OrdersContext())
             {
-                int orderId = context.PaymentHistories.Include(payment => payment.Order).Where(payment => payment.Id == paymentId).First().Order.Id;
+                int orderId = context.Payments.Include(payment => payment.Order).Where(payment => payment.Id == paymentId).First().Order.Id;
 
                 bool status = _paymentHistoryService.DeletePayment(paymentId);
                 ViewData["orderId"] = orderId;
 
-                allPayments = context.PaymentHistories.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
+                allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
             }
 
             List<string> paymentCategories = new List<string>();
@@ -46,12 +46,12 @@ namespace InventoryManagementSystem.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult CreatePayments(List<PaymentHistory> payments, int orderId)
+        public PartialViewResult CreatePayments(List<Payment> payments, int orderId)
         {
-            List<PaymentHistory> allPayments;
+            List<Payment> allPayments;
             using (OrdersContext context = new OrdersContext())
             {
-                foreach (PaymentHistory payment in payments)
+                foreach (Payment payment in payments)
                 {
                     payment.Order = new Order();
 
@@ -59,7 +59,7 @@ namespace InventoryManagementSystem.Controllers
                     _paymentHistoryService.CreatePayment(payment);
                 }
 
-                allPayments = context.PaymentHistories.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
+                allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
             }
 
             List<string> paymentCategories = new List<string>();
@@ -74,7 +74,7 @@ namespace InventoryManagementSystem.Controllers
             return PartialView("~/Views/Order/_PaymentHistoryPartial.cshtml", allPayments);
         }
 
-        public PartialViewResult UpdatePayment(List<PaymentHistory> payments)
+        public PartialViewResult UpdatePayment(List<Payment> payments)
         {
             using (OrdersContext context = new OrdersContext())
             {
@@ -82,7 +82,7 @@ namespace InventoryManagementSystem.Controllers
                 foreach (var payment in payments)
                     _paymentHistoryService.UpdatePayment(payment);
 
-                var allPayments = context.PaymentHistories.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
+                var allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
 
                 List<string> paymentCategories = new List<string>();
                 paymentCategories.Add("Venmo");
