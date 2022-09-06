@@ -1,36 +1,30 @@
-﻿using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.ViewModels;
 
 namespace InventoryManagementSystem.Services
 {
     public class CalenderService : ICalender
     {
-        private readonly IOrder orderService;
         private readonly IProduct productService;
 
-
-        public CalenderService(IOrder _ordersService, IProduct _productService)
+        public CalenderService(IProduct _productService)
         {
-            orderService = _ordersService;
             productService = _productService;
         }
-        public List<CalenderViewModel> GetCalenderModel()
+
+        public List<CalenderViewModel> GetCalenderModel(IEnumerable<CalenderDTO> calenderDTOs)
         {
             List<CalenderViewModel> viewModel = new List<CalenderViewModel>();
-            List<Order> orders = orderService.GetOrders();
-            List<Product> products = productService.GetProducts();
 
-            foreach (Order order in orders.Where(x => x.Status == false))
+            foreach (CalenderDTO calenderDTO in calenderDTOs)
             {
-                string title = products.Where(x => x.Order.Id == order.Id).ToList().Count.ToString();
+                string title = calenderDTO.NumProducts.ToString();
                 title = (title == "1") ? (title + " Product") : (title + " Products");
-                string start = order.FulfillmentDate.ToString("yyyy/MM/dd").Replace("/", "-");
-                string url = "https://localhost:44306/Order/OrderDetails/" + order.Id.ToString();
-                CalenderViewModel model = new(title, start, "#3788d8", "#3788d8", url);
-                viewModel.Add(model);
+                string start = calenderDTO.FulfillmentDate.ToString("yyyy/MM/dd").Replace("/", "-");
+                string url = "https://localhost:7020/Order/OrderDetails/" + calenderDTO.Id.ToString();
+                viewModel.Add(new(title, start, "#3788d8", "#3788d8", url));
             }
             return viewModel;
-
         }
     }
 }

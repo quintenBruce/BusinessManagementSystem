@@ -10,7 +10,8 @@
 
 @{
     var customerFullName = @Model.Customer.FullName;
-    
+    var lskdf = ViewData["asdf"];
+
     var dfg = @Model.Customer.FullName;
 
 }
@@ -28,7 +29,7 @@
                 <ul class="dropdown-menu p-0" aria-labelledby="delete-order-dropdown">
                     <li>
                         <form action="/Order/DeleteOrder">
-                            <input type="hidden" value=@Model..Id name="orderId" />
+                            <input type="hidden" value=@Model.Id name="orderId" />
                             <button class="dropdown-item" onclick="return confirm('Are you sure you want to delete order?')" type="submit" href="#">Delete Order</button>
                         </form>
                     </li>

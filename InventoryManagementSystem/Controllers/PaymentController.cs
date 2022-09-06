@@ -1,17 +1,17 @@
-﻿using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.DTOs;
+using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class PaymentController : Controller
     {
-        private IPaymentHistory _paymentHistoryService;
+        private WebApiService _webApiService;
 
-        public PaymentController(IPaymentHistory paymentHistoryService)
+        public PaymentController(WebApiService webApiService)
         {
-            _paymentHistoryService = paymentHistoryService;
+            _webApiService = webApiService;
         }
 
         public IActionResult Index()
@@ -20,82 +20,47 @@ namespace InventoryManagementSystem.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult DeletePayment(int paymentId)
+        public async Task<PartialViewResult> DeletePayment(int paymentId, int orderId)
         {
-            List<Payment> allPayments;
+            bool status = await _webApiService.DeletePayment(paymentId);
 
-            using (OrdersContext context = new OrdersContext())
-            {
-                int orderId = context.Payments.Include(payment => payment.Order).Where(payment => payment.Id == paymentId).First().Order.Id;
+            var allPayments = await _webApiService.GetPaymentsAsync(orderId);
 
-                bool status = _paymentHistoryService.DeletePayment(paymentId);
-                ViewData["orderId"] = orderId;
-
-                allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
-            }
-
-            List<string> paymentCategories = new List<string>();
-            paymentCategories.Add("Venmo");
-            paymentCategories.Add("Cash App");
-            paymentCategories.Add("Cash");
-            paymentCategories.Add("Other");
-
-            ViewData["paymentTypeCategories"] = paymentCategories;
-
+            ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
+            ViewData["orderId"] = orderId;
             return PartialView("~/Views/Order/_PaymentHistoryPartial.cshtml", allPayments);
         }
 
         [HttpPost]
-        public PartialViewResult CreatePayments(List<Payment> payments, int orderId)
+        public async Task<PartialViewResult> CreatePayments(List<CreatePaymentDTO> payments, int orderId)
         {
-            List<Payment> allPayments;
-            using (OrdersContext context = new OrdersContext())
-            {
-                foreach (Payment payment in payments)
-                {
-                    payment.Order = new Order();
 
-                    payment.Order.Id = orderId;
-                    _paymentHistoryService.CreatePayment(payment);
-                }
+            payments.ForEach(x => x.OrderId = orderId);
+            var paymentCreateStatus = await _webApiService.CreatePaymentsAsync(payments);
+            
 
-                allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
-            }
+            var allPayments = (List<Payment>)await _webApiService.GetPaymentsAsync(orderId);
 
-            List<string> paymentCategories = new List<string>();
-            paymentCategories.Add("Venmo");
-            paymentCategories.Add("Cash App");
-            paymentCategories.Add("Cash");
-            paymentCategories.Add("Other");
-
-            ViewData["paymentTypeCategories"] = paymentCategories;
+            ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
             ViewData["orderId"] = orderId;
 
             return PartialView("~/Views/Order/_PaymentHistoryPartial.cshtml", allPayments);
         }
 
-        public PartialViewResult UpdatePayment(List<Payment> payments)
+        public async Task<PartialViewResult> UpdatePayment(List<PaymentDTO> payments, int orderId)
         {
-            using (OrdersContext context = new OrdersContext())
-            {
-                var orderId = payments[0].Order.Id;
-                foreach (var payment in payments)
-                    _paymentHistoryService.UpdatePayment(payment);
+            
 
-                var allPayments = context.Payments.Include(payment => payment.Order).Where(payment => payment.Order.Id == orderId).ToList();
+            
+            
+            var updatedPayments = await _webApiService.UpdatePayments(payments);
 
-                List<string> paymentCategories = new List<string>();
-                paymentCategories.Add("Venmo");
-                paymentCategories.Add("Cash App");
-                paymentCategories.Add("Cash");
-                paymentCategories.Add("Other");
 
-                ViewData["paymentTypeCategories"] = paymentCategories;
+            ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
 
-                ViewData["orderId"] = orderId;
+            ViewData["orderId"] = orderId;
 
-                return PartialView("~/Views/Order/_PaymentHistoryPartial.cshtml", allPayments);
-            }
+            return PartialView("~/Views/Order/_PaymentHistoryPartial.cshtml", updatedPayments);
         }
     }
 }

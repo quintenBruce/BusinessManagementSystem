@@ -22,20 +22,20 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Order fulfillment date</p>
 						</div>
-						<input id="order-fulfillment-date" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.FulfillmentDate" type="date">
+						<input id="order-fulfillment-date" class="col-11 col-sm-5 order-details-input-active" name="Order.FulfillmentDate" type="date">
 						<span id="order_Order_fulfillment_date_validation" class="text-danger"></span>
 					</div>
 					<div class="row pb-4">
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Down Payment Amount</p>
 						</div>
-						<input id="downpayment-amount" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.paymentHistory[0].PaymentAmount" type="number">
+						<input id="downpayment-amount" class="col-11 col-sm-5 order-details-input-active" name="Order.Payments[0].Amount" type="number">
 					</div>
 					<div class="row pb-4">
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Payment Type</p>
 						</div>
-						<select class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.paymentHistory[0].Type" style="background-color:#ffffff;">
+						<select class="col-11 col-sm-5 order-details-input-inactive" name="Order.Payments[0].Type" style="background-color:#ffffff;">
 							<option class="input-class" value="Venmo">Venmo</option>
 							<option class="input-class" value="Cash App">Cash App</option>
 							<option class="input-class" value="Cash">Cash</option>
@@ -46,7 +46,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Delivery Fee</p>
 						</div>
-						<input id="order-deliver-fee" class="col-11 col-sm-5 order-details-input-active number-input" name="orderGroup.order.DeliveryFee" type="number" />
+						<input id="order-deliver-fee" class="col-11 col-sm-5 order-details-input-active number-input" name="Order.DeliveryFee" type="number" />
 					</div>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Full Name</p>
 						</div>
-						<input id="customer-full-name" class="col-11 col-sm-5 order-details-input-active" name="orderGroup.order.Customer.FullName" type="text">
+						<input id="customer-full-name" class="col-11 col-sm-5 order-details-input-active" name="Order.Customer.FullName" type="text">
 						<span id="customer_First_name_validation" class="text-danger"></span>
 					</div>
 					<div class="row pb-4">
@@ -65,14 +65,14 @@
 							<p>Out-of-Town</p>
 						</div>
 						<div class="col-11 col-sm-5 d-flex justify-content-start">
-							<input asp-for="orderGroup.order.OutOfTown" type="checkbox">
+							<input asp-for="Order.OutOfTown" type="checkbox">
 						</div>
 					</div>
 					<div class="row pb-4">
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Communication Thread</p>
 						</div>
-						<select id="customer-com-thread" class="col-11 col-sm-5 order-details-input-inactive" name="orderGroup.order.ComThread" style="background-color:#ffffff;">
+						<select id="customer-com-thread" class="col-11 col-sm-5 order-details-input-inactive" name="Order.ComThread" style="background-color:#ffffff;">
 							<option class="input-class" selected>Select a communication thread</option>
 							<option class="input-class" value="Marketplace">Marketplace</option>
 							<option class="input-class" value="Page">Facebook Page</option>
@@ -84,7 +84,7 @@
 						<div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
 							<p>Phone Number</p>
 						</div>
-						<input asp-for="orderGroup.order.Customer.PhoneNumber" type="number" class="col-11 col-sm-5 order-details-input-active number-input" type="number" >
+						<input asp-for="Order.Customer.PhoneNumber" type="number" class="col-11 col-sm-5 order-details-input-active number-input" type="number" >
 					</div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 						<p>Name</p>
 					</div>
 					<div class="col-12 col-sm-5 col-lg-12">
-						<input id="orderGroup_products_0__Name" name="orderGroup.products[0].Name" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" name="products[1].Name">
+						<input id="orderGroup_products_0__Name" name="Order.Products[0].Name" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" name="products[1].Name">
 					</div>
 				</div>
 			</div>
@@ -126,7 +126,7 @@
 						<p>Description</p>
 					</div>
 					<div class="col-12 col-sm-5 col-lg-12">
-						<textarea id="orderGroup_products_0__Description" name="orderGroup.products[0].Description" class="order-details-product-textarea order-details-product-info-input-active product-description new-product-property" rows="1"  name="products[1].Description"></textarea>
+						<textarea id="orderGroup_products_0__Description" name="Order.Products[0].Description" class="order-details-product-textarea order-details-product-info-input-active product-description new-product-property" rows="1"  name="products[1].Description"></textarea>
 					</div>
 				</div>
 			</div>
@@ -136,7 +136,7 @@
 						<p>Dimensions</p>
 					</div>
 					<div class="col-12 col-sm-5 col-lg-12">
-						<input id="orderGroup_products_0__Dimensions" name="orderGroup.products[0].Dimensions" type="text" class="order-details-product-info-input-active product-dimensions new-product-property" name="products[1].Dimensions">
+						<input id="orderGroup_products_0__Dimensions" name="Order.Products[0].Dimensions" type="text" class="order-details-product-info-input-active product-dimensions new-product-property" name="products[1].Dimensions">
 					</div>
 				</div>
 			</div>
@@ -146,7 +146,7 @@
 						<p>Category</p>
 					</div>
 					<div class="col-12 col-sm-5 col-lg-12">
-						<select id="orderGroup_products_0__Category_Id" value="" name="orderGroup.products[0].Category.Id" class="col-11 col-sm-5 order-details-product-info-input-active product-category new-product-property" style="background-color: white;" name="products[1].Category.Name">
+						<select id="orderGroup_products_0__Category_Id" value="" name="Order.Products[0].Category.Id" class="col-11 col-sm-5 order-details-product-info-input-active product-category new-product-property" style="background-color: white;" name="products[1].Category.Name">
 							@foreach (var category in (IEnumerable<Category>)ViewData["productCategories"])
                             {
                                 <!option class="input-class" value="@category.Id">@category.Name.Trim()</!option>
@@ -163,7 +163,7 @@
 					<div class="col-12 col-sm-5 col-lg-12">
 						<div class="input-group input-group-sm" style="flex-wrap: unset;">
 							<span class="input-group-text">$</span>
-							<input id="orderGroup_products_0__Price" name="orderGroup.products[0].Price"  class="form-control form-control-sm" type="number" step="0.01" data-val="true" data-val-number="The field Price must be a number." data-val-required="The Price field is required." id="orderGroup_products_0__Price" name="orderGroup.products[0].Price" value="">
+							<input id="orderGroup_products_0__Price" name="Order.products[0].Price"  class="form-control form-control-sm" type="number" step="0.01" data-val="true" data-val-number="The field Price must be a number." data-val-required="The Price field is required." id="orderGroup_products_0__Price" name="Order.Products[0].Price" value="">
                          </div>
 					</div>
 				</div>
@@ -193,26 +193,11 @@
 
 
 
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
 <div class="m-5 mb-3 mt-1">
     <h4 class="page-header-text">Detailed Order Summary</h4>
 </div>
 
-<partial name="_OrderDisplayPartial" for="orderRetrievalModel">
+<partial name="_OrderDisplayPartial" for="Orders">
 
 
 

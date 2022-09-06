@@ -9,14 +9,12 @@ namespace InventoryManagementSystem.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrder _orderService;
         private readonly IOrderGroup _orderGroupService;
         private readonly IProduct _productService;
         private WebApiService _webApiService;
 
-        public OrderController(IOrder orderService, IOrderGroup orderGroupService, IProduct productService, WebApiService webApiService)
+        public OrderController(IOrderGroup orderGroupService, IProduct productService, WebApiService webApiService)
         {
-            _orderService = orderService;
             _orderGroupService = orderGroupService;
             _productService = productService;
             _webApiService = webApiService;
@@ -24,59 +22,54 @@ namespace InventoryManagementSystem.Controllers
 
         public async Task<ViewResult> Index()
         {
-            OrderIndex orderViewModel = new();
+            OrderIndex viewModel = new();
 
-            orderViewModel.orderRetrievalModel.Products = _productService.GetProducts(); //assigning all products from database to model.submodel
-
-            using (OrdersContext context = new())
-            {
-                orderViewModel.orderRetrievalModel.Products = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
-                orderViewModel.orderRetrievalModel.Customers = context.Customers.ToList();
-                orderViewModel.orderRetrievalModel.Orders = context.Orders.ToList();
-                orderViewModel.orderRetrievalModel.Payments = context.Payments.Include(payment => payment.Order).ToList();
-
-                ViewData["productCategories"] = context.Categories.ToList();
-            }
-
-            Order order = new Order();
+            viewModel.Orders = await _webApiService.GetOrdersAsync();
 
             ViewData["orderSummary"] = "detailed";
+            ViewData["productCategories"] = await _webApiService.GetCategoriesAsync();
 
-            return View(orderViewModel);
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Index(OrderGroup orderGroup)
+        public async Task<ActionResult> Index(Order order)
         {
-            for (int i = 0; i < orderGroup.products.Count; i++) //iterate over products to set order foreign key to order
+            if (order.Payments.ElementAt(0).Amount == 0)
             {
-                orderGroup.products[i].Order = orderGroup.order;
-                orderGroup.order.Total += orderGroup.products[i].Price + orderGroup.order.DeliveryFee;
+                order.Payments = null;
             }
 
-            if (orderGroup.paymentHistory != null) //if model includes downpayment, set order foreign key to order and
-            {                                          //update order balance
-                orderGroup.paymentHistory[0].Order = orderGroup.order;
-                orderGroup.order.Balance = orderGroup.order.Total - orderGroup.paymentHistory[0].Amount;
+            foreach (var product in order.Products)
+            {
+                product.Category = await _webApiService.GetCategoryAsync(product.Category.Id);
             }
 
-            orderGroup.order.PlacementDate = DateTime.Now;
-            _orderGroupService.CreateOrderGroup(orderGroup.products, orderGroup.order, orderGroup.paymentHistory[0], orderGroup.order.Customer);
+            order.Total += order.Products.Sum(x => x.Price) + order.DeliveryFee;
+            order.Balance = order.Total;
+            order.Balance -= order.Payments is not null ? order.Payments.Sum(x => x.Amount) : 0;
 
-            return RedirectToAction("Index");
+            order.PlacementDate = DateTime.Now;
+
+            OrderDTO orderDTO = OrderDTO.ToOrderDTO(order);
+
+            var addedOrder = await _webApiService.CreateOrderAsync(orderDTO);
+            ViewData["categories"] = await _webApiService.GetCategoriesAsync();
+            ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
+            return View(@"~/Views/Order/OrderDetails.cshtml", addedOrder);
         }
 
-        public ActionResult DeleteOrder(int orderId)
+        public async Task<ActionResult> DeleteOrder(int orderId)
         {
-            bool status = _orderService.DeleteOrder(orderId);
+            var status = await _webApiService.DeleteOrder(orderId);
 
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        public ActionResult CompleteOrder(Order order)
+        public async Task<ActionResult> CompleteOrder(int id)
         {
-            _orderService.CompleteOrder(order.Id);
+            var status = await _webApiService.CompleteOrder(id);
             return RedirectToAction("Index", "Home");
         }
 

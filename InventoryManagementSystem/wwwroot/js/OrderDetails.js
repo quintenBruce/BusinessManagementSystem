@@ -330,8 +330,8 @@ function addPayment() {
 
     newPaymentRow.css("display", "flex")
     newPaymentRow.addClass("new-product-row")
-    newPaymentRow.find(".payment-amount").attr("name", ("payments[" + paymentCount.toString() + "].PaymentAmount"))
-    newPaymentRow.find(".payment-type").attr("name", ("payments[" + paymentCount.toString() + "].PaymentType"))
+    newPaymentRow.find(".payment-amount").attr("name", ("payments[" + paymentCount.toString() + "].Amount"))
+    newPaymentRow.find(".payment-type").attr("name", ("payments[" + paymentCount.toString() + "].Type"))
 
     //append new product
     $("#payment-rows-container").append(newPaymentRow)

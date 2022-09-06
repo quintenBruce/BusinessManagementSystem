@@ -9,37 +9,23 @@ namespace InventoryManagementSystem.Controllers
     public class HomeController : Controller
     {
         private readonly IProduct _productService;
-        public HomeController(IProduct productService)
+        private WebApiService _webApiService;
+        public HomeController(IProduct productService, WebApiService webApiService)
         {
             _productService = productService;
+            _webApiService = webApiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
-            HomeIndex orderViewModel = new HomeIndex();
-            
-
-
-            
-            orderViewModel.orderRetrievalModel.Products = _productService.GetProducts(); //assign all products from database to model.submodel
-
-            using (OrdersContext context = new OrdersContext())
-            {
-                orderViewModel.orderRetrievalModel.Products = context.Products.Include(product => product.Category).Include(product => product.Order).ToList();
-                orderViewModel.orderRetrievalModel.Customers = context.Customers.ToList();
-                orderViewModel.orderRetrievalModel.Orders = context.Orders.Where(order => order.Status == false).ToList();
-                orderViewModel.orderRetrievalModel.Payments = context.Payments.Include(payment => payment.Order).ToList();
-                ViewData["productCategories"] = context.Categories.ToList();
-            }
-
-            Order order = new Order();
-            ViewData["SingleOrder"] = order;
+     
+            List<Order> viewModel = await _webApiService.GetOrdersAsync();
+           
             ViewData["orderSummary"] = "active";
-            
 
-            return View(orderViewModel);
-            
+
+            return View(viewModel);
+
         }
 
         

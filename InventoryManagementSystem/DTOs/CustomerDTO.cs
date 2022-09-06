@@ -13,7 +13,7 @@ namespace InventoryManagementSystem.DTOs
             { 
                 Id = customer.Id,
                 FullName = customer.FullName,
-                PhoneNumber = customer.PhoneNumber
+                PhoneNumber = customer.PhoneNumber ?? 0
             };
         }
     }

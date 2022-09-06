@@ -1,6 +1,6 @@
 ﻿@using InventoryManagementSystem.Models
 @using InventoryManagementSystem.ViewModels
-@model InventoryManagementSystem.ViewModels.OrderRetrievalModel
+@model List<Order>
 
 
 
@@ -45,20 +45,19 @@
     @{
         int order_count = 0;
         var todaysDate = DateTime.Now.Date;
-        var activeOrders = Model.Orders.Where(order => order.Status == false).OrderBy(order => order.FulfillmentDate).ToList();
-        var inactiveOrders = Model.Orders.Where(order => order.Status == true).OrderBy(order => order.FulfillmentDate).ToList();
+        var activeOrders = Model.Where(order => order.Status == false).OrderBy(order => order.FulfillmentDate).ToList();
+        var inactiveOrders = Model.Where(order => order.Status == true).OrderBy(order => order.FulfillmentDate).ToList();
     }
     @foreach (var order in activeOrders)
     {
-        ViewData["SingleOrder"] = order;
+        
 
         var dropdownOption = order_count <= 4 ? "show" : "";
 
         string customer_name = order.Customer.FullName;
         string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
         locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-        var products = new List<Product>();
-        products = Model.Products.Where(a => a.Order == order).ToList();
+        
 
         var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
         string orderStatusStyle = "";
@@ -71,27 +70,12 @@
 
 
 
-        var orderPaymentHistory = new List<Payment>();
+        
 
-            foreach (var payment in Model.Payments)
-            {
-                if (payment.Order == order)
-                    orderPaymentHistory.Add(payment);
-            }
+            
 
-            var orderCategories = new List<Category>();
-            var orderProducts = new List<Product>();
+            
 
-            foreach (var product in Model.Products)
-            {
-                if (product.Order == order)
-                {
-                    orderCategories.Add(product.Category);
-                    orderProducts.Add(product);
-                }
-            }
-
-            var orderDetailsViewModel = new OrderDetailsViewModel(order, order.Customer, orderPaymentHistory, orderCategories, orderProducts);
         
         <div class="row order-row p-1 m-1" style="max-width: 100%;">
             <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
@@ -117,7 +101,7 @@
                     <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
                         <a href="@Url.Action("OrderDetails", "Order", new {id=order.Id})" class="btn btn-light order-table-button"><i class="fa-solid fa-pencil"></i></a>
-                        <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
+                        <partial name="_OrderCompleteButtonPartial" for=@order.Id>
                     </div>
                 </div>
             </div>
@@ -153,7 +137,7 @@
 
         @*individual product*@
 
-            @foreach (var product in products)
+            @foreach (var product in order.Products)
             {
 
                 string dimensions = product.Dimensions != null ? product.Dimensions : "";
@@ -189,41 +173,21 @@
     {
         @foreach (var order in inactiveOrders)
         {
-            ViewData["SingleOrder"] = order;
+            
 
             var dropdownOption = order_count <= 4 ? "show" : "";
 
             string customer_name = order.Customer.FullName;
             string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
             locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-            List<Product> products = Model.Products.Where(a => a.Order == order).ToList();
 
             var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
             string orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
 
-            List<Payment> orderPaymentHistory = new();
+            
 
-            foreach (var payment in Model.Payments)
-            {
-                if (payment.Order == order)
-                {
-                    orderPaymentHistory.Add(payment);
-                }
-            }
+        
 
-            var orderCategories = new List<Category>();
-            var orderProducts = new List<Product>();
-
-            foreach (var product in Model.Products)
-            {
-                if (product.Order == order)
-                {
-                    orderCategories.Add(product.Category);
-                    orderProducts.Add(product);
-                }
-            }
-
-            var orderDetailsViewModel = new OrderDetailsViewModel(order, order.Customer, orderPaymentHistory, orderCategories, orderProducts);
             var one = 9;
 
         
@@ -251,7 +215,7 @@
                         <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
                         <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
                             <a href="@Url.Action("OrderDetails", "Order", new {id=order.Id})" class="btn btn-light order-table-button"><i class="fa-solid fa-pencil"></i></a>
-                            <partial name="_OrderCompleteButtonPartial" for=@ViewData["SingleOrder"]>
+                            <partial name="_OrderCompleteButtonPartial" for=@order.Id>
                         </div>
                     </div>
                 </div>
@@ -287,7 +251,7 @@
 
             @*individual product*@
 
-            @foreach (var product in products)
+            @foreach (var product in order.Products)
             {
 
                 string dimensions = product.Dimensions != null ? product.Dimensions : "";

@@ -27,22 +27,18 @@
                     <h4 class="order-table-header-item">Type</h4>
                 </div>
             </div>
-            @{
-                var paymentCount = -1;
-                foreach(var payment in Model)
-                {
+            <input type="hidden" name="orderId" value=@ViewData["orderId"] form="edit-payments-form" />
+        @{
+            var paymentCount = -1;
+            foreach(var payment in Model)
+            {
 
-                    string rowBorder = payment == Model.First() ? "" : "order-details-table-row";
+                string rowBorder = payment == Model.First() ? "" : "order-details-table-row";
 
-                    paymentCount += 1;
-                    ViewData["PaymentIndex"] = paymentCount;
+                paymentCount += 1;
 
-
-                    <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Order.Id") value=@ViewData["orderId"] form="edit-payments-form" />
                     <input type="hidden" name=@("payments[" + paymentCount.ToString() + "].Id") value=@payment.Id form="edit-payments-form" />
                           
-                    
-
 
                             <div id=@("payment" + paymentCount.ToString()) class="row pt-3 pt-lg-0 pb-3 pb-lg-0 @rowBorder @(paymentCount % 2 == 0 ? "table-row-grey" : "")">
 
@@ -52,7 +48,7 @@
                                             <p>Amount</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-12">
-                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.Amount) name=@("payments[" + paymentCount.ToString() + "].PaymentAmount") disabled/>
+                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.Amount) name=@("payments[" + paymentCount.ToString() + "].Amount") disabled/>
                                         </div>
                                     </div>
                                 </div>

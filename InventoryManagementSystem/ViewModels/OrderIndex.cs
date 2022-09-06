@@ -5,14 +5,14 @@ namespace InventoryManagementSystem.ViewModels
 {
     public class OrderIndex
     {
-        public OrderGroup orderGroup { get; set; }
+        public Order Order { get; set; }
 
         [Display(Name = "Category")]
-        public OrderRetrievalModel orderRetrievalModel { get; set; }
+        public List<Order> Orders { get; set; }
 
         public OrderIndex()
         {
-            orderRetrievalModel = new OrderRetrievalModel();
+            Orders = new List<Order>();
         }
 
     }

@@ -1,6 +1,5 @@
-﻿
-<form asp-controller="Order" asp-action="CompleteOrder" method="post" id="deleteForm1" role="form">
-    <input type="hidden" name="Id" value="@Model.Id" />
+﻿<form asp-controller="Order" asp-action="CompleteOrder" method="post" id="deleteForm1" role="form">
+    <input type="hidden" name="id" value="@Model" />
     <button class="btn btn-light order-table-button" type="submit" onclick="return confirm('Are you sure you want to mark this order as completed?')"><i class="fa-solid fa-check"></i></button>
 </form>
 

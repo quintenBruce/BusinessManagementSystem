@@ -186,32 +186,32 @@ function addProduct() {
         console.log($(this).attr('id'))
         return $(this).attr('id') == "orderGroup_products_0__Name";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Name")
-      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Name")
+      .attr("name", "Order.Products[" + productIndex.toString() + "].Name")
       .val("")
     
     
     newProductRow.find("textarea").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Description";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Description")
-      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Description")
+      .attr("name", "Order.Products[" + productIndex.toString() + "].Description")
       .val("")
 
     newProductRow.find("input").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Dimensions";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Dimensions")
-      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Dimensions")
+      .attr("name", "Order.Products[" + productIndex.toString() + "].Dimensions")
       .val("")
 
     newProductRow.find("select").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Category_Id";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Category_Id")
-      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Category.Id")
+      .attr("name", "Order.Products[" + productIndex.toString() + "].Category.Id")
       .val("")
 
     newProductRow.find("input").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Price";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Price")
-      .attr("name", "orderGroup.products[" + productIndex.toString() + "].Price")
+      .attr("name", "Order.Products[" + productIndex.toString() + "].Price")
       .val("")
       .change(function () { //add change event listener 
           updateTotalAndBalance()

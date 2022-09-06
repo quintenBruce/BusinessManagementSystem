@@ -1,9 +1,10 @@
-﻿using InventoryManagementSystem.ViewModels;
+﻿using InventoryManagementSystem.DTOs;
+using InventoryManagementSystem.ViewModels;
 
 namespace InventoryManagementSystem.Services
 {
     public interface ICalender
     {
-        List<CalenderViewModel> GetCalenderModel();
+        List<CalenderViewModel> GetCalenderModel(IEnumerable<CalenderDTO> calenderDTOs);
     }
 }
