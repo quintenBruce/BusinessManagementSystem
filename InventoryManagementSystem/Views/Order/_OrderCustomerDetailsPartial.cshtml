@@ -38,7 +38,7 @@
                         <p>Order Status</p>
                     </div>
                     <div class="col-11 col-sm-5 d-flex justify-content-start">
-                        <input class="order-details-input-inactive" name="updatedOrder.Order_status" type="checkbox" value="true" disabled @(Model.Status == true ? "checked" : "") />
+                        <input class="order-details-input-inactive" name="updatedOrder.Status" type="checkbox" value="true" disabled @(Model.Status == true ? "checked" : "") />
                     </div>
                 </div>
                 <div class="row pb-4">
@@ -63,7 +63,7 @@
                     <div class="col-12 col-sm-6 d-flex align-items-center">
                         <p class="">Name</p>
                     </div>
-                    <input class="col-11 col-sm-5 order-details-input-inactive" name="updatedCustomer.FullName" type="text" value='@(Model.Customer.FullName.ToString())' disabled/>
+                    <input class="col-11 col-sm-5 order-details-input-inactive" name="updatedOrder.Customer.FullName" type="text" value='@(Model.Customer.FullName.ToString())' disabled/>
                    
                 </div>
                 <div class="row pb-4">
@@ -96,7 +96,7 @@
                     <div class="col-12 col-sm-6 d-flex align-items-center"> 
                         <p class="">Phone Number</p>
                     </div>
-                    <input class="col-11 col-sm-5 order-details-input-inactive" type="number" name="updatedCustomer.PhoneNumber" value=@(Model.Customer.PhoneNumber != 0 ? Model.Customer.PhoneNumber : "N/A") disabled/>
+                    <input class="col-11 col-sm-5 order-details-input-inactive" type="number" name="updatedOrder.Customer.PhoneNumber" value=@(Model.Customer.PhoneNumber != 0 ? Model.Customer.PhoneNumber : "N/A") disabled/>
                 </div>
                 <img id="load" style="width: 20px; display:none;" src="https://res.cloudinary.com/dmremrlru/image/upload/v1660180355/loading-buffering_hutsmm.gif" alt="" />
             </div>

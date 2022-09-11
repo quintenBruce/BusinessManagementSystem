@@ -5,6 +5,7 @@ namespace InventoryManagementSystem
     public class MonthlyEngagedUsersCache : IMonthlyEngagedUsersCache
     {
         private readonly IMemoryCache memoryCache;
+
         public MonthlyEngagedUsersCache(IMemoryCache memoryCache)
         {
             this.memoryCache = memoryCache;

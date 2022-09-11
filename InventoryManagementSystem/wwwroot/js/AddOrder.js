@@ -1,14 +1,10 @@
-﻿
-if (productIndex == 0) 
+﻿if (productIndex == 0)
     document.getElementById("remove-product").style.display = "none"
-
-
 
 function updateTotalAndBalance() {
     var totalPrice = 0
     var totalPriceSpan = $("#total-price")
     var balanceSpan = $("#balance")
-
 
     var j;
     for (j = 0; j < productIndex + 1; j++) {
@@ -22,16 +18,8 @@ function updateTotalAndBalance() {
 
     isNaN(totalPrice) ? totalPriceSpan.html("0") : totalPriceSpan.html(totalPrice.toString())
 
-   $("#downpayment-amount").val() == "" ? balanceSpan.html(totalPrice.toString()) : balanceSpan.html(totalPrice - parseInt($("#downpayment-amount").val()))
+    $("#downpayment-amount").val() == "" ? balanceSpan.html(totalPrice.toString()) : balanceSpan.html(totalPrice - parseInt($("#downpayment-amount").val()))
 }
-
-
-
-
-
-
-
-
 
 $("#orderGroup_products_0__Price, #order-deliver-fee, #downpayment-amount").each(function () { //add change event listener to update total price
     $(this).change(function () {
@@ -39,14 +27,7 @@ $("#orderGroup_products_0__Price, #order-deliver-fee, #downpayment-amount").each
     })
 })
 
-
-
-
-
-
 const form = document.getElementById("order-form");
-
-
 
 form.addEventListener("submit", (e) => {
     var errors = 0;
@@ -60,19 +41,16 @@ form.addEventListener("submit", (e) => {
         $("#customer_First_name_validation").html("Customer First Name Is Required")
     }
 
-    else 
+    else
         $("#customer_First_name_validation").html("")
-    
 
     if (communcationThread == "Select a communication thread") {
         errors += 1;
         $("#order_Com_thread_validation").html("Communication Thread Is Required")
     }
 
-    else 
+    else
         $("#order_Com_thread_validation").html("")
-    
-
 
     if (fulfillmentDate == "") {
         errors += 1;
@@ -84,12 +62,12 @@ form.addEventListener("submit", (e) => {
 
     var i;
     for (i = 0; i < productIndex + 1; i++) {
-        if ($("#orderGroup_products_" + i.toString() + "__Name").val() === "" ) {
+        if ($("#orderGroup_products_" + i.toString() + "__Name").val() === "") {
             errors += 1;
             if (!$("#products_" + i.toString() + "__Name_validation").length) { //create error message span
                 var message = $("<span>Product Name Is Required</span>")
-                               .addClass("text-danger")
-                               .attr("id", "products_" + i.toString() + "__Name_validation")
+                    .addClass("text-danger")
+                    .attr("id", "products_" + i.toString() + "__Name_validation")
 
                 var parent = $("#orderGroup_products_" + i.toString() + "__Name").parent();
                 parent.append(message)
@@ -101,24 +79,19 @@ form.addEventListener("submit", (e) => {
             }
         }
 
-
-
-
         if (!$("#orderGroup_products_" + i.toString() + "__Category_Id").val()) {
             errors += 1;
 
             if (!$("#categoryIds_" + i.toString() + "_validation").length) {
-
                 var message = $("<span>Category Is Required</span>")
-                                .addClass("text-danger")
-                                .attr("id", "categoryIds_" + i.toString() + "_validation")
+                    .addClass("text-danger")
+                    .attr("id", "categoryIds_" + i.toString() + "_validation")
 
                 var parent = $("#orderGroup_products_" + i.toString() + "__Category_Id").parent();
                 parent.append(message)
             }
         }
         else {
-
             if ($("#categoryIds_" + i.toString() + "_validation").length) {
                 $("#categoryIds_" + i.toString() + "_validation").remove();
             }
@@ -128,36 +101,23 @@ form.addEventListener("submit", (e) => {
             errors += 1;
 
             if (!$("#products_" + i.toString() + "__Price_validation").length) {
-
                 var message = $("<span>Product Price Is Required</span>")
-                               .addClass("text-danger")
-                               .attr("id", "products_" + i.toString() + "__Price_validation");
-   
+                    .addClass("text-danger")
+                    .attr("id", "products_" + i.toString() + "__Price_validation");
+
                 var parent = $("#orderGroup_products_" + i.toString() + "__Price").parent().parent();
                 parent.append(message)
             }
         }
         else {
-
-            if ($("#products_" + i.toString() + "__Price_validation")) 
+            if ($("#products_" + i.toString() + "__Price_validation"))
                 $("#products_" + i.toString() + "__Price_validation").remove();
-            
         }
-
     }
 
-    if (errors > 0) 
+    if (errors > 0)
         e.preventDefault();
-    
-
 })
-
-
-
-
-
-
-
 
 var productIndex = 0;
 
@@ -186,49 +146,45 @@ function addProduct() {
         console.log($(this).attr('id'))
         return $(this).attr('id') == "orderGroup_products_0__Name";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Name")
-      .attr("name", "Order.Products[" + productIndex.toString() + "].Name")
-      .val("")
-    
-    
+        .attr("name", "Order.Products[" + productIndex.toString() + "].Name")
+        .val("")
+
     newProductRow.find("textarea").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Description";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Description")
-      .attr("name", "Order.Products[" + productIndex.toString() + "].Description")
-      .val("")
+        .attr("name", "Order.Products[" + productIndex.toString() + "].Description")
+        .val("")
 
     newProductRow.find("input").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Dimensions";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Dimensions")
-      .attr("name", "Order.Products[" + productIndex.toString() + "].Dimensions")
-      .val("")
+        .attr("name", "Order.Products[" + productIndex.toString() + "].Dimensions")
+        .val("")
 
     newProductRow.find("select").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Category_Id";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Category_Id")
-      .attr("name", "Order.Products[" + productIndex.toString() + "].Category.Id")
-      .val("")
+        .attr("name", "Order.Products[" + productIndex.toString() + "].Category.Id")
+        .val("")
 
     newProductRow.find("input").filter(function () {
         return $(this).attr('id') == "orderGroup_products_0__Price";
     }).attr("id", "orderGroup_products_" + productIndex.toString() + "__Price")
-      .attr("name", "Order.Products[" + productIndex.toString() + "].Price")
-      .val("")
-      .change(function () { //add change event listener 
-          updateTotalAndBalance()
-      })
-    
-
+        .attr("name", "Order.Products[" + productIndex.toString() + "].Price")
+        .val("")
+        .change(function () { //add change event listener
+            updateTotalAndBalance()
+        })
 
     newProductRow.attr("id", "product-input-" + productIndex.toString())
     newProductRow.insertBefore(buttonRow)
-
 }
 
 function removeProduct() {
     productIndex -= 1;
 
-    productIndex <= 0 ? document.getElementById("remove-product").style.display = "none" : document.getElementById("remove-product").style.display = "initial";  
-    
+    productIndex <= 0 ? document.getElementById("remove-product").style.display = "none" : document.getElementById("remove-product").style.display = "initial";
+
     document.getElementById("product-input-" + (productIndex + 1).toString()).remove();
     updateTotalAndBalance()
 }

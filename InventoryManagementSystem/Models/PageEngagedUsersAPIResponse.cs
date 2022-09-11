@@ -1,6 +1,5 @@
 ﻿namespace InventoryManagementSystem.Models
 {
-
     public class PageEngagedUsersAPIResponse
     {
         public PageEngagedUsersAPIResponseDatum[] data { get; set; }
@@ -10,5 +9,4 @@
             return data[0].values.Sum(x => x.value);
         }
     }
-
 }

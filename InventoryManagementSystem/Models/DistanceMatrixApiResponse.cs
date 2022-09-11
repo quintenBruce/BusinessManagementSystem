@@ -31,7 +31,6 @@
             public int Value { get; set; }
         }
 
-
         public static double GetDistance(DistanceMatrixApiResponse apiResponse)
         {
             int distanceInMeters = apiResponse.rows[0].Elements[0].Distance.Value;
@@ -62,22 +61,8 @@
         public static int GetSuggestedDeliveryFee(double distance)
         {
             int suggestedDeliveryFee = distance <= 5 ? 20 : (int)(20 + (4 * (Math.Round(distance) - 5)));
-            
 
             return suggestedDeliveryFee;
         }
-
-
     }
-
-    
-
-
-
-    
-
-    
-
-    
-
 }

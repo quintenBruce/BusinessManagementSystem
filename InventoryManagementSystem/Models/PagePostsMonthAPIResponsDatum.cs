@@ -7,16 +7,9 @@
         public string Id { get; set; }
         public string Story { get; set; }
 
-        PagePostsMonthAPIResponsDatum()
+        private PagePostsMonthAPIResponsDatum()
         {
             CreatedTime.ToUniversalTime();
         }
     }
-
-
-
-    
-
-
-
 }

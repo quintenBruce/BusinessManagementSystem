@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.ViewModels;
+﻿using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Services;
-using InventoryManagementSystem.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -9,7 +8,6 @@ namespace InventoryManagementSystem.Controllers
     {
         private readonly ICalender _calenderService;
         private WebApiService _webApiService;
-
 
         public CalenderController(ICalender calenderService, WebApiService webApiService)
         {

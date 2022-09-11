@@ -1,7 +1,4 @@
-﻿using InventoryManagementSystem.Models;
-using InventoryManagementSystem.Services;
-
-namespace InventoryManagementSystem.ViewModels
+﻿namespace InventoryManagementSystem.ViewModels
 {
     public class CalenderViewModel
     {
@@ -19,11 +16,9 @@ namespace InventoryManagementSystem.ViewModels
             borderColor = _borderColor;
             url = _url;
         }
+
         public CalenderViewModel()
         {
-
         }
-
-       
     }
 }

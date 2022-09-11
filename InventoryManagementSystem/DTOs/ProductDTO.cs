@@ -15,15 +15,14 @@ namespace InventoryManagementSystem.DTOs
 
         public static ProductDTO ToProductDTO(Product p)
         {
-            return new ProductDTO 
-            { 
+            return new ProductDTO
+            {
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
                 Dimensions = p.Dimensions,
                 Category = p.Category
-
             };
         }
     }

@@ -1,33 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.Models;
-using InventoryManagementSystem.ViewModels;
+﻿using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IProduct _productService;
         private WebApiService _webApiService;
-        public HomeController(IProduct productService, WebApiService webApiService)
+
+        public HomeController(WebApiService webApiService)
         {
-            _productService = productService;
             _webApiService = webApiService;
         }
 
         public async Task<IActionResult> Index()
         {
-     
-            List<Order> viewModel = await _webApiService.GetOrdersAsync();
-           
+            List<Order> viewModel = await _webApiService.GetOrdersAsync(false);
+            viewModel = viewModel.OrderBy(x => x.FulfillmentDate).ToList();
+
             ViewData["orderSummary"] = "active";
 
-
             return View(viewModel);
-
         }
-
-        
     }
 }

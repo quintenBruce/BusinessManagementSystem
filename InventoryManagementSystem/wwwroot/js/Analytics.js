@@ -1,9 +1,7 @@
-
 var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
     return new bootstrap.Popover(popoverTriggerEl)
 })
-
 
 let revenueByMonth = document.getElementById("revenue-by-month").getContext('2d')
 let ordersByMonth = document.getElementById("orders-by-month").getContext('2d')
@@ -12,11 +10,7 @@ let engagedUsersXordersPlaced = document.getElementById("engaged-usersXorders-pl
 
 let engagedUsersXordersPlaced2 = document.getElementById("engaged-usersXorders-placed2").getContext('2d')
 
-
 console.log(engagedUsersXordersPlaced)
-
-
-
 
 let engagedUsersXordersPlacedChart2 = new Chart(engagedUsersXordersPlaced2, {
     type: 'line',
@@ -31,45 +25,35 @@ let engagedUsersXordersPlacedChart2 = new Chart(engagedUsersXordersPlaced2, {
                 data: MonthEngagedUsers,
                 borderRadius: 100,
                 borderWidth: 3
-
             }
 
         ]
-
     },
     options: {
         pointRadius: 5,
         tension: 0.3,
         scales: {
-
             y: {
-
                 title: {
-
                     display: true,
                     text: "# Orders",
                 },
                 grid: {
                     display: false
-
-
                 }
             },
 
             x: {
-
                 title: {
                     display: true,
                     text: "Month",
                 },
                 grid: {
                     display: false
-
                 }
             }
         },
         plugins: {
-
             legend: {
                 labels: {
                     usePointStyle: true,
@@ -79,9 +63,6 @@ let engagedUsersXordersPlacedChart2 = new Chart(engagedUsersXordersPlaced2, {
         }
     }
 });
-
-
-
 
 let engagedUsersXordersPlacedChart = new Chart(engagedUsersXordersPlaced, {
     type: 'line',
@@ -96,45 +77,35 @@ let engagedUsersXordersPlacedChart = new Chart(engagedUsersXordersPlaced, {
                 data: MonthEngagedUsers,
                 borderRadius: 100,
                 borderWidth: 3
-
             }
-            
-        ]
 
+        ]
     },
     options: {
         pointRadius: 5,
         tension: 0.3,
         scales: {
-            
             y: {
-
                 title: {
-
                     display: true,
                     text: "# Orders",
                 },
                 grid: {
                     display: false
-
-
                 }
             },
 
             x: {
-
                 title: {
                     display: true,
                     text: "Month",
                 },
                 grid: {
                     display: false
-
                 }
             }
         },
         plugins: {
-
             legend: {
                 labels: {
                     usePointStyle: true,
@@ -145,28 +116,12 @@ let engagedUsersXordersPlacedChart = new Chart(engagedUsersXordersPlaced, {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let revenueByMonthChart = new Chart(revenueByMonth, {
     type: 'bar',
     data: {
         labels: MonthList,
         datasets: [
-            
+
             {
                 label: 'Total Revenue',
                 data: MonthRevenueList,
@@ -175,11 +130,9 @@ let revenueByMonthChart = new Chart(revenueByMonth, {
                 barPercentage: .5
             }
         ]
-
     },
     options: {
         scales: {
-
             y: {
                 stacked: true,
                 title: {
@@ -188,8 +141,6 @@ let revenueByMonthChart = new Chart(revenueByMonth, {
                 },
                 grid: {
                     display: false
-
-
                 }
             },
 
@@ -201,7 +152,6 @@ let revenueByMonthChart = new Chart(revenueByMonth, {
                 },
                 grid: {
                     display: false
-
                 }
             }
         },
@@ -215,13 +165,6 @@ let revenueByMonthChart = new Chart(revenueByMonth, {
     }
 });
 
-
-
-
-
-
-
-
 let ordersByMonthChart = new Chart(ordersByMonth, {
     type: 'bar',
     data: {
@@ -230,21 +173,19 @@ let ordersByMonthChart = new Chart(ordersByMonth, {
             {
                 label: "Orders Placed",
                 backgroundColor: "#3b82ec",
- 
+
                 borderWidth: 1,
                 data: MonthTotalOrdersPlaced,
                 borderRadius: 100
-
             },
             {
                 label: "Orders Completed (On Time)",
                 backgroundColor: "#66c2a5",
- 
+
                 borderWidth: 1,
                 data: MonthOnTimeOrderList,
                 stack: "stack 0",
                 borderRadius: 100
- 
             },
             {
                 label: "Orders Completed (Past Due)",
@@ -254,43 +195,32 @@ let ordersByMonthChart = new Chart(ordersByMonth, {
                 data: MonthPastDueOrderList,
                 stack: "stack 0",
                 borderRadius: 100
-                
             }
         ]
-
     },
     options: {
-        
         scales: {
-
             y: {
-                
                 title: {
-
                     display: true,
                     text: "# Orders",
                 },
                 grid: {
                     display: false
-
-
                 }
             },
 
             x: {
-               
                 title: {
                     display: true,
                     text: "Month",
                 },
                 grid: {
                     display: false
-
                 }
             }
         },
         plugins: {
-            
             legend: {
                 labels: {
                     usePointStyle: true,
@@ -300,11 +230,6 @@ let ordersByMonthChart = new Chart(ordersByMonth, {
         }
     }
 });
-
-
-
-
-
 
 let revenueByCategoryChart = new Chart(revenueByCategory, {
     type: 'doughnut',
@@ -317,25 +242,19 @@ let revenueByCategoryChart = new Chart(revenueByCategory, {
                 backgroundColor: [
 
                     "#3288bd",
-                    "#66c2a5", 
-                    "#abdda4", 
-                    "#e6f598", 
-                    "#fee08b", 
-                    "#fdae61", 
-                    "#f46d43", 
-                    "#d53e4f", 
+                    "#66c2a5",
+                    "#abdda4",
+                    "#e6f598",
+                    "#fee08b",
+                    "#fdae61",
+                    "#f46d43",
+                    "#d53e4f",
 
-
-
-                    
                 ],
                 barPercentage: .5
-
-
             }
-            
-        ]
 
+        ]
     },
     options: {
         plugins: {
@@ -345,6 +264,5 @@ let revenueByCategoryChart = new Chart(revenueByCategory, {
         },
         cutout: "75%",
         aspectRatio: 2
-
     }
 });

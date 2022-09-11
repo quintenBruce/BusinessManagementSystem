@@ -1,17 +1,18 @@
-﻿using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProduct _productService;
+        
+        private WebApiService _webApiService;
 
-        public ProductController(IProduct productService)
+        public ProductController(WebApiService webApiService)
         {
-            _productService = productService;
+
+            _webApiService = webApiService;
         }
 
         public IActionResult Index()
@@ -19,65 +20,40 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        public PartialViewResult DeleteProduct(int productId)
+        public async Task<PartialViewResult> DeleteProduct(int productId, int orderId)
         {
-            using (OrdersContext context = new OrdersContext())
-            {
-                int orderId = context.Products.Include(product => product.Order).Where(product => product.Id == productId).First().Order.Id;
+            bool status = await _webApiService.DeleteProduct(productId);
 
-                _productService.DeleteProduct(productId);
+            ViewData["categories"] = await _webApiService.GetCategoriesAsync();
+            ViewData["orderId"] = orderId;
 
-                List<Category> categories = new List<Category>();
-                categories = context.Categories.ToList();
-                ViewData["categories"] = categories;
-                ViewData["orderId"] = orderId;
+            var allProducts = await _webApiService.GetProductsAsync(orderId);
 
-                var allProducts = context.Products.Include(product => product.Order).Include(product => product.Category).Where(product => product.Order.Id == orderId).ToList();
-
-                return PartialView("~/Views/Order/_ProductsPartial.cshtml", allProducts);
-            }
+            return PartialView("~/Views/Order/_ProductsPartial.cshtml", allProducts);
         }
 
         [HttpPost]
-        public PartialViewResult CreateProduct(List<Product> products, int orderId)
+        public async Task<PartialViewResult> CreateProduct(List<CreateProductDTO> products, int orderId)
         {
-            using (OrdersContext context = new OrdersContext())
-            {
-                foreach (var product in products)
-                    _productService.CreateProduct(product, orderId);
+            products.ForEach(x => x.OrderId = orderId);
+            var productCreateStatus = await _webApiService.CreateProductsAsync(products);
 
-                List<Category> categories = new List<Category>();
-                categories = context.Categories.ToList();
-                ViewData["categories"] = categories;
-                ViewData["orderId"] = orderId;
+            ViewData["categories"] = await _webApiService.GetCategoriesAsync();
+            ViewData["orderId"] = orderId;
 
-                var allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).Where(product => product.Order.Id == orderId).ToList();
-                return PartialView("~/Views/Order/_ProductsPartial.cshtml", allProducts);
-            }
+            var allProducts = await _webApiService.GetProductsAsync(orderId);
+            return PartialView("~/Views/Order/_ProductsPartial.cshtml", allProducts);
         }
 
         [HttpPost]
-        public PartialViewResult UpdateProducts(List<Product> products)
+        public async Task<PartialViewResult> UpdateProducts(List<ProductDTO> products, int orderId)
         {
-            using (OrdersContext context = new OrdersContext())
-            {
-                var orderId = products[0].Order.Id;
-                foreach (var product in products)
-                {
-                    var existingProductId = product.Id;
+            var updatedProducts = await _webApiService.UpdateProducts(products, orderId);
 
-                    _productService.UpdateProduct(existingProductId, product);
-                }
+            ViewData["categories"] = await _webApiService.GetCategoriesAsync();
+            ViewData["orderId"] = orderId;
 
-                var allProducts = context.Products.Include(product => product.Category).Include(product => product.Order).Where(product => product.Order.Id == orderId).ToList();
-
-                List<Category> categories = new List<Category>();
-                categories = context.Categories.ToList();
-                ViewData["categories"] = categories;
-                ViewData["orderId"] = orderId;
-
-                return PartialView("~/Views/Order/_ProductsPartial.cshtml", allProducts);
-            }
+            return PartialView("~/Views/Order/_ProductsPartial.cshtml", updatedProducts);
         }
     }
 }

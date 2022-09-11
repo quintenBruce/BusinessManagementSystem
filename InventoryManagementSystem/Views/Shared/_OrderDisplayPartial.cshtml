@@ -4,7 +4,7 @@
 
 
 
-    @*order header*@
+@*order header*@
 
 
 
@@ -12,18 +12,18 @@
 <div class="order-display-div m-md-5 m-3 p-3 mt-1" style="">
     <div class="row order-header-row p-1 m-1">
         <div class="col-1 m-0 p-0 d-flex flex-column justify-content-center align-items-center align-content-center color-pill" style="max-width: 9px;">
-          <div style="height: 33%; width: 11px; background-color: #f72d2dbd;"></div>
-          <div style="height: 33%; width: 11px; background-color: #5ecaff;"></div>
-          <div style="height: 33%; width: 11px; background-color: #b7e85e;"></div>
+              <div style="height: 33%; width: 11px; background-color: #f72d2dbd;"></div>
+              <div style="height: 33%; width: 11px; background-color: #5ecaff;"></div>
+              <div style="height: 33%; width: 11px; background-color: #b7e85e;"></div>
         </div>
-        <div class="col-11"  style="width: 96%;">
+        <div class="col-11" style="width: 96%;">
             <div class="row">
                 <div class="col-10 col-lg-2">
                     <h5 class="order-table-header-item">Due Date </h5>
                 </div>
-                 <div class="col-2 col-lg-2">
+                <div class="col-2 col-lg-2">
                     <h5 class="order-table-header-item">Balance </h5>
-                 </div>
+                </div>
                 <div class="col-10 col-lg-2">
                     <h5 class="order-table-header-item">Name</h5>
                 </div>
@@ -34,49 +34,44 @@
                     <h5 class="order-table-header-item">Comm. Thread</h5>
                 </div>
                 <div class="col-lg-2">
-                    
                 </div>
             </div>
         </div>
     </div>
-    <hr id="order-display-header-hr"/>
+    <hr id="order-display-header-hr"  />
 
-    @*individual order*@
+    
     @{
-        int order_count = 0;
-        var todaysDate = DateTime.Now.Date;
-        var activeOrders = Model.Where(order => order.Status == false).OrderBy(order => order.FulfillmentDate).ToList();
-        var inactiveOrders = Model.Where(order => order.Status == true).OrderBy(order => order.FulfillmentDate).ToList();
+        int order_count = 0; 
     }
-    @foreach (var order in activeOrders)
-    {
-        
 
+    @*iterate over individual orders*@
+
+    @foreach (var order in Model)
+    {
         var dropdownOption = order_count <= 4 ? "show" : "";
 
         string customer_name = order.Customer.FullName;
         string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
         locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-        
 
-        var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
-        string orderStatusStyle = "";
-        if (difference < 0)
-            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
-        else if (difference <= 14)
-            orderStatusStyle = "height: 99%; width: 11px; background-color: " +  "#5ecaff"+ ";";
+        string orderStatusStyle;
+
+        if (order.Status == true)
+            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
         else
-            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
+        {
+            var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
+            if (difference < 0)
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
+            else if (difference <= 14)
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#5ecaff"  + ";";
+            else
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
+        }
 
 
 
-        
-
-            
-
-            
-
-        
         <div class="row order-row p-1 m-1" style="max-width: 100%;">
             <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
                 <div class="color-pill" style="@orderStatusStyle"></div>
@@ -105,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
 
         @*product section*@
 
@@ -114,10 +109,10 @@
                 <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
                     <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
                 </div>
-                <div class="col-11"  style="width: 96%;">
+                <div class="col-11" style="width: 96%;">
                     <div class="row">
                         <div class="col-lg-4">
-                        <p class="order-table-product-header">Product Name</p>
+                                <p class="order-table-product-header">Product Name</p>
                         </div>
                         <div class="col-lg-4">
                             <p class="order-table-product-header">Description</p>
@@ -127,131 +122,17 @@
                         </div>
                         <div class="col-lg-2">
                             <p class="order-table-product-header">Price</p>
-                        </div>   
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-center align-content-center">
-                <hr class="m-0 p-0" style="width: 100%;"/>
-            </div>
-
-        @*individual product*@
-
-            @foreach (var product in order.Products)
-            {
-
-                string dimensions = product.Dimensions != null ? product.Dimensions : "";
-                <div class="row p-1 m-1">
-                    <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
-                        <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
-                    </div>
-                    <div class="col-11"  style="width: 96%;">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <p>@product.Name</p>
-                            </div>
-                            <div class="col-lg-4">
-                                <textarea style="width: 100%;" rows="1" disabled>@product.Description</textarea>
-                            </div>
-                            <div class="col-lg-2">
-                                <p>@dimensions</p>
-                            </div>
-                            <div class="col-lg-2">
-                                <p>$@product.Price</p>
-                            </div>   
-                        </div>
-                    </div>
-                </div>
-                
-            }
-        </div>
-
-
-        order_count += 1;
-    }
-    @if (ViewData["orderSummary"] == "detailed")
-    {
-        @foreach (var order in inactiveOrders)
-        {
-            
-
-            var dropdownOption = order_count <= 4 ? "show" : "";
-
-            string customer_name = order.Customer.FullName;
-            string locationDelivery = order.OutOfTown == true ? "Out-of-town" : "Local";
-            locationDelivery += order.DeliveryFee != 0 ? " - Delivery" : "";
-
-            var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
-            string orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
-
-            
-
-        
-
-            var one = 9;
-
-        
-            <div class="row order-row p-1 m-1" style="max-width: 100%;">
-                <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
-                    <div class="color-pill" style="@orderStatusStyle"></div>
-                </div>
-                <div class="col-11" style="width: 96%;">
-                    <div class="row">
-                        <div class="col-10 col-lg-2 d-flex align-items-center">
-                            <p class="order-table-date">@order.CompletionDate?.Date.ToShortDateString()</p>
-                        </div>
-                        <div class="col-2 col-lg-2 order-table-item d-flex align-items-center">
-                            <p>$@order.Balance</p>
-                        </div>
-                        <div class="col-12 col-lg-2 order-table-item d-flex align-items-center">
-                            <p style="overflow: auto;">@customer_name</p>
-                        </div>
-                        <div class="col-12 col-lg-2 order-table-item d-flex align-items-center">
-                            <p>@locationDelivery</p>
-                        </div>
-                        <div class="col-8 col-lg-2 order-table-item d-flex align-items-center">
-                            <p style="overflow: auto;">@order.ComThread</p>
-                        </div>
-                        <div class="col-4 col-lg-2 d-flex justify-content-end d-flex align-items-center">
-                        <button class="btn btn-light order-table-button" type="button" data-bs-toggle="collapse" data-bs-target="#details_@order_count"><i class="fa-solid fa-plus"></i></button>
-                            <a href="@Url.Action("OrderDetails", "Order", new {id=order.Id})" class="btn btn-light order-table-button"><i class="fa-solid fa-pencil"></i></a>
-                            <partial name="_OrderCompleteButtonPartial" for=@order.Id>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-
-            @*product section*@
-
-            <div class="row  order-row p-1 m-1 collapse @dropdownOption" id="details_@order_count">
-                <div class="row order-header-row p-1 m-1">
-                    <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
-                        <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
-                    </div>
-                    <div class="col-11"  style="width: 96%;">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <p class="order-table-product-header">Product Name</p>
-                            </div>
-                            <div class="col-lg-4">
-                                <p class="order-table-product-header">Description</p>
-                            </div>
-                            <div class="col-lg-2">
-                                <p class="order-table-product-header">Dimensions</p>
-                            </div>
-                            <div class="col-lg-2">
-                                <p class="order-table-product-header">Price</p>
-                            </div>   
-                        </div>
-                    </div>
-                </div>
-            <div class="d-flex justify-content-center align-content-center">
-                <hr class="m-0 p-0" style="width: 100%;"/>
+                <hr class="m-0 p-0" style="width: 100%;"  />
             </div>
 
             @*individual product*@
 
-            @foreach (var product in order.Products)
+            @foreach (var product in order.Products!)
             {
 
                 string dimensions = product.Dimensions != null ? product.Dimensions : "";
@@ -259,7 +140,7 @@
                     <div class="col-1 m-0 p-0 d-flex justify-content-center align-items-center align-content-center" style="max-width: 9px;">
                         <div style="height: 99%; width: 11px; background-color: #fff0;"></div>
                     </div>
-                    <div class="col-11"  style="width: 96%;">
+                    <div class="col-11" style="width: 96%;">
                         <div class="row">
                             <div class="col-lg-4">
                                 <p>@product.Name</p>
@@ -272,18 +153,18 @@
                             </div>
                             <div class="col-lg-2">
                                 <p>$@product.Price</p>
-                            </div>   
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
             }
         </div>
 
 
         order_count += 1;
     }
-    }
+    
 </div>
 
 

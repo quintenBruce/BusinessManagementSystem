@@ -5,13 +5,6 @@ namespace InventoryManagementSystem.Services
 {
     public class CalenderService : ICalender
     {
-        private readonly IProduct productService;
-
-        public CalenderService(IProduct _productService)
-        {
-            productService = _productService;
-        }
-
         public List<CalenderViewModel> GetCalenderModel(IEnumerable<CalenderDTO> calenderDTOs)
         {
             List<CalenderViewModel> viewModel = new List<CalenderViewModel>();

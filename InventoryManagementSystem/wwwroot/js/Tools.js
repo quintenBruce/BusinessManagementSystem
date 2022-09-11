@@ -1,6 +1,4 @@
-﻿
-
-$(document).mouseup(function (e) {
+﻿$(document).mouseup(function (e) {
     var container = $("#winner-alert-container");
 
     // if the target of the click isn't the container nor a descendant of the container
@@ -17,7 +15,6 @@ function saveDrawingCookie() {
     document.cookie = "drawingCookie=" + cookieValue + "; expires=" + date.toUTCString()
 }
 
-
 $(document).ready(function () {
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
@@ -29,30 +26,25 @@ $(document).ready(function () {
             cookieValueArray[0] = cookieValueArray[0].replace("drawingCookie=", "")
             $("#num-winners-input").val(cookieValueArray[0].split("=")[1])
             cookieValueArray.splice(0, 1)
-             
+
             for (var i = 0; i < cookieValueArray.length; i = i + 2) {
                 $("#entry-container").css("display", "block") //show container
 
                 var rowClone = $("#entry-row-prototype").clone(true)
-                                                        .css("display", "flex")
-                                                        .removeClass("prototype")
-                                                        .removeAttr('id')
-
+                    .css("display", "flex")
+                    .removeClass("prototype")
+                    .removeAttr('id')
 
                 var index = $("#entry-container").children().length
                 rowClone.children().children().filter(".name-input").attr("name", "entry" + index + "Name").attr("form", "drawing-form").change(function () { saveDrawingCookie() }).val(cookieValueArray[i].split("=")[1])
-                rowClone.children().children().filter(".num-entries-input").attr("name", "entry" + index + "NumEntries").attr("form", "drawing-form").change(function () { saveDrawingCookie() }).val(cookieValueArray[i+1].split("=")[1])
+                rowClone.children().children().filter(".num-entries-input").attr("name", "entry" + index + "NumEntries").attr("form", "drawing-form").change(function () { saveDrawingCookie() }).val(cookieValueArray[i + 1].split("=")[1])
 
                 $("#entry-container").append(rowClone)
-                
             }
             break;
         }
-    } 
+    }
 });
-
-
-
 
 $("#draw-button").click(function (form) {
     if ($("#num-winners-input").val() == null || $("#num-winners-input").val() == "" || parseInt($("#num-winners-input").val()) < 1 || parseInt($("#num-winners-input").val()) >= 4) {
@@ -93,21 +85,15 @@ $("#draw-button").click(function (form) {
             }
         }
     }
-
-    
 });
 
-
-
 $("#add-entry-button").click(function () {
-
     $("#entry-container").css("display", "block") //show container
-   
+
     var rowClone = $("#entry-row-prototype").clone(true)
-                                            .css("display", "flex")
-                                            .removeClass("prototype")
-                                            .removeAttr('id')
-                                            
+        .css("display", "flex")
+        .removeClass("prototype")
+        .removeAttr('id')
 
     var index = $("#entry-container").children().length
     rowClone.children().children().filter(".name-input").attr("name", "entry" + index + "Name").attr("form", "drawing-form").change(function () { saveDrawingCookie() })
@@ -115,9 +101,8 @@ $("#add-entry-button").click(function () {
 
     $("#entry-container").append(rowClone)
 });
- 
+
 $("#clear-button").click(function () {
-    
     $(".entry-row").filter(function () {
         return !($(this).hasClass("prototype"))
     }).remove() //remove all entry rows that are not the prototype
@@ -134,4 +119,3 @@ $(".remove-entry").click(function () {
 $("#num-winners-input").change(function () {
     saveDrawingCookie()
 });
-

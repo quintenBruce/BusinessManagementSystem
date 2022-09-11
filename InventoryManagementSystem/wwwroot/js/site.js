@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
 event listener on search by name input form to check if the input
 value is a valid search string
 */
@@ -9,7 +8,4 @@ $("#search-by-name-form").submit(function (event) {
         event.preventDefault()
         alert("Invalid Search String")
     }
-
-
 })
-

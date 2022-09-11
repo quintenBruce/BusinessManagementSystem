@@ -34,10 +34,8 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public async Task<PartialViewResult> CreatePayments(List<CreatePaymentDTO> payments, int orderId)
         {
-
             payments.ForEach(x => x.OrderId = orderId);
             var paymentCreateStatus = await _webApiService.CreatePaymentsAsync(payments);
-            
 
             var allPayments = (List<Payment>)await _webApiService.GetPaymentsAsync(orderId);
 
@@ -49,12 +47,7 @@ namespace InventoryManagementSystem.Controllers
 
         public async Task<PartialViewResult> UpdatePayment(List<PaymentDTO> payments, int orderId)
         {
-            
-
-            
-            
-            var updatedPayments = await _webApiService.UpdatePayments(payments);
-
+            var updatedPayments = await _webApiService.UpdatePayments(payments, orderId);
 
             ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
 

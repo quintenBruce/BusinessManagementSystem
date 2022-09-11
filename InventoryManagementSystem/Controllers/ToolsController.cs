@@ -1,5 +1,4 @@
-﻿
-using InventoryManagementSystem.Models;
+﻿using InventoryManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -14,7 +13,6 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        
         public async Task<PartialViewResult> DeliveryTool(string address, double gasPrice)
         {
             string baseURL = "https://maps.googleapis.com/maps/api/distancematrix/";

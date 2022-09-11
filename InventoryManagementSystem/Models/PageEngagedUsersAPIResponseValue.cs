@@ -4,5 +4,4 @@
     {
         public int value { get; set; }
     }
-
 }

@@ -13,7 +13,9 @@
     <input type="hidden" value=@ViewData["orderId"] name=orderId />
 </form>
 
-<form id="edit-products-form" action="/Product/UpdateProducts" data-ajax="true" data-ajax-method="post" data-ajax-update="#product-information-container" data-ajax-mode="replace" data-ajax-success="productUpdate"></form>
+<form id="edit-products-form" action="/Product/UpdateProducts" data-ajax="true" data-ajax-method="post" data-ajax-update="#product-information-container" data-ajax-mode="replace" data-ajax-success="productUpdate">
+    <input type="hidden" value=@ViewData["orderId"] name=orderId />
+</form>
 
         
 

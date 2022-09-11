@@ -5,12 +5,10 @@
         public PagePostsMonthAPIResponsDatum[] Data { get; set; }
         public PagePostsMonthAPIResponsePaging Paging { get; set; }
 
-       
         public int MonthOccurances(DateTime date)
         {
             var occurances = Data.Count(x => x.CreatedTime.Month == date.Month && x.CreatedTime.Year == date.Year);
             return occurances;
-            
         }
 
         public bool CheckNext()
@@ -22,13 +20,8 @@
         {
             if (Paging.Next != null)
                 return Paging.Next.Replace("https://graph.facebook.com/v14.0/", "");
-            else 
+            else
                 return string.Empty;
         }
     }
-
-    
-
-
-
 }

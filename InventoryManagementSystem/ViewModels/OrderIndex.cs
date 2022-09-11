@@ -14,6 +14,5 @@ namespace InventoryManagementSystem.ViewModels
         {
             Orders = new List<Order>();
         }
-
     }
-}
+} 

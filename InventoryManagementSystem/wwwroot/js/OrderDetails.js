@@ -1,28 +1,14 @@
-﻿
-document.getElementById("edit-switch").checked = false
-
-
-
-
-
-
-
-
-
-
+﻿document.getElementById("edit-switch").checked = false
 
 function toggleEdit() {
-    
     if (document.getElementById("edit-switch").checked == true) {
-
         //enable order and customer information inputs
 
         $(".order-details-input-inactive").each(function () {
             $(this).addClass("order-details-input-active")
-                   .removeClass("order-details-input-inactive")
-                   .prop("disabled", false) 
+                .removeClass("order-details-input-inactive")
+                .prop("disabled", false)
         })
-
 
         //add submit button to update customers/order form
 
@@ -41,8 +27,6 @@ function toggleEdit() {
             $("#order-details-customer-section").append(orderCustomerSubmitButtonRow)
         }
 
-        
-
         //remove create product/payment functionality
         $("#add-product-button").hide()
         $("#add-payment-button").hide()
@@ -52,37 +36,29 @@ function toggleEdit() {
             element.remove()
         })
 
-
         //set product/payment input to disabled style
         $(".order-details-product-info-input-inactive").each(function (index, element) {
             element = $(element)
             if (!$(element).hasClass("new-product-property")) { //if the element is not a new product
                 element.addClass("order-details-product-info-input-active")
-                       .removeClass("order-details-product-info-input-inactive")
+                    .removeClass("order-details-product-info-input-inactive")
             }
-            
-
         })
         $(".order-details-payment-info-input-inactive").each(function (index, element) {
             element = $(element)
             if (!$(element).hasClass("new-payment-property")) { //if the element is not a new payment
                 element.addClass("order-details-payment-info-input-active")
-                       .removeClass("order-details-payment-info-input-inactive")
+                    .removeClass("order-details-payment-info-input-inactive")
             }
-
-
         })
-
 
         //remove add product/payment submit button
         $("#add-products-submit-button-row-clone, #add-payments-submit-button-row-clone").remove()
-
 
         //enable product/payment inputs
         //do not enable template inputs or submit buttons
         $("#product-rows-container, #payment-rows-container").find("input").filter(
             function () {
-                
                 return !($(this).hasClass("new-product-property") || $(this).hasClass("new-payment-property")
                     || $(this).attr("id") == "add-payments-submit-button" || $(this).attr("id") == "edit-payments-submit-button"
                     || $(this).attr("id") == "add-products-submit-button" || $(this).attr("id") == "edit-products-submit-button"
@@ -96,8 +72,6 @@ function toggleEdit() {
             function () {
                 return !($(this).hasClass("new-product-property") || $(this).hasClass("new-payment-property"))
             }).prop("disabled", false)
-        
-
 
         //clone edit product submit button and append it to product section
         var editProductSubmitButtonRow = $("#edit-products-submit-button-row").clone()
@@ -112,31 +86,22 @@ function toggleEdit() {
         editPaymentsSubmitButtonRow.show()
         $("#edit-payments-submit-button-row-clone").remove() //remove previous submit button
         $("#payment-rows-container").append(editPaymentsSubmitButtonRow) //append new submit button
-
-        
-
-
-        
-
     }
 
     else {
-
         //disable order/customer inputs
 
         $(".order-details-input-active").each(function () {
             $(this).addClass("order-details-input-inactive")
-                   .removeClass("order-details-input-active")
-                   .prop("disabled", true) 
+                .removeClass("order-details-input-active")
+                .prop("disabled", true)
         })
-
 
         //remove save changes button for customer/order information form
         $("#order-customer-submit-button-row").remove()
 
         //enable product and payment creation
         $("#add-product-button, #add-payment-button").show()
-
 
         //set product/payment input to enabled style
         $(".order-details-product-info-input-active").each(function (index, element) {
@@ -157,16 +122,14 @@ function toggleEdit() {
         //remove edit product/payment button rows
         $("#edit-products-submit-button-row-clone, #edit-payments-submit-button-row-clone").remove()
 
-
         //disable product/payment inputs
         //do not disable template inputs or submit buttons
         $("#product-rows-container, #payment-rows-container").find("input").filter(
             function () {
-                
                 return !($(this).hasClass("new-product-property") || $(this).hasClass("new-payment-property")
-                       || $(this).attr("id") == "add-payments-submit-button" || $(this).attr("id") == "edit-payments-submit-button"
-                       || $(this).attr("id") == "add-products-submit-button" || $(this).attr("id") == "edit-products-submit-button"
-                       || $(this).attr('type') == "hidden")
+                    || $(this).attr("id") == "add-payments-submit-button" || $(this).attr("id") == "edit-payments-submit-button"
+                    || $(this).attr("id") == "add-products-submit-button" || $(this).attr("id") == "edit-products-submit-button"
+                    || $(this).attr('type') == "hidden")
             }).prop("disabled", true)
 
         $("#product-rows-container, #payment-rows-container").find("textarea").filter(
@@ -177,28 +140,15 @@ function toggleEdit() {
             function () {
                 return !($(this).hasClass("new-product-property") || $(this).hasClass("new-payment-property"))
             }).prop("disabled", true)
-
     }
-
-
 }
-
-
-
-
-
-
 
 var toggleEditCall = function () {
     document.getElementById("edit-switch").checked = false
     toggleEdit()
 }
 
-
-
-
 var paymentUpdate = function () {
-
     document.getElementById("edit-switch").checked = false
     toggleEdit()
 
@@ -206,70 +156,43 @@ var paymentUpdate = function () {
     var totalPayments = 0
 
     $(".set-payment-amount").each(function () {
-        
-       
         totalPayments += parseFloat($(this).val())
     })
 
-    //subtract total payments variable from balance input value 
+    //subtract total payments variable from balance input value
     $("input").filter(function () {
         return ($(this).attr("name") == "updatedOrder.Balance")
     }).each(function () {
-        
         var totalPrice = parseFloat($("#total-price-input").val())
         $(this).val(totalPrice -= totalPayments)
     })
-
 }
 
-
 var productUpdate = function () {
-
     document.getElementById("edit-switch").checked = false
     toggleEdit()
-
 
     productCount = 0;
 
     var totalPrice = 0
-
 
     //add each product price to totalPrice variable
     totalPrice += parseFloat($("#delivery-fee-input").val())
     console.log("this~~~~")
     console.log(parseFloat($("#delivery-fee-input").val()))
     $(".set-product-price").each(function () {
-        
         totalPrice += parseFloat($(this).val())
     })
-
 
     //set total and balance input values to totalPrice variable
     $("input").filter(function () {
         return ($(this).attr("name") == "updatedOrder.Balance" || $(this).attr("name") == "updatedOrder.Total")
     }).each(function () {
-        
         $(this).val(totalPrice)
     })
 
     paymentUpdate()
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var productCount = 0
 var productGreyRow = false
@@ -279,14 +202,11 @@ function addProduct() {
     var newProductRow = $("#sample-product").clone()
 
     //if adding first product and that product has the grey class
-    if (productCount == 0 && newProductRow.hasClass("table-row-grey")) 
+    if (productCount == 0 && newProductRow.hasClass("table-row-grey"))
         productGreyRow = true //grey row is true
-    
 
-  
     //if grey row is false then remove grey class, else, add grey class
     productGreyRow == false ? newProductRow.removeClass("table-row-grey") : newProductRow.addClass("table-row-grey")
-
 
     newProductRow.css("display", "flex")
     newProductRow.addClass("new-product-row")
@@ -299,16 +219,11 @@ function addProduct() {
     //append new product
     $("#product-rows-container").append(newProductRow)
 
-
-
-    
-    
     var addProductsSubmitButtonRow = $("#add-products-submit-button-row").clone()
     addProductsSubmitButtonRow.attr("id", "add-products-submit-button-row-clone")
     addProductsSubmitButtonRow.show()
     $("#add-products-submit-button-row-clone").remove() //remove previous button
     $("#product-rows-container").append(addProductsSubmitButtonRow) //append new button
-
 
     productCount += 1;
     productGreyRow = !productGreyRow //switch row color for next prow
@@ -344,5 +259,4 @@ function addPayment() {
 
     paymentCount += 1;
     paymentGreyRow = !paymentGreyRow //switch row color for next prow
-
 }

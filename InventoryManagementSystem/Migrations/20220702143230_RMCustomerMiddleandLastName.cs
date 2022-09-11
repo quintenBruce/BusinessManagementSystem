@@ -8,8 +8,6 @@ namespace InventoryManagementSystem.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
-
             migrationBuilder.DropColumn(
                 name: "Last_name",
                 table: "Customers");
@@ -23,8 +21,6 @@ namespace InventoryManagementSystem.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
-
             migrationBuilder.RenameColumn("fullName", "Customers", "First_name");
 
             migrationBuilder.AddColumn<string>(

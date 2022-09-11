@@ -18,10 +18,9 @@ namespace InventoryManagementSystem.DTOs
         public ICollection<ProductDTO>? Products { get; set; }
         public ICollection<PaymentDTO>? Payments { get; set; }
 
-
         public static OrderDTO ToOrderDTO(Order order)
         {
-            return new OrderDTO 
+            return new OrderDTO
             {
                 Id = order.Id,
                 Total = order.Total,
@@ -38,8 +37,5 @@ namespace InventoryManagementSystem.DTOs
                 Payments = order.Payments is not null ? (ICollection<PaymentDTO>)order.Payments.Select(x => PaymentDTO.ToPaymentDTO(x)).ToList() : (ICollection<PaymentDTO>)new List<PaymentDTO> { }
             };
         }
-
-        
-
     }
 }

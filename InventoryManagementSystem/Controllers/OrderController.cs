@@ -3,28 +3,26 @@ using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderGroup _orderGroupService;
-        private readonly IProduct _productService;
         private WebApiService _webApiService;
 
-        public OrderController(IOrderGroup orderGroupService, IProduct productService, WebApiService webApiService)
+        public OrderController(WebApiService webApiService)
         {
-            _orderGroupService = orderGroupService;
-            _productService = productService;
             _webApiService = webApiService;
         }
 
         public async Task<ViewResult> Index()
         {
-            OrderIndex viewModel = new();
+            OrderIndex viewModel = new()
+            {
+                Orders = await _webApiService.GetOrdersAsync()
+            };
 
-            viewModel.Orders = await _webApiService.GetOrdersAsync();
+            viewModel.Orders = viewModel.Orders.OrderBy(x => x.Status).ThenBy(x => x.FulfillmentDate).ToList();
 
             ViewData["orderSummary"] = "detailed";
             ViewData["productCategories"] = await _webApiService.GetCategoriesAsync();
@@ -84,37 +82,19 @@ namespace InventoryManagementSystem.Controllers
             return View(order);
         }
 
-        public async Task<PartialViewResult> UpdateOrder(Order updatedOrder, Customer updatedCustomer)
+        public async Task<PartialViewResult> UpdateOrder(Order updatedOrder)
         {
-            updatedOrder.Customer = updatedCustomer;
             Order newOrder = await _webApiService.UpdateOrder(OrderDTO.ToOrderDTO(updatedOrder));
             return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", newOrder);
         }
 
-        public ActionResult SearchByName(string searchQuery)
+        public async Task<ActionResult> SearchByName(string searchQuery)
         {
-            searchQuery = searchQuery.ToLower().Trim();
+            List<Order> orders = await _webApiService.SearchOrdersByName(searchQuery);
 
-            List<Order> orders = new();
-            OrderRetrievalModel viewModel = new();
+            ViewData["orderSummary"] = "detailed";
 
-            using (OrdersContext context = new())
-            {
-                foreach (var _order in context.Orders.Include(order => order.Customer).ToList())
-                {
-                    var name = _order.Customer.FullName.ToLower().Replace(" ", "");
-
-                    if (name.Contains(searchQuery))
-                    {
-                        viewModel.Products.AddRange(context.Products.Include(product => product.Category).Include(product => product.Order).Where(product => product.Order == _order).ToList());
-                        viewModel.Orders.Add(_order);
-                        viewModel.Customers.Add(_order.Customer);
-                        viewModel.Payments.AddRange(context.Payments.Where(payment => payment.Order == _order).ToList());
-                    }
-                }
-            }
-
-            return View("~/Views/Home/Index.cshtml", viewModel);
+            return View("~/Views/Home/Index.cshtml", orders);
         }
     }
 }

@@ -8,14 +8,10 @@ namespace InventoryManagementSystem.Controllers
 {
     public class InvoiceController : Controller
     {
-
-        private IOrderGroup _orderGroupService;
         private WebApiService _webApiService;
 
-
-        public InvoiceController(IOrderGroup orderGroupService, WebApiService webApiService)
+        public InvoiceController(WebApiService webApiService)
         {
-            _orderGroupService = orderGroupService;
             _webApiService = webApiService;
         }
 
@@ -23,8 +19,8 @@ namespace InventoryManagementSystem.Controllers
         {
             if (await _webApiService.CheckOrderExists(Id))
             {
-                var orderGroup = _orderGroupService.GetOrderGroup(Id);
-                InvoiceViewModel invoiceViewModel = new(orderGroup);
+                var order = await _webApiService.GetOrder(Id);
+                InvoiceViewModel invoiceViewModel = new(order);
                 return View(invoiceViewModel);
             }
             else

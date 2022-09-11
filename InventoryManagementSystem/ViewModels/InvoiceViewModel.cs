@@ -7,6 +7,7 @@ namespace InventoryManagementSystem.ViewModels
     {
         [DataType(DataType.Date)]
         public DateTime? PaymentDueBy { get; set; }
+
         public List<string>? ItemDescriptions { get; set; }
         public List<double>? ItemUnitCosts { get; set; }
         public List<int>? ItemQTYs { get; set; }
@@ -23,31 +24,28 @@ namespace InventoryManagementSystem.ViewModels
         public double? Total { get; set; }
         public string? CustomerInformation { get; set; }
 
-        public InvoiceViewModel(OrderGroup orderGroup)
+        public InvoiceViewModel(Order order)
         {
             ItemDescriptions = new List<string>() { "", "", "", "", "", "", "", "" };
-            ItemDescriptions = orderGroup.products.Select(x => (x.Name != null ? (x.Name + " | ") : "") + (x.Dimensions != null ? (x.Dimensions + " | ") : "") + (x.Description != null ? (x.Description) : "")).ToList();
-            ItemUnitCosts = ItemAmounts = orderGroup.products.Select(x => (double)x.Price).ToList();
+            ItemDescriptions = order.Products!.Select(x => (x.Name != null ? (x.Name + " | ") : "") + (x.Dimensions != null ? (x.Dimensions + " | ") : "") + (x.Description != null ? (x.Description) : "")).ToList();
+            ItemUnitCosts = ItemAmounts = order.Products!.Select(x => (double)x.Price).ToList();
 
-            PaymentDescriptions = orderGroup.paymentHistory.Select(x => "Payment via " +  x.Type.ToString()).ToList();
-            PaymentUnitCosts = PaymentAmounts = orderGroup.paymentHistory.Select(x => (double)x.Amount).ToList();
+            PaymentDescriptions = order.Payments!.Select(x => "Payment via " + x.Type.ToString()).ToList();
+            PaymentUnitCosts = PaymentAmounts = order.Payments!.Select(x => (double)x.Amount).ToList();
 
-            PaymentQTYs = ItemQTYs = new List<int> { 1, 1, 1, 1, 1, 1, 1, 1};
+            PaymentQTYs = ItemQTYs = new List<int> { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-            string customerName = orderGroup.order.Customer.FullName;
-            string customerPhoneNumber = orderGroup.order.Customer.PhoneNumber.ToString();
+            string customerName = order.Customer.FullName;
+            string customerPhoneNumber = order.Customer.PhoneNumber.ToString()!;
             CustomerInformation = $"{customerName} | {customerPhoneNumber}";
 
-            SubTotal = orderGroup.order.Total;
-            Total = orderGroup.order.Balance;
-            SpecialNotes = orderGroup.order.DeliveryFee > 0 ? ("Deliver fee: $" + orderGroup.order.DeliveryFee) : "";
-            
+            SubTotal = order.Total;
+            Total = order.Balance;
+            SpecialNotes = order.DeliveryFee > 0 ? ("Deliver fee: $" + order.DeliveryFee) : "";
         }
+
         public InvoiceViewModel()
         {
-
         }
-
-
     }
 }

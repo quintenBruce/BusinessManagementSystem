@@ -21,6 +21,15 @@ namespace InventoryManagementSystem.Services
         public async Task<Order> GetOrder(int id) => await _httpClient.GetFromJsonAsync<Order>($"Orders/GetOrder?id={id}");
 
         public async Task<List<Order>> GetOrdersAsync() => await _httpClient.GetFromJsonAsync<List<Order>>("Orders/GetOrders");
+        public async Task<List<Order>> GetOrdersAsync(bool status)
+        {
+            var result = await _httpClient.PostAsync("Orders/SearchOrdersByStatus", new StringContent(System.Text.Json.JsonSerializer.Serialize(status), Encoding.UTF8, "application/json"));
+
+            var orders = await result.Content.ReadAsAsync<List<Order>>();
+
+            return orders;
+        }
+
 
         public async Task<Order> UpdateOrder(OrderDTO orderDTO)
         {
@@ -73,19 +82,47 @@ namespace InventoryManagementSystem.Services
                 return new List<Payment> { };
         }
 
+        public async Task<IEnumerable<Product>> GetProductsAsync(int id)
+        {
+            var response = await _httpClient.GetAsync($"Products/GetProducts/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Product>>(content);
+            }
+            else
+                return new List<Product> { };
+        }
+
         public async Task<bool> DeletePayment(int id)
         {
             var response = await _httpClient.DeleteAsync($"Payments/DeletePayment/{id}");
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<List<Payment>> UpdatePayments(List<PaymentDTO> payments)
+        public async Task<bool> DeleteProduct(int id)
         {
-            var result = await _httpClient.PostAsync("Payments/UpdatePayments", new StringContent(System.Text.Json.JsonSerializer.Serialize(payments), Encoding.UTF8, "application/json"));
+            var response = await _httpClient.DeleteAsync($"Products/DeleteProduct/{id}");
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<List<Payment>> UpdatePayments(List<PaymentDTO> payments, int orderId)
+        {
+            var result = await _httpClient.PostAsync($"Payments/UpdatePayments/{orderId}", new StringContent(System.Text.Json.JsonSerializer.Serialize(payments), Encoding.UTF8, "application/json"));
 
             var updatedPayments = await result.Content.ReadAsAsync<List<Payment>>();
 
             return updatedPayments;
+        }
+
+        public async Task<List<Product>> UpdateProducts(List<ProductDTO> products, int orderId)
+        {
+            var result = await _httpClient.PostAsync($"Products/UpdateProducts/{orderId}", new StringContent(System.Text.Json.JsonSerializer.Serialize(products), Encoding.UTF8, "application/json"));
+
+            var updatedProducts = await result.Content.ReadAsAsync<List<Product>>();
+
+            return updatedProducts;
         }
 
         public async Task<bool> CreatePaymentsAsync(List<CreatePaymentDTO> payments)
@@ -95,5 +132,15 @@ namespace InventoryManagementSystem.Services
 
             return result.IsSuccessStatusCode ? true : false;
         }
+
+        public async Task<bool> CreateProductsAsync(List<CreateProductDTO> products)
+        {
+            var lskdf = System.Text.Json.JsonSerializer.Serialize(products);
+            var result = await _httpClient.PostAsync("Products/CreateProducts", new StringContent(System.Text.Json.JsonSerializer.Serialize(products), Encoding.UTF8, "application/json"));
+
+            return result.IsSuccessStatusCode ? true : false;
+        }
+
+        public async Task<List<Order>> SearchOrdersByName(string name) => await _httpClient.GetFromJsonAsync<List<Order>>($"Orders/SearchOrdersByName/{name}");
     }
 }
