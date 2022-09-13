@@ -1,11 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
+using System.Security.Claims;
+using System.Security.Policy;
 
 namespace InventoryManagementSystem.Models
 {
-    public class OrdersContext : DbContext
+    public class OrdersContext : IdentityDbContext
     {
-        public OrdersContext(DbContextOptions<OrdersContext> options)
-    : base(options)
+        public OrdersContext(DbContextOptions<OrdersContext> options): base(options)
         { }
 
         public OrdersContext()
@@ -24,3 +29,23 @@ namespace InventoryManagementSystem.Models
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

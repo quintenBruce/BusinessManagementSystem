@@ -3,9 +3,11 @@ using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagementSystem.Controllers
 {
+    [Authorize]
     public class InvoiceController : Controller
     {
         private WebApiService _webApiService;

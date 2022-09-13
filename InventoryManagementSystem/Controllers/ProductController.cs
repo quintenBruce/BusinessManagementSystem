@@ -1,9 +1,11 @@
 ﻿using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InventoryManagementSystem.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         

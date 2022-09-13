@@ -1,10 +1,12 @@
 ﻿using InventoryManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace InventoryManagementSystem.Controllers
 {
+    [Authorize]
     public class AnalyticsController : Controller
     {
         public IMemoryCache cache;

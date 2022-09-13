@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,7 +40,7 @@
                 <a class="mobile-header-links" asp-controller="" asp-action="">Clients</a>
                 <a class="mobile-header-links" asp-controller="" asp-action="">Products</a>
                 
-            </div>
+            </div>  
         </div>
         
     </div>
@@ -53,6 +57,7 @@
             <a asp-controller="Tools" asp-action="Index"><i class="fa-solid fa-wrench" style="margin-right: 13px;"></i>Tools</a>
             <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>
             <a asp-controller="Analytics" asp-action="Index"><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
+            <a asp-controller="Account" asp-action="Register"><i class="fa-regular fa-user" style="margin-right: 13px;"></i>Register</a>
         </div> 
         
     </div>
@@ -68,7 +73,16 @@
 
             </div>
             <div class="col-3 p-0 d-flex justify-content-end align-items-center align-content-center">
-                <p style="color: #555b5e; font-weight: 400; margin-right: 10px;">Hello, j.r.woodworking@protonmail.com</p>
+                @if (SignInManager.IsSignedIn(User)) 
+                {
+                        <p style="color: #555b5e; font-weight: 400; margin-right: 10px;">Hello, @UserManager.GetUserName(User).ToString()</p>
+                        <form method="post" asp-controller="Account" asp-action="LogOut">
+                                    <button style="margin-right: 10px;"type="submit">Logout</button>
+                        </form>
+                }
+                else {
+
+                }
             </div>
         </div>
     </div>

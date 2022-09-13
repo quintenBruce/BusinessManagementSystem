@@ -3,8 +3,10 @@ using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.AspNetCore.Authorization;
 namespace InventoryManagementSystem.Controllers
 {
+    [Authorize]
     public class PaymentController : Controller
     {
         private WebApiService _webApiService;
