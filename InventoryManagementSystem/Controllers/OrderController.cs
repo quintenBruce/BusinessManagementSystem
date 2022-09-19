@@ -1,9 +1,11 @@
-﻿using InventoryManagementSystem.DTOs;
+﻿using Anvil.Payloads.Response;
+using InventoryManagementSystem.DTOs;
 using InventoryManagementSystem.Models;
 using InventoryManagementSystem.Services;
 using InventoryManagementSystem.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -17,35 +19,49 @@ namespace InventoryManagementSystem.Controllers
             _webApiService = webApiService;
         }
 
-        public async Task<ViewResult> Index()
+        [HttpGet]
+        public async Task<ViewResult> CreateOrder()
         {
-            OrderIndex viewModel = new()
-            {
-                Orders = await _webApiService.GetOrdersAsync()
-            };
-
-            viewModel.Orders = viewModel.Orders.OrderBy(x => x.Status).ThenBy(x => x.FulfillmentDate).ToList();
-
-            ViewData["orderSummary"] = "detailed";
             ViewData["productCategories"] = await _webApiService.GetCategoriesAsync();
-
-            return View(viewModel);
+            var sldkff = TempData["Error Message"];
+            
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(Order order)
+        public async Task<ActionResult> CreateOrder(CreateOrderViewModel model)
         {
-            if (order.Payments.ElementAt(0).Amount == 0)
+            if (model.ComThread.Trim() == "Select a communication thread") 
+            {
+                ModelState.AddModelError("error", "Communication thread is required");
+            }
+            if (!ModelState.IsValid)
+            {
+                
+                var errors = ModelState.Select(x => x.Value!.Errors)
+                           .Where(y => y.Count > 0)
+                           .Select(x => x.ElementAt(0).ErrorMessage)
+                           .ToList();
+
+                ViewData["productCategories"] = await _webApiService.GetCategoriesAsync();
+                return View(model);
+            }
+
+            var order = CreateOrderViewModel.ToOrder(model);
+            
+
+            if (order.Payments!.ElementAt(0).Amount == 0)
             {
                 order.Payments = null;
             }
 
-            foreach (var product in order.Products)
+            foreach (var product in model.Products!)
             {
-                product.Category = await _webApiService.GetCategoryAsync(product.Category.Id);
+                product.Category = await _webApiService.GetCategoryAsync(product.Category!.Id);
             }
 
-            order.Total += order.Products.Sum(x => x.Price) + order.DeliveryFee;
+            order.Total += order.Products!.Sum(x => x.Price) ?? 0;
+            order.Total += order.DeliveryFee ?? 0;
             order.Balance = order.Total;
             order.Balance -= order.Payments is not null ? order.Payments.Sum(x => x.Amount) : 0;
 
@@ -54,6 +70,16 @@ namespace InventoryManagementSystem.Controllers
             OrderDTO orderDTO = OrderDTO.ToOrderDTO(order);
 
             var addedOrder = await _webApiService.CreateOrderAsync(orderDTO);
+            
+            if (addedOrder is null)
+            {
+                ViewData["Error Message"] = "An error occured while processing your request. Please try again. If an error still occurs, contact the development team";
+                ViewData["productCategories"] = await _webApiService.GetCategoriesAsync();
+                return View(model);
+            }
+                
+
+            
             ViewData["categories"] = await _webApiService.GetCategoriesAsync();
             ViewData["paymentTypeCategories"] = new List<string>() { "Venmo", "Cash App", "Cash", "Other" };
             return View(@"~/Views/Order/OrderDetails.cshtml", addedOrder);
@@ -62,6 +88,9 @@ namespace InventoryManagementSystem.Controllers
         public async Task<ActionResult> DeleteOrder(int orderId)
         {
             var status = await _webApiService.DeleteOrder(orderId);
+            
+            if (!status)
+                return RedirectToAction("OrderDetails", new {id=orderId});
 
             return RedirectToAction("Index", "Home");
         }
@@ -70,6 +99,8 @@ namespace InventoryManagementSystem.Controllers
         public async Task<ActionResult> CompleteOrder(int id)
         {
             var status = await _webApiService.CompleteOrder(id);
+            if (!status)
+                return RedirectToAction("OrderDetails", new { id = id });
             return RedirectToAction("Index", "Home");
         }
 
@@ -87,6 +118,7 @@ namespace InventoryManagementSystem.Controllers
         public async Task<PartialViewResult> UpdateOrder(Order updatedOrder)
         {
             Order newOrder = await _webApiService.UpdateOrder(OrderDTO.ToOrderDTO(updatedOrder));
+            //Null case?
             return PartialView("~/Views/Order/_OrderCustomerDetailsPartial.cshtml", newOrder);
         }
 

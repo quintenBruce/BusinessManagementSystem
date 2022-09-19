@@ -20,7 +20,7 @@ namespace InventoryManagementSystem.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Register(string? returnUrl = null)
+        public IActionResult Register(string? returnUrl = null)
         {
             RegisterViewModel viewModel = new();
             viewModel.ReturnUrl = returnUrl;
@@ -123,7 +123,7 @@ namespace InventoryManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string? code = null)
         {
             return code == null ? View("Error") : View();
         }

@@ -9,7 +9,7 @@ namespace InventoryManagementSystem.Controllers
     [Authorize]
     public class ToolsController : Controller
     {
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             ViewBag.Response = false;
             return View();
@@ -32,7 +32,8 @@ namespace InventoryManagementSystem.Controllers
                 {
                     DistanceMatrixApiResponse data = new();
                     string results = response.Content.ReadAsStringAsync().Result;
-                    data = JsonConvert.DeserializeObject<DistanceMatrixApiResponse>(results);
+                    
+                    data = JsonConvert.DeserializeObject<DistanceMatrixApiResponse>(results)!;
                     ViewBag.Distance = DistanceMatrixApiResponse.GetDistance(data);
                     ViewBag.Duration = DistanceMatrixApiResponse.GetDurationAsString(data);
                     ViewBag.SuggestedDeliveryFee = DistanceMatrixApiResponse.GetSuggestedDeliveryFee(ViewBag.Distance);

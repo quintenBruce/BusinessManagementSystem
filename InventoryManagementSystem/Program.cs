@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddDbContext<DbContext, OrdersContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=inventory_management;Integrated Security=True;"));
+builder.Services.AddDbContext<DbContext, OrdersContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<OrdersContext>().AddDefaultTokenProviders();
 
 

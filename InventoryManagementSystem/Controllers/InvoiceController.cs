@@ -35,16 +35,16 @@ namespace InventoryManagementSystem.Controllers
             var restClient = new RestClient("0ktlnqe3MiSzSRypO97rUyg3i1dwDo1t");
 
             var descriptions = invoiceViewModel.ItemDescriptions;
-            descriptions.AddRange(invoiceViewModel.PaymentDescriptions);
+            descriptions!.AddRange(invoiceViewModel.PaymentDescriptions!);
 
             var QTYs = invoiceViewModel.ItemQTYs;
-            QTYs.AddRange(invoiceViewModel.PaymentQTYs);
+            QTYs!.AddRange(invoiceViewModel.PaymentQTYs!);
 
             var unitCosts = invoiceViewModel.ItemUnitCosts;
-            unitCosts.AddRange(invoiceViewModel.PaymentUnitCosts);
+            unitCosts!.AddRange(invoiceViewModel.PaymentUnitCosts!);
 
             var amounts = invoiceViewModel.ItemAmounts;
-            amounts.AddRange(invoiceViewModel.PaymentAmounts);
+            amounts!.AddRange(invoiceViewModel.PaymentAmounts!);
 
             Random r = new();
 

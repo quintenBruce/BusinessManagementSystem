@@ -20,7 +20,7 @@ namespace InventoryManagementSystem.DTOs
                 Id = p.Id,
                 Name = p.Name,
                 Description = p.Description,
-                Price = p.Price,
+                Price = p.Price ?? 0,
                 Dimensions = p.Dimensions,
                 Category = p.Category
             };

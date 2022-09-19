@@ -2,6 +2,7 @@
 using InventoryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -17,8 +18,14 @@ namespace InventoryManagementSystem.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Order> viewModel = await _webApiService.GetOrdersAsync(false);
+            List<Order> viewModel = await _webApiService.GetOrdersAsync();
+            if (viewModel.Count == 0)
+            {
+                TempData["Error Message"] = "Please create an order to view orders";
+                return RedirectToAction("CreateOrder", "Order");
+            }
             viewModel = viewModel.OrderBy(x => x.FulfillmentDate).ToList();
+            viewModel = viewModel.OrderBy(x => x.Status).ThenBy(x => x.FulfillmentDate).ToList();
 
             ViewData["orderSummary"] = "active";
 

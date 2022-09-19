@@ -10,12 +10,11 @@ namespace InventoryManagementSystem.Models
 {
     public class OrdersContext : IdentityDbContext
     {
-        public OrdersContext(DbContextOptions<OrdersContext> options): base(options)
+        public OrdersContext(DbContextOptions<OrdersContext> options)
+      : base(options)
         { }
+        
 
-        public OrdersContext()
-        {
-        }
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -25,7 +24,7 @@ namespace InventoryManagementSystem.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=inventory_management;Integrated Security=True;").LogTo(Console.WriteLine);
+            optionsBuilder.LogTo(Console.WriteLine);
         }
     }
 }

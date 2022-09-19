@@ -10,7 +10,7 @@ namespace InventoryManagementSystem.DTOs
         public DateTime FulfillmentDate { get; set; }
         public string ComThread { get; set; } = null!;
         public bool Status { get; set; }
-        public int DeliveryFee { get; set; }
+        public int? DeliveryFee { get; set; }
         public bool? OutOfTown { get; set; }
         public float Balance { get; set; }
         public DateTime? CompletionDate { get; set; }
@@ -28,7 +28,7 @@ namespace InventoryManagementSystem.DTOs
                 FulfillmentDate = order.FulfillmentDate,
                 ComThread = order.ComThread,
                 Status = order.Status,
-                DeliveryFee = order.DeliveryFee,
+                DeliveryFee = order.DeliveryFee ?? 0,
                 OutOfTown = order.OutOfTown,
                 Balance = order.Balance,
                 CompletionDate = order.CompletionDate,

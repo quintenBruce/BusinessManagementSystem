@@ -1,0 +1,310 @@
+﻿
+@model InventoryManagementSystem.ViewModels.CreateOrderViewModel;
+
+
+@*@{
+    var sdff = Model;
+    var lsdikjf = 8;
+}*@
+
+
+<form id="order-form" asp-controller="Order" asp-action="CreateOrder" method="post" class="row d-flex"></form>
+
+
+<div class="m-md-5 m-3 mb-2 mt-4">
+    <h4 class="page-header-text">New Order</h4>   
+</div>
+
+<div id="edit-template-container" class="m-md-5 m-3  mb-md-0 mt-3 mt-md-3 p-0">
+
+    <h4 class="p-3">Order Information</h4>
+    @if (ViewData["Error Message"] is not null) 
+    {
+            <p class="alert-danger">@ViewData["Error Message"]</p>  
+    }
+    @if (TempData["Error Message"] is not null)
+    {
+                <p class="alert-danger">@TempData["Error Message"]</p>
+    }
+    @if (!Html.ViewData.ModelState.IsValid)
+    {
+            <div class="p-2" asp-validation-summary="All"></div>  
+    }
+    <div class="row">
+        <div class="col-lg-6 mb-2" style="padding-right: 0px;">
+            <div class="create-order-information p-3">  
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Est. Fulfillment Date</p>
+                    </div>
+                    <input asp-for="FulfillmentDate" type="date" placeholder="Estimated Fulfillment Date" class="col-11 col-sm-5 order-details-input-active" style="color:#9c9c9c;" form="order-form">
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0">
+                        <p>Down Payment Amount</p>
+                    </div>
+                    <input asp-for="DownPaymentAmount" placeholder="Down Payment Amount ($)" class="col-11 col-sm-5 order-details-input-active" type="number" form="order-form">
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Down Payment Type</p>
+                    </div>
+                    <select asp-for="DownPaymentType" placeholder="Payment Type" class="col-11 col-sm-5 order-details-input-active" style="background-color: white; color: #9c9c9c;" form="order-form">
+                        <option class="input-class" value="Venmo">Venmo</option>
+                            <option class="input-class" value="Cash App">Cash App</option>
+                            <option class="input-class" value="Cash">Cash</option>
+                            <option class="input-class" value="Other">Other</option>
+                    </select>  
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Delivery Fee</p>
+                    </div>
+                    <input asp-for="DeliveryFee" placeholder="Deliver Fee ($)" class="col-11 col-sm-5 order-details-input-active" type="number" form="order-form">
+                </div>
+            </div>    
+        </div>
+        <div class="col-lg-6 mb-3 p-lg-0">
+            <div class="create-customer-information p-3">
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Name </p>
+                    </div>
+                    <input asp-for="Name" placeholder="Name" class="col-11 col-sm-5 order-details-input-active" type="text" form="order-form">
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Out-Of-Town</p>
+                    </div>
+                    <div  class="col-11 col-sm-5" >
+                        <input asp-for="OutOfTown" type="checkbox" form="order-form">
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Communication Thread</p>
+                    </div>
+
+                    <select asp-for="ComThread" class="col-11 col-sm-5 order-details-input-active" style="background-color: white; color: #9c9c9c;" form="order-form">
+                            <option class="input-class" selected>Select a communication thread</option>
+                            <option class="input-class" value="Marketplace">Marketplace</option>
+                            <option class="input-class" value="Page">Facebook Page</option>
+                            <option class="input-class" value="Phone">Phone (SMS)</option>
+                        </select>
+
+                </div>
+                <div class="row pb-1">
+                    <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 ">
+                        <p>Phone Number</p>
+                    </div>
+                    <input asp-for="PhoneNumber" type="number" placeholder="Phone Number" class="col-11 col-sm-5 order-details-input-active" form="order-form">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!--ITEM INFORMATION-->
+
+
+<div id="edit-template-container" class="m-md-5 mb-md-0 m-3 mt-1 mt-md-3 p-0">
+    <h4 class="p-3">Item Information</h4>
+    <div id="create-order-product-information-header-row" class="row">
+        <div class="col-2">
+            <h4 class="order-table-header-item">Name</h4>
+        </div>
+        <div class="col-4">
+            <h4 class="order-table-header-item">Description</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Dimensions</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Category</h4>
+        </div>
+        <div class="col-2">
+            <h4 class="order-table-header-item">Price</h4>
+        </div>
+    </div>
+
+        <div id="initial-product-row" class="row m-0  table-row">
+            <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                <div class="row w-100">
+                    <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                        <p>Name</p>
+                    </div>
+                    <div class="col-12 col-sm-5 col-lg-12">
+                        <input id="Product.Name" name="Products[0].Name" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Name" form="order-form" value="@(Model is not null ? Model.Products!.ElementAt(0).Name : "")">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center pb-3 pb-lg-0">
+                <div class="row w-100">
+                    <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                        <p>Description</p>
+                    </div>
+                    <div class="col-12 col-sm-5 col-lg-12">
+                        <textarea id="Product.Description" name="Products[0].Description" rows="1" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" placeholder="Description" form="order-form">@(Model is not null ? Model.Products.ElementAt(0).Description : "")</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                <div class="row w-100">
+                    <div class="col-12 col-sm-6 mobile-only-title">
+                        <p>Dimensions</p>
+                    </div>
+                    <div class="col-12 col-sm-5 col-lg-12">
+                        <input id="Product.Dimensions" name="Products[0].Dimensions" class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Dimensions" form="order-form" value="@(Model is not null ? Model.Products.ElementAt(0).Dimensions : "")">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                <div class="row w-100">
+                    <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                        <p>Category</p>
+                    </div>
+                    <div class="col-12 col-sm-5 col-lg-12">
+                        <select id="Product.Category" class="order-details-product-info-input-active product-dimensions new-product-property"  name="Products[0].Category.Id"  style="color: #9c9c9c; background-color: white" form="order-form">
+                        @{
+                            var categoryId = Model is not null ? Model.Products.ElementAt(0).Category!.Id : 0;
+                        }
+                        @foreach (var category in (IEnumerable<Category>)ViewData["productCategories"]!)
+                        {
+                                    <!option class="input-class" value="@category.Id" @(categoryId == category.Id ? "selected" : "") >@category.Name!.Trim()</!option>
+                        }    
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                <div class="row w-100">
+                    <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                        <p>Price</p>
+                    </div>
+                    <div class="col-12 col-sm-5 col-lg-12">
+                        <div class="input-group input-group-sm" style="flex-wrap: unset;">
+                            <span class="input-group-text">$</span>
+                            <input id="Product.Price" name="Products[0].Price"  class="form-control form-control-sm" type="number" step="0.01" form="order-form" value="@(Model is not null ? Model.Products.ElementAt(0).Price : "")">
+                         </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+
+        @if (Model is not null) {
+            var i = 1;
+            foreach (var product in Model.Products.Skip(1).Where(p => p is not null))
+            {
+                
+                <div class="row m-0  table-row">
+                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                        <div class="row w-100">
+                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                <p>Name</p>
+                            </div>
+                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <input name=@("Products[" + i.ToString() + "].Name") class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Name" form="order-form" value="@(product.Name is not null ? product.Name : "")">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 d-flex align-items-center pb-3 pb-lg-0">
+                        <div class="row w-100">
+                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                <p>Description</p>
+                            </div>
+                            <div class="col-12 col-sm-5 col-lg-12">
+                                        <textarea name=@("Products[" + i.ToString() + "].Description") rows="1" type="text" class="mt-2 mb-2 order-details-product-info-input-active product-name new-product-property" placeholder="Description" form="order-form">@(product.Description is not null ? product.Description : "")</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                        <div class="row w-100">
+                            <div class="col-12 col-sm-6 mobile-only-title">
+                                <p>Dimensions</p>
+                            </div>
+                            <div class="col-12 col-sm-5 col-lg-12">
+                                        <input name=@("Products[" + i.ToString() + "].Dimensions") class="order-details-product-info-input-active product-dimensions new-product-property" placeholder="Dimensions" form="order-form" value="@(product.Dimensions is not null ? product.Dimensions : "")">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                        <div class="row w-100">
+                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                <p>Category</p>
+                            </div>
+                            <div class="col-12 col-sm-5 col-lg-12">
+                                                <select class="order-details-product-info-input-active product-dimensions new-product-property"  name=@("Products[" + i.ToString() + "].Category.Id")  style="color: #9c9c9c; background-color: white" form="order-form">
+                                @{
+                                    categoryId = (product is null || product.Category is null) ? 0 : product.Category.Id;
+                                }
+                                @foreach (var category in (IEnumerable<Category>)ViewData["productCategories"]!)
+                                {
+                                                <!option class="input-class" value="@category.Id" @(categoryId == category.Id ? "selected" : "") >@category.Name!.Trim()</!option>
+                                }    
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-2 d-flex align-items-center pb-3 pb-lg-0">
+                        <div class="row w-100">
+                            <div class="col-12 col-sm-6 col-lg-12 mobile-only-title">
+                                <p>Price</p>
+                            </div>
+                            <div class="col-12 col-sm-5 col-lg-12">
+                                <div class="input-group input-group-sm" style="flex-wrap: unset;">
+                                    <span class="input-group-text">$</span>
+                                            <input name=@("Products[" + i.ToString() + "].Price") class="form-control form-control-sm" type="number" step="0.01" form="order-form" value="@((product!.Price is not null) ? product.Price : "")">
+                                 </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            
+                i = i + 1;
+            
+            }
+        }
+        
+           
+           
+    <div id="items-button-container" class="row m-0 pb-3 mt-2">
+        <div id="button-row" class="row mb-2 d-flex flex-row">
+            <div id="mobile-total-balance-container" class="mb-2 d-lg-none d-flex">
+                <p>Total: <span class="lead">$</span><span class="total-price lead">0</span> (Balance:  <span class="lead">$</span><span class="balance lead">0</span>)</p>
+            </div>
+            <div class="col-7 d-flex justify-content-start">
+                <input id="order-input-submit" type="submit" value="Submit" class="btn btn-success"  form="order-form">
+                <input  type="submit" value="Add Item" class="btn btn-primary-2" style="margin-left: 10px;" onclick="addProduct()">
+
+   
+                <button id="remove-product" type="button" class="btn btn-danger" onclick="removeProduct();" style="margin-left: 10px; display: none;">Remove Product</button>
+            </div>
+            <div id="lg-total-balance-container" class="col-5 justify-content-end d-lg-flex d-none">  
+                <p>Total: <span class="lead">$</span><span class="total-price">0</span> (Balance:  <span class="lead">$</span><span class="balance">0</span>)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _productIndex = @(Model is not null ? Model.Products.Where(p => p is not null).ToList().Count : 0);
+</script>
+
+<script type="text/javascript" src="~/js/AddOrder.js"></script>
+
+
+
+
+
+
+
+
+
+
+

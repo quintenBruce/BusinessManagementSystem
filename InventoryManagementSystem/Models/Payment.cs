@@ -11,7 +11,8 @@ namespace InventoryManagementSystem.Models
 
         [Display(Name = "Payment Service")]
         public string Type { get; set; }
+        
 
-        public Order Order { get; set; }
+        public Order? Order { get; set; }
     }
 }

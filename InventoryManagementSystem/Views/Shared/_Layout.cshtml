@@ -28,22 +28,46 @@
 
 
     <div class="mobile-header">
-        <div style="background-color: #367fa9" class="mobile-header-top d-flex justify-content-center align-items-center">
-            <p  style="font-size: 18px; color: white; margin: 0px; font-weight: 550;">INVENTORY MANAGEMENT</p>
-        </div>
-        <div class="row mobile-header-bottom d-flex justify-content-center align-items-center m-0" style="background-color: #3c8dbc" >
-            
-            <div class="col-12 d-flex justify-content-around align-items-center">
-                <a class="mobile-header-links" asp-controller="Home" asp-action="Index">Home</a>
-                <a class="mobile-header-links" asp-controller="Order" asp-action="Index">Orders</a>
-                <a class="mobile-header-links" asp-controller="Analytics" asp-action="Index">Analytics</a>
-                <a class="mobile-header-links" asp-controller="" asp-action="">Clients</a>
-                <a class="mobile-header-links" asp-controller="" asp-action="">Products</a>
-                
-            </div>  
+        <nav class="navbar navbar-expand-lg bg-light m-3" style="font-family: 'Inter',sans-serif; background-color: white !important; border-radius: 8px; z-index: 49; border-color: #f7f9fc; border-style: solid;">
+  <div class="container-fluid">
+    <a asp-controller="Home" asp-action="Index" class="navbar-brand" style="color: #737373">Business Management</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="background-image: url(&quot;data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e&quot;);"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a asp-controller="Home" asp-action="Index" class="nav-link-active" aria-current="page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a asp-controller="Calender" asp-action="Index" class="nav-link" aria-current="page">Calender View</a>
+        </li>
+        <li class="nav-item">
+          <a asp-controller="Order" asp-action="CreateOrder" class="nav-link" aria-current="page">Create Order</a>
+        </li>
+        <li class="nav-item">
+          <a asp-controller="Tools" asp-action="Index" class="nav-link" aria-current="page">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a asp-controller="Analytics" asp-action="Index" class="nav-link" aria-current="page">Analytics</a>
+        </li>
+        <li class="nav-item">
+          <a asp-controller="Account" asp-action="Register" class="nav-link" aria-current="page">Account</a>
+        </li>
+        
+        
+       
+      </ul>
+      <form id="search-by-name-form" action="/Order/SearchByName" class="d-flex">
+        <input class="form-control me-2" type="text" placeholder="Search By Name" name="searchQuery">
+        <button class="btn btn-outline-success" id="search-by-name-submit-button" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
         </div>
         
-    </div>
+   
     <div class="sidenav">
         
         <div class="profile-photo-div container d-flex justify-content-center align-content-center align-items-center">
@@ -53,9 +77,8 @@
         <div id="sidenav-links" class="container d-flex flex-column p-0">
             <a asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house" style="margin-right: 13px;"></i>Home</a>
             <a asp-controller="Calender" asp-action="Index"><i class="fa-regular fa-calendar" style="margin-right: 13px;"></i>Calender</a>
-            <a asp-controller="Order" asp-action="Index"><i class="fa-regular fa-paste" style="margin-right: 13px;"></i>Orders</a>
+            <a asp-controller="Order" asp-action="CreateOrder"><i class="fa-regular fa-paste" style="margin-right: 13px;"></i>New Order</a>
             <a asp-controller="Tools" asp-action="Index"><i class="fa-solid fa-wrench" style="margin-right: 13px;"></i>Tools</a>
-            <a asp-controller="" asp-action=""><i class="fa-solid fa-dolly" style="margin-right: 13px;"></i>Products</a>
             <a asp-controller="Analytics" asp-action="Index"><i class="fa-solid fa-chart-column" style="margin-right: 13px;"></i>Analytics</a>
             <a asp-controller="Account" asp-action="Register"><i class="fa-regular fa-user" style="margin-right: 13px;"></i>Register</a>
         </div> 
@@ -75,9 +98,10 @@
             <div class="col-3 p-0 d-flex justify-content-end align-items-center align-content-center">
                 @if (SignInManager.IsSignedIn(User)) 
                 {
-                        <p style="color: #555b5e; font-weight: 400; margin-right: 10px;">Hello, @UserManager.GetUserName(User).ToString()</p>
+                        <p style="color: #555b5e; font-weight: 400; margin-right: 25px;">Hello, @UserManager.GetUserName(User).ToString()</p>
                         <form method="post" asp-controller="Account" asp-action="LogOut">
-                                    <button style="margin-right: 10px;"type="submit">Logout</button>
+                                            <button type="submit" class="btn btn-sm  btn-outline-secondary" style="margin-right: 10px;">Sign Out</button>
+                                   
                         </form>
                 }
                 else {
