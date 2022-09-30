@@ -21,4 +21,4 @@ $("#search-by-name-form").submit(function (event) {
         event.preventDefault()
         alert("Invalid Search String")
     }
-})
+})   
