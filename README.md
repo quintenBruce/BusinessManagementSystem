@@ -1,1 +1,2 @@
+[![Board Status](https://dev.azure.com/qcbruce7/c225e009-5c89-4dde-b916-c049b83c318a/ccdf4e38-b575-46a9-875d-81edbea31953/_apis/work/boardbadge/f8487688-4552-4828-8d41-09f24ad5fa75)](https://dev.azure.com/qcbruce7/c225e009-5c89-4dde-b916-c049b83c318a/_boards/board/t/ccdf4e38-b575-46a9-875d-81edbea31953/Microsoft.RequirementCategory)
 InventoryManagementSystem
