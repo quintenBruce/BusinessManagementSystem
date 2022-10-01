@@ -746,8 +746,7 @@ h3 {
 }
 
 #calendar {
-    margin: 0 auto;
-    max-width: 1100px
+    
 }
 
 .fc-daygrid-event-harness > a {
@@ -818,4 +817,6 @@ h3 {
 
 
 
-
+.fc-today-button {
+    display: none !important;
+}
