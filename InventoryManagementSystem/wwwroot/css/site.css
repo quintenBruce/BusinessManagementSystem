@@ -820,3 +820,7 @@ h3 {
 .fc-today-button {
     display: none !important;
 }
+
+.fc-icon-chevron-left, .fc-icon-chevron-right {
+    color: #d7d7d7 !important;
+}
