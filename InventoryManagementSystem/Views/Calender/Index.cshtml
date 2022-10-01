@@ -21,6 +21,14 @@
 
 
   document.addEventListener('DOMContentLoaded', function() {
+    var view = ""
+
+    view = /Mobi|Android/i.test(navigator.userAgent) ? "dayGridWeek" : "dayGridMonth"
+            
+    
+    
+
+    
     var calendarEl = document.getElementById('calendar');
 
     var today = new Date();
@@ -31,7 +39,8 @@
     today = yyyy + '-' + mm + '-' + dd;
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-   
+      
+    initialView: view,
       initialDate: today,
       editable: false,
       selectable: true,
