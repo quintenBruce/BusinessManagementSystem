@@ -57,7 +57,7 @@ namespace InventoryManagementSystem.Services
             if (result.IsSuccessStatusCode)
                 return await result.Content.ReadAsAsync<Order>();
             else 
-                return new Order { };
+                return null;
             
         }
 
