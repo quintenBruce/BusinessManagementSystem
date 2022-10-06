@@ -62,8 +62,10 @@ namespace InventoryManagementSystem.Controllers
 
             order.Total += order.Products!.Sum(x => x.Price) ?? 0;
             order.Total += order.DeliveryFee ?? 0;
+            order.Total = (float)Math.Round(order.Total, 2);
             order.Balance = order.Total;
             order.Balance -= order.Payments is not null ? order.Payments.Sum(x => x.Amount) : 0;
+            order.Balance = (float)Math.Round(order.Balance, 2);
 
             order.PlacementDate = DateTime.Now;
 
