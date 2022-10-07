@@ -45,13 +45,13 @@
                     <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">
                         <p>Total Price</p>
                     </div>
-                    <input id="total-price-input" class="col-11 col-sm-5 order-details-input-inactive number-input" name="updatedOrder.Total" type="number" value="@(Model.Total)" disabled/>
+                    <input id="total-price-input" class="col-11 col-sm-5 order-details-input-inactive number-input" name="updatedOrder.Total" type="number" step=".01" value="@(Model.Total)" disabled/>
                 </div>
                 <div class="row pb-4">
                     <div class="col-12 col-sm-6 d-flex align-items-center mb-1 mb-sm-0 mobile-only-title">   
                         <p>Balance</p>
                     </div>
-                    <input id="balance-input" class="col-11 col-sm-5 order-details-input-inactive number-input" name="updatedOrder.Balance" type="number" value="@(Model.Balance)" disabled/>
+                    <input id="balance-input" class="col-11 col-sm-5 order-details-input-inactive number-input" name="updatedOrder.Balance" type="number" step=".01" value="@(Model.Balance)" disabled/>
                     
                 </div> 
             </div> 

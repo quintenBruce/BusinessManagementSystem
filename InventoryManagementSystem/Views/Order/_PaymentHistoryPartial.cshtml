@@ -48,7 +48,7 @@
                                             <p>Amount</p>
                                         </div>
                                         <div class="col-12 col-sm-5 col-lg-12">
-                                            <input type="number" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.Amount) name=@("payments[" + paymentCount.ToString() + "].Amount") disabled/>
+                                            <input type="number" step=".01" class="order-details-payment-info-input-inactive set-payment-amount" form="edit-payments-form" value=@(payment.Amount) name=@("payments[" + paymentCount.ToString() + "].Amount") disabled/>
                                         </div>
                                     </div>
                                 </div>

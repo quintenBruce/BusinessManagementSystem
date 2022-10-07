@@ -112,7 +112,7 @@
                                                 <p>Price</p>
                                             </div>
                                             <div class="col-12 col-sm-5 col-lg-12">
-                                                <input form="edit-products-form" type="number" class="order-details-product-info-input-inactive set-product-price" value=@product.Price.ToString() name=@("products[" + productCount.ToString() + "].Price") disabled/>
+                                                <input form="edit-products-form" type="number" step=".01" class="order-details-product-info-input-inactive set-product-price" value=@product.Price.ToString() name=@("products[" + productCount.ToString() + "].Price") disabled/>
                                             </div>
                                         </div>
                                     </div>
