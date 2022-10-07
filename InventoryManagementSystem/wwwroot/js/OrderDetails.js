@@ -1,5 +1,12 @@
 ﻿document.getElementById("edit-switch").checked = false
 
+
+
+
+
+
+
+
 function toggleEdit() {
     if (document.getElementById("edit-switch").checked == true) {
         //enable order and customer information inputs
@@ -143,6 +150,12 @@ function toggleEdit() {
     }
 }
 
+
+
+
+
+
+
 var toggleEditCall = function () {
     document.getElementById("edit-switch").checked = false
     toggleEdit()
@@ -164,7 +177,7 @@ var paymentUpdate = function () {
         return ($(this).attr("name") == "updatedOrder.Balance")
     }).each(function () {
         var totalPrice = parseFloat($("#total-price-input").val())
-        $(this).val(totalPrice -= totalPayments)
+        $(this).val(Math.round((totalPrice -= totalPayments )*100 + Number.EPSILON)/100)
     })
 }
 
@@ -188,7 +201,7 @@ var productUpdate = function () {
     $("input").filter(function () {
         return ($(this).attr("name") == "updatedOrder.Balance" || $(this).attr("name") == "updatedOrder.Total")
     }).each(function () {
-        $(this).val(totalPrice)
+        $(this).val(Math.round(totalPrice * 100 + Number.EPSILON)/100)
     })
 
     paymentUpdate()
