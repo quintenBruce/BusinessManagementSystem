@@ -91,7 +91,9 @@ namespace InventoryManagementSystem.Controllers
 
             foreach (var order in orders)
             {
-                if (int.Parse(order.PlacementDate.ToString("yyyy")) == currentYear || (int.Parse(order.CompletionDate.Value.ToString("yyyy")) == currentYear - 1 && int.Parse(order.CompletionDate.Value.ToString("MM")) > currentMonth))
+                var pdate = order.PlacementDate;
+                var cdate = order.CompletionDate ?? new DateTime(1111, 05, 09, 9, 15, 0);
+                if (int.Parse(order.PlacementDate.ToString("yyyy")) == currentYear || (int.Parse(cdate.ToString("yyyy")) == currentYear - 1 && int.Parse(cdate.ToString("MM")) > currentMonth))
                 {
                     var orderPlacementMonth = int.Parse(order.PlacementDate.ToString("MM"));
                     monthTotalOrdersPlacedArray[orderPlacementMonth - 1] += 1;
