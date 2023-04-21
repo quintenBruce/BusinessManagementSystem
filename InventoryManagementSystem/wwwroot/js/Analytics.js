@@ -6,6 +6,115 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 let revenueByMonth = document.getElementById("revenue-by-month").getContext('2d')
 let ordersByMonth = document.getElementById("orders-by-month").getContext('2d')
 let revenueByCategory = document.getElementById("revenue-by-category").getContext('2d')
+let engagedUsersXordersPlaced = document.getElementById("engaged-usersXorders-placed").getContext('2d')
+
+let engagedUsersXordersPlaced2 = document.getElementById("engaged-usersXorders-placed2").getContext('2d')
+
+console.log(engagedUsersXordersPlaced)
+
+let engagedUsersXordersPlacedChart2 = new Chart(engagedUsersXordersPlaced2, {
+	type: 'line',
+	data: {
+		labels: MonthList,
+		datasets: [
+			{
+				label: "Engaged Users",
+				backgroundColor: "#3b82ec",
+
+				borderWidth: 1,
+				data: MonthEngagedUsers,
+				borderRadius: 100,
+				borderWidth: 3
+			}
+
+		]
+	},
+	options: {
+		pointRadius: 5,
+		tension: 0.3,
+		scales: {
+			y: {
+				title: {
+					display: true,
+					text: "# Orders",
+				},
+				grid: {
+					display: false
+				}
+			},
+
+			x: {
+				title: {
+					display: true,
+					text: "Month",
+				},
+				grid: {
+					display: false
+				}
+			}
+		},
+		plugins: {
+			legend: {
+				labels: {
+					usePointStyle: true,
+					padding: 20
+				},
+			}
+		}
+	}
+});
+
+let engagedUsersXordersPlacedChart = new Chart(engagedUsersXordersPlaced, {
+	type: 'line',
+	data: {
+		labels: MonthList,
+		datasets: [
+			{
+				label: "Engaged Users",
+				backgroundColor: "#3b82ec",
+
+				borderWidth: 1,
+				data: MonthEngagedUsers,
+				borderRadius: 100,
+				borderWidth: 3
+			}
+
+		]
+	},
+	options: {
+		pointRadius: 5,
+		tension: 0.3,
+		scales: {
+			y: {
+				title: {
+					display: true,
+					text: "# Orders",
+				},
+				grid: {
+					display: false
+				}
+			},
+
+			x: {
+				title: {
+					display: true,
+					text: "Month",
+				},
+				grid: {
+					display: false
+				}
+			}
+		},
+		plugins: {
+			legend: {
+				labels: {
+					usePointStyle: true,
+					padding: 20
+				},
+			}
+		}
+	}
+});
 
 let revenueByMonthChart = new Chart(revenueByMonth, {
 	type: 'bar',
