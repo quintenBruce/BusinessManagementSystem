@@ -60,9 +60,9 @@
                 </div>
                 <span class="analytic-data-text">@("$" + ViewBag.CurrentYearRevenue.ToString("N0"))</span>
                 <div class="mt-4 d-flex align-items-center">
-                    <span class="w-auto @(YTDPercentChange >= 0 ? "icon-normal" : "icon-urgent") ps-2 pe-2 me-2">@(YTDPercentChange >= 0 ? "+" : "")@(YTDPercentChange)%</span>
-                    <span>From Last Year</span>
-                    <a class="d-flex" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="YTD Revenue" data-bs-content='By this month last year, revenue reached @("$" + ViewBag.PreviousYearRevenueUpToCurrentMonth.ToString("N0")). This years YTD is @("$" + ViewBag.CurrentYearRevenue.ToString("N0")) which is @("$" + (System.Math.Abs(ViewBag.CurrentYearRevenue - ViewBag.PreviousYearRevenueUpToCurrentMonth)).ToString("N0")) @(ViewBag.CurrentYearRevenue > ViewBag.PreviousYearRevenueUpToCurrentMonth ? "more" : "less") than last year (@(YTDPercentChange >= 0 ? "+" : "")@(YTDPercentChange)%). Estimated revenue for this year is @("$" + ViewBag.EstimatedYearRevenue.ToString("N0"))'>
+                    <span class="w-auto icon-grey ps-2 pe-2 me-2">@("$" + ViewBag.CurrentYearProfit.ToString("N0"))</span>
+                    <span>Estimated Profit</span>
+                    <a class="d-flex" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Pending Estimated Profit" data-bs-content="Pending Estimated profit is calculated as 60% of the total pending revenue.">
                         <svg class="info-icon info-icon-analytics-page" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     </a>
                 </div>
@@ -78,9 +78,9 @@
                 </div>
                 <span class="analytic-data-text">@("$" + ViewBag.CurrentMonthRevenue.ToString("N0"))</span>
                 <div class="mt-4 d-flex align-items-center">
-                    <span class="w-auto @(MonthPercentChange >= 0 ? "icon-normal" : "icon-urgent") ps-2 pe-2 me-2">@(MonthPercentChange >= 0 ? "+" : "")@(MonthPercentChange)%</span>
-                    <span>From Average Month</span>
-                    <a class="d-flex" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Estimated Profit" data-bs-content="Average monthly revenue for the  past 12 months is @("$" + ViewBag.AverageMonthlyRevenue.ToString("N0")). This months revenue is @("$" + ViewBag.CurrentMonthRevenue.ToString("N0")) which is @("$" + (System.Math.Abs(ViewBag.AverageMonthlyRevenue - ViewBag.CurrentMonthRevenue)).ToString("N0")) @(ViewBag.CurrentMonthRevenue > ViewBag.AverageMonthlyRevenue ? "more" : "less") than the average month (@(MonthPercentChange >= 0 ? "+" : "")@(MonthPercentChange)%).">
+                    <span class="w-auto icon-grey ps-2 pe-2 me-2">@("$" + ViewBag.CurrentMonthProfit.ToString("N0"))</span>
+                    <span>Estimated Profit</span>
+                    <a class="d-flex" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Pending Estimated Profit" data-bs-content="Pending Estimated profit is calculated as 60% of the total pending revenue.">
                         <svg class="info-icon info-icon-analytics-page" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     </a>
                 </div>
@@ -115,7 +115,7 @@
 
 
 
-<div class="mb-lg-4 m-md-5 m-3 mt-3 mt-md-0">
+@*<div class="mb-lg-4 m-md-5 m-3 mt-3 mt-md-0">
     <div class="row">
         <div class="col-xl-6 mb-4 mb-xl-0">
             <div class="white-card rounded">
@@ -138,7 +138,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 <div class="mb-lg-3 m-md-5 m-3 mt-3 mt-md-0">
@@ -230,9 +230,9 @@
     var MonthPastDueOrderList = @Html.Raw(Json.Serialize(ViewBag.MonthPastDueOrderList)) //list of orders completed late for each month 
     var MonthTotalOrders = @Html.Raw(Json.Serialize(ViewBag.MonthTotalOrdersCompleted)) //list of total orders completed for each month
     var MonthTotalOrdersPlaced = @Html.Raw(Json.Serialize(ViewBag.MonthTotalOrdersPlaced)) //list of orders placed for each month
-    var MonthEngagedUsers = @Html.Raw(Json.Serialize(ViewBag.MonthEngagedUsers))
-    var monthPagePosts = @Html.Raw(Json.Serialize(ViewBag.monthPagePosts))
-    var pagePostsXEngagedUsers = @Html.Raw(Json.Serialize(ViewBag.pagePostsXEngagedUsers))
+    //var MonthEngagedUsers = @Html.Raw(Json.Serialize(ViewBag.MonthEngagedUsers))
+    //var monthPagePosts = @Html.Raw(Json.Serialize(ViewBag.monthPagePosts))
+    //var pagePostsXEngagedUsers = @Html.Raw(Json.Serialize(ViewBag.pagePostsXEngagedUsers))
 
 
 

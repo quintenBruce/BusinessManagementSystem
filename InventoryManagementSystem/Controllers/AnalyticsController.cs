@@ -9,12 +9,11 @@ namespace InventoryManagementSystem.Controllers
     [Authorize]
     public class AnalyticsController : Controller
     {
-        public IMemoryCache cache;
         private readonly OrdersContext _context;
 
-        public AnalyticsController(IMemoryCache Cache, OrdersContext context)
+        public AnalyticsController(OrdersContext context)
         {
-            cache = Cache;
+
             _context = context;
         }
 
@@ -27,7 +26,7 @@ namespace InventoryManagementSystem.Controllers
             List<Category> categories = new();
 
              orders = _context.Orders.ToList();
-                customers = _context.Customers.ToList();
+             customers = _context.Customers.ToList();
                 products = _context.Products.Include(product => product.Order).Include(x => x.Category).ToList();
                 payments = _context.Payments.ToList();
                 categories = _context.Categories.ToList();
@@ -142,9 +141,30 @@ namespace InventoryManagementSystem.Controllers
             ViewBag.MonthPastDueOrderList = monthPastDueOrderArrayPart2; //list of orders completed late for each month
             ViewBag.MonthTotalOrdersPlaced = monthTotalOrdersPlacedPart2; //list of orders placed for each month
 
+           
+
+            ViewBag.PendingRevenue = orders.Where(x => x.Status == false).Sum(x => x.Total);
+            ViewBag.PendingProfit = ViewBag.PendingRevenue * .6;
+            ViewBag.CurrentMonthProfit = ViewBag.CurrentMonthRevenue * .6;
+            ViewBag.CurrentYearProfit = ViewBag.CurrentYearRevenue * .6;
+
+
+            ViewBag.AverageMonthlyRevenue = monthRevenueArrayPart2.Average();
+
+            return View();
+
+
+
+
+
+
+
+
+
+
             //string baseURL = "https://graph.facebook.com/";
 
-            int[] monthEngagedUsersArray = new int[] { 34, 46, 21, 12, 37, 32, 51, 43, 23, 20, 14, 46 };
+            //int[] monthEngagedUsersArray = new int[] { 34, 46, 21, 12, 37, 32, 51, 43, 23, 20, 14, 46 };
 
             //int[] monthEngagedUsersArray = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -197,7 +217,7 @@ namespace InventoryManagementSystem.Controllers
             //    }
 
             //}
-            ViewBag.MonthEngagedUsers = monthEngagedUsersArray;
+            //ViewBag.MonthEngagedUsers = monthEngagedUsersArray;
 
             //int[] monthPagePostsArray = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -276,14 +296,9 @@ namespace InventoryManagementSystem.Controllers
 
             //ViewBag.monthPagePosts = monthPagePostsArray;
 
-            ViewBag.PendingRevenue = orders.Where(x => x.Status == false).Sum(x => x.Total);
-            ViewBag.PendingProfit = ViewBag.PendingRevenue * .6;
 
-            ViewBag.AverageMonthlyRevenue = monthRevenueArrayPart2.Average();
-
-            return View();
         }
 
-       
+
     }
 }
