@@ -4,18 +4,20 @@
 
 
 @{
-    int pastDueOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days < 0)).Where(order => order.Status == false).ToList().Count();
-    int upcomingOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days <= 14) && ((order.FulfillmentDate - DateTime.Now.Date).Days >= 0)).Where(order => order.Status == false).ToList().Count();
-    int nonUrgentOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days > 14)).Where(order => order.Status == false).ToList().Count();
-    int allOrders = pastDueOrders + upcomingOrders + nonUrgentOrders;
+    int allOrders = Model.Count();
+    int pastDueOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days < 0)).Count();
+    int nonUrgentOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days > 14)).Count();
+    int upcomingOrders = allOrders - pastDueOrders - nonUrgentOrders;
 
-    int previousWeekPastDueOrders = Model.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) < 0)).Where(order => order.Status == false).ToList().Count();
-    int previousWeekUpcomingOrders = Model.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) <= 14) && (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) >= 0)).Where(order => order.Status == false).ToList().Count();
-    int previousNonUrgentOrders = Model.Where(order => (((order.FulfillmentDate - DateTime.Now.Date).Days + 7) > 14)).Where(order => order.Status == false).ToList().Count();
-    
-    string pastDueOrdersAnalytic = (pastDueOrders - previousWeekPastDueOrders) >= 0 ? ("+" + (pastDueOrders - previousWeekPastDueOrders)) : ((pastDueOrders - previousWeekPastDueOrders).ToString());
-    string upcomingOrdersAnalytic = (upcomingOrders - previousWeekUpcomingOrders) >= 0 ? ("+" + (upcomingOrders - previousWeekUpcomingOrders)) : ((upcomingOrders - previousWeekUpcomingOrders).ToString());
-    string nonUrgentOrdersAnalytic = (nonUrgentOrders - previousNonUrgentOrders) >= 0 ? ("+" + (nonUrgentOrders - previousNonUrgentOrders)) : ((nonUrgentOrders - previousNonUrgentOrders).ToString());
+
+    //int previousWeekPastDueOrders = 0;
+    //int previousWeekUpcomingOrders = 0;
+    //int previousNonUrgentOrders = 0;
+    //previousWeekUpcomingOrders = 0;
+
+    string pastDueOrdersAnalytic = "0";
+    string upcomingOrdersAnalytic = "0";
+    string nonUrgentOrdersAnalytic = "0";
 }
 
 

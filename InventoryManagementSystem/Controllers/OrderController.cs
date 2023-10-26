@@ -37,7 +37,7 @@ namespace InventoryManagementSystem.Controllers
             }
             if (!ModelState.IsValid)
             {
-                
+        
                 var errors = ModelState.Select(x => x.Value!.Errors)
                            .Where(y => y.Count > 0)
                            .Select(x => x.ElementAt(0).ErrorMessage)

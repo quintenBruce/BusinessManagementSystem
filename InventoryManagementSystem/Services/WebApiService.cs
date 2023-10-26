@@ -32,7 +32,22 @@ namespace InventoryManagementSystem.Services
                 return await response.Content.ReadAsAsync<List<Order>>();
             return new List<Order>();
         }
-        
+
+        public async Task<List<Order>> GetActiveOrdersAsync()
+        {
+            var response = await _httpClient.GetAsync("Orders/GetActiveOrders");
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsAsync<List<Order>>();
+            return new List<Order>();
+        }
+        public async Task<List<Order>> GetInactiveOrdersAsync()
+        {
+            var response = await _httpClient.GetAsync("Orders/GetInactiveOrders");
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadAsAsync<List<Order>>();
+            return new List<Order>();
+        }
+
 
         public async Task<Order> UpdateOrder(OrderDTO orderDTO)
         {
