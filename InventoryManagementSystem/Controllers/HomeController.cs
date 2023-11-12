@@ -19,15 +19,32 @@ namespace InventoryManagementSystem.Controllers
         public async Task<IActionResult> Index()
         {
             List<Order> viewModel = await _webApiService.GetActiveOrdersAsync();
-            if (viewModel.Count == 0)
+            if (!(viewModel is null || viewModel.Count == 0))
             {
-                TempData["Error Message"] = "Please create an order to view orders";
-                return RedirectToAction("CreateOrder", "Order");
-            }
-            viewModel = viewModel.OrderBy(x => x.FulfillmentDate).ToList();
-            ViewData["orderSummary"] = "active";
+                viewModel = viewModel.OrderBy(x => x.Status).ThenBy(x => x.FulfillmentDate).ToList();
 
-            return View(viewModel);
+                ViewData["orderSummary"] = "active";
+
+                return View(viewModel);
+            }
+            
+
+            return View(new List<Order>());
+        }
+
+        public async Task<IActionResult> GetAllOrders()
+        {
+            List<Order> viewModel = await _webApiService.GetOrdersAsync();
+            if (!(viewModel is null || viewModel.Count == 0))
+            {
+                viewModel = viewModel.OrderBy(x => x.Status).ThenBy(x => x.FulfillmentDate).ToList();
+
+                ViewData["orderSummary"] = "active";
+
+                return View("~/Views/Home/Index.cshtml", viewModel);
+            }
+
+            return View("~/Views/Home/Index.cshtml", viewModel);
         }
     }
 }

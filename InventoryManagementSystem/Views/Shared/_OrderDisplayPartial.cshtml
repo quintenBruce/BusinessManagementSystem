@@ -7,6 +7,7 @@
 @*order header*@
 
 
+
 <div class="order-display-div m-md-5 m-3 p-3 mt-1" style="">
     <div class="row order-header-row p-1 m-1">
         <div class="col-1 m-0 p-0 d-flex flex-column justify-content-center align-items-center align-content-center color-pill" style="max-width: 9px;">
@@ -56,14 +57,20 @@
         string orderStatusStyle;
 
 
-        var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
-        if (difference < 0)
-            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
-        else if (difference <= 14)
-           orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#5ecaff"  + ";";
-       else
-           orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
-        
+       
+        if (order.Status == true)
+            orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#6c757d" + ";";
+        else
+        {
+            var difference = (order.FulfillmentDate - DateTime.Now.Date).Days;
+            if (difference < 0)
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#f72d2dbd" + ";";
+            else if (difference <= 14)
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#5ecaff" + ";";
+            else
+                orderStatusStyle = "height: 99%; width: 11px; background-color: " + "#b7e85e" + ";";
+        }
+
 
 
 

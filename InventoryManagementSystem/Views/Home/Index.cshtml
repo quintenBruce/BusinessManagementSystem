@@ -4,9 +4,9 @@
 
 
 @{
-    int allOrders = Model.Count();
-    int pastDueOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days < 0)).Count();
-    int nonUrgentOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days > 14)).Count();
+    int allOrders = Model.Where(x => x.Status == false).Count();
+    int pastDueOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days < 0) && order.Status == false).Count();
+    int nonUrgentOrders = Model.Where(order => ((order.FulfillmentDate - DateTime.Now.Date).Days > 14) && order.Status == false).Count();
     int upcomingOrders = allOrders - pastDueOrders - nonUrgentOrders;
 
 
@@ -112,6 +112,7 @@
 
 <div class="m-md-5 m-3 mb-3 mt-1">
     <h4 class="page-header-text">Active Order Summary</h4>
+    <a href="@Url.Action("GetAllOrders", "Home")" class="btn btn-light order-table-button"><i class="fa-solid fa fa-globe"></i></a>
 </div>
 
 
